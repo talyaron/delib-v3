@@ -1,0 +1,310 @@
+[debug] [2018-08-20T07:16:18.706Z] ----------------------------------------------------------------------
+[debug] [2018-08-20T07:16:18.710Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-20T07:16:18.711Z] CLI Version:   3.19.0
+[debug] [2018-08-20T07:16:18.711Z] Platform:      win32
+[debug] [2018-08-20T07:16:18.711Z] Node Version:  v8.11.2
+[debug] [2018-08-20T07:16:18.712Z] Time:          Mon Aug 20 2018 10:16:18 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T07:16:18.712Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-20T07:16:18.757Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-20T07:16:18.758Z] > authorizing via signed-in user
+[debug] [2018-08-20T07:16:18.762Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-20T07:16:18.762Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Aug 20 2018 10:16:18 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T07:16:19.271Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-20T07:16:19.302Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Mon Aug 20 2018 10:16:19 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T07:16:20.298Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-20T07:16:20.300Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Mon Aug 20 2018 10:16:20 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T07:16:21.400Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-20T07:16:21.401Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Mon Aug 20 2018 10:16:21 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T07:16:22.593Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-20T07:16:22.597Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Mon Aug 20 2018 10:16:22 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T07:16:23.533Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-20T10:45:31.639Z] ----------------------------------------------------------------------
+[debug] [2018-08-20T10:45:31.643Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-20T10:45:31.643Z] CLI Version:   3.19.0
+[debug] [2018-08-20T10:45:31.643Z] Platform:      win32
+[debug] [2018-08-20T10:45:31.643Z] Node Version:  v8.11.2
+[debug] [2018-08-20T10:45:31.644Z] Time:          Mon Aug 20 2018 13:45:31 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T10:45:31.644Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-20T10:45:31.668Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-20T10:45:31.670Z] > authorizing via signed-in user
+[debug] [2018-08-20T10:45:31.673Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-20T10:45:31.674Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Aug 20 2018 13:45:31 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T10:45:32.173Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-20T10:45:32.194Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Mon Aug 20 2018 13:45:32 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T10:45:33.202Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-20T10:45:33.204Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Mon Aug 20 2018 13:45:33 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T10:45:34.074Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-20T10:45:34.077Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Mon Aug 20 2018 13:45:34 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T10:45:35.217Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-20T10:45:35.223Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Mon Aug 20 2018 13:45:35 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-20T10:45:36.116Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-21T05:15:14.305Z] ----------------------------------------------------------------------
+[debug] [2018-08-21T05:15:14.315Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-21T05:15:14.315Z] CLI Version:   3.19.0
+[debug] [2018-08-21T05:15:14.315Z] Platform:      win32
+[debug] [2018-08-21T05:15:14.315Z] Node Version:  v8.11.2
+[debug] [2018-08-21T05:15:14.315Z] Time:          Tue Aug 21 2018 08:15:14 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-21T05:15:14.315Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-21T05:15:14.355Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-21T05:15:14.355Z] > authorizing via signed-in user
+[debug] [2018-08-21T05:15:14.355Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-21T05:15:14.355Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Tue Aug 21 2018 08:15:14 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-21T05:15:15.029Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-21T05:15:15.059Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Tue Aug 21 2018 08:15:15 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-21T05:15:16.056Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-21T05:15:16.066Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Tue Aug 21 2018 08:15:16 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-21T05:15:16.855Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-21T05:15:16.855Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Tue Aug 21 2018 08:15:16 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-21T05:15:17.972Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-21T05:15:17.982Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Tue Aug 21 2018 08:15:17 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-21T05:15:18.787Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-22T05:49:42.003Z] ----------------------------------------------------------------------
+[debug] [2018-08-22T05:49:42.012Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-22T05:49:42.012Z] CLI Version:   3.19.0
+[debug] [2018-08-22T05:49:42.012Z] Platform:      win32
+[debug] [2018-08-22T05:49:42.012Z] Node Version:  v8.11.2
+[debug] [2018-08-22T05:49:42.013Z] Time:          Wed Aug 22 2018 08:49:42 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T05:49:42.013Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-22T05:49:42.045Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-22T05:49:42.045Z] > authorizing via signed-in user
+[debug] [2018-08-22T05:49:42.048Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-22T05:49:42.048Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed Aug 22 2018 08:49:42 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T05:49:42.486Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T05:49:42.499Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Wed Aug 22 2018 08:49:42 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T05:49:43.611Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T05:49:43.613Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Wed Aug 22 2018 08:49:43 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T05:49:44.707Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T05:49:44.708Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Wed Aug 22 2018 08:49:44 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T05:49:45.808Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-22T05:49:45.811Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Wed Aug 22 2018 08:49:45 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T05:49:46.538Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-22T09:05:14.116Z] ----------------------------------------------------------------------
+[debug] [2018-08-22T09:05:14.120Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-22T09:05:14.120Z] CLI Version:   3.19.0
+[debug] [2018-08-22T09:05:14.120Z] Platform:      win32
+[debug] [2018-08-22T09:05:14.121Z] Node Version:  v8.11.2
+[debug] [2018-08-22T09:05:14.121Z] Time:          Wed Aug 22 2018 12:05:14 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:05:14.121Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-22T09:05:14.145Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-22T09:05:14.146Z] > authorizing via signed-in user
+[debug] [2018-08-22T09:05:14.148Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-22T09:05:14.149Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed Aug 22 2018 12:05:14 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:05:14.601Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T09:05:14.622Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Wed Aug 22 2018 12:05:14 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:05:15.612Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T09:05:15.614Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Wed Aug 22 2018 12:05:15 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:05:16.440Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T09:05:16.441Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Wed Aug 22 2018 12:05:16 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:05:17.544Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-22T09:05:17.549Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Wed Aug 22 2018 12:05:17 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:05:18.335Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-22T09:19:07.635Z] ----------------------------------------------------------------------
+[debug] [2018-08-22T09:19:07.638Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-22T09:19:07.638Z] CLI Version:   3.19.0
+[debug] [2018-08-22T09:19:07.638Z] Platform:      win32
+[debug] [2018-08-22T09:19:07.638Z] Node Version:  v8.11.2
+[debug] [2018-08-22T09:19:07.639Z] Time:          Wed Aug 22 2018 12:19:07 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:19:07.639Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-22T09:19:07.652Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-22T09:19:07.653Z] > authorizing via signed-in user
+[debug] [2018-08-22T09:19:07.656Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Wed Aug 22 2018 12:19:07 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:19:08.727Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T09:19:08.731Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Wed Aug 22 2018 12:19:08 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:19:09.544Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-22T09:19:09.546Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Wed Aug 22 2018 12:19:09 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:19:10.744Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-22T09:19:10.750Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Wed Aug 22 2018 12:19:10 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-22T09:19:11.533Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-23T05:14:05.533Z] ----------------------------------------------------------------------
+[debug] [2018-08-23T05:14:05.536Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-23T05:14:05.537Z] CLI Version:   3.19.0
+[debug] [2018-08-23T05:14:05.537Z] Platform:      win32
+[debug] [2018-08-23T05:14:05.537Z] Node Version:  v8.11.2
+[debug] [2018-08-23T05:14:05.537Z] Time:          Thu Aug 23 2018 08:14:05 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:14:05.537Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-23T05:14:05.558Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-23T05:14:05.559Z] > authorizing via signed-in user
+[debug] [2018-08-23T05:14:05.561Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-23T05:14:05.562Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Aug 23 2018 08:14:05 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:14:06.025Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-23T05:14:06.032Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Thu Aug 23 2018 08:14:06 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:14:07.048Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-23T05:14:07.050Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Thu Aug 23 2018 08:14:07 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:14:07.904Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-23T05:14:07.907Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Thu Aug 23 2018 08:14:07 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:14:09.092Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-23T05:14:09.097Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Thu Aug 23 2018 08:14:09 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:14:10.071Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-08-23T05:38:32.499Z] ----------------------------------------------------------------------
+[debug] [2018-08-23T05:38:32.502Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-23T05:38:32.503Z] CLI Version:   3.19.0
+[debug] [2018-08-23T05:38:32.503Z] Platform:      win32
+[debug] [2018-08-23T05:38:32.503Z] Node Version:  v8.11.2
+[debug] [2018-08-23T05:38:32.503Z] Time:          Thu Aug 23 2018 08:38:32 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:38:32.503Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-23T05:38:32.521Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-23T05:38:32.522Z] > authorizing via signed-in user
+[debug] [2018-08-23T05:38:32.526Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/groupicks  
+  
+ Thu Aug 23 2018 08:38:32 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:38:33.726Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-23T05:38:33.730Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/groupicks/tokens  
+  
+ Thu Aug 23 2018 08:38:33 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:38:34.563Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-23T05:38:34.566Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/groupicks  
+  
+ Thu Aug 23 2018 08:38:34 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:38:35.722Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Lenovo\Documents\delib\groupicks'...
+[info] 
+[debug] [2018-08-23T05:38:35.728Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/275120941014/clients/_:getWebAppConfig  
+  
+ Thu Aug 23 2018 08:38:35 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-23T05:38:36.564Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+

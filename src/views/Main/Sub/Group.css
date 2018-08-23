@@ -1,0 +1,41 @@
+.group {
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background: white;
+    display: flex;
+}
+
+.groupImg {
+    width: 80px;
+    height: 80px;
+    border-radius: 3px 0px 0px 3px;
+}
+
+.groupContent {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    flex: 1;
+}
+
+.groupTitle {
+    color: rgba(0, 0, 255, 0.781);
+    font-size: .85rem;
+    font-weight: 700;
+    flex: 1;
+}
+
+.groupDetails {
+    display: flex;
+    font-size: .6rem;
+    flex: 1;
+}
+
+.groupDetails div {
+    flex: 1
+}
+
+.groupTime {
+    font-size: 0.6rem;
+    flex: 1;
+}

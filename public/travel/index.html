@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Groupicks-Travel</title>
+    <link href="https://fonts.googleapis.com/css?family=Gaegu|Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- sygic maps css -->
+    <!-- https://www.sygic.com/developers/maps-api-services/javascript-map-api/raster-maps-js/map-object -->
+    <link rel="stylesheet" href="https://maps.api.sygic.com/js/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://maps.api.sygic.com/js/sygic/1.2.0/leaflet.sygic.css" />
+
+</head>
+
+<body>
+
+
+
+    </head>
+
+    <body>
+
+    </body>
+
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC5GhX1xJJsQjAtXvzCkJSD2W5GXJVmygw",
+            authDomain: "groupicks.firebaseapp.com",
+            databaseURL: "https://groupicks.firebaseio.com",
+            projectId: "groupicks",
+            storageBucket: "groupicks.appspot.com",
+            messagingSenderId: "275120941014"
+
+        };
+        firebase.initializeApp(config);
+        var DB = firebase.database().ref();
+    </script>
+
+    <script src="https://maps.api.sygic.com/js/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://maps.api.sygic.com/js/leaflet.sygic-1.1.0.js"></script>
+
+    <script src='js/google-maps.js'></script>
+    <script>
+        window.GoogleMapsLoader.KEY = 'AIzaSyC5GhX1xJJsQjAtXvzCkJSD2W5GXJVmygw';
+        window.GoogleMapsLoader.VERSION = 'weekly';
+        window.GoogleMapsLoader.onLoad(function (google) {
+            console.log('I just loaded google maps api');
+        });
+    </script>
+    <script src="travel.bundle.js"></script>
+
+    <!-- <script>
+        var initMap;
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5GhX1xJJsQjAtXvzCkJSD2W5GXJVmygw&callback=initMap" async
+        defer></script> -->
+
+
+
+</html>

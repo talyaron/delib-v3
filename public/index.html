@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="blue">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Groupicks</title>
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Gaegu|Roboto" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="lib/slick.css" />
+
+
+
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyC5GhX1xJJsQjAtXvzCkJSD2W5GXJVmygw",
+      authDomain: "groupicks.firebaseapp.com",
+      databaseURL: "https://groupicks.firebaseio.com",
+      projectId: "groupicks",
+      storageBucket: "groupicks.appspot.com",
+      messagingSenderId: "275120941014"
+
+    };
+    firebase.initializeApp(config);
+    var DB = firebase.database().ref();
+  </script>
+
+
+</head>
+
+<body>
+  <script type="text/javascript" src="lib/jquery-3.3.1.slim.min.js"></script>
+  <script type="text/javascript" src="lib/slick.min.js"></script>
+</body>
+<!-- <script src="dev.bundle.js"></script> -->
+<script src="prod.bundle.js"></script>
+
+</html>

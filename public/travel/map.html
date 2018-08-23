@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <title>Sygic Map integration example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #mapContainer {
+            height: 100%;
+            width: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maps.api.sygic.com/js/leaflet/1.0.3/leaflet.css">
+</head>
+
+<body>
+    <div id="mapContainer"></div>
+
+    <script src="https://maps.api.sygic.com/js/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://maps.api.sygic.com/js/leaflet.sygic-1.1.0.js"></script>
+
+    <script>
+        var map = L.map('mapContainer');
+        L.TileLayer.sygic('Go5WV2mhvC53qee9HGJ9Z8Rx8diUcLFWabYnqHn3').addTo(map);
+
+        map.setView([40.7667, -73.9780], 14); // Hello Central Park!
+    </script>
+</body>
+
+</html>

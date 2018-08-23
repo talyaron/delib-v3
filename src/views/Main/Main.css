@@ -1,0 +1,62 @@
+.mainPage {
+    opacity: 1;
+    animation-name: fadeIn;
+    animation-duration: 600ms;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.topMainHeader {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 100;
+}
+
+.topHeader {
+    color: white;
+    background: blue;
+    text-align: center;
+    font-family: 'Gaegu', cursive;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.carouselWrapper {
+    margin-top: 85px;
+}
+
+.addGroupy {
+    z-index: 100;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: orangered;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+    user-select: none;
+    cursor: pointer;
+}
+
+.addGroupy:active {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    bottom: 37px;
+    right: 27px;
+}
+
+.addGroupy div {
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2.5rem;
+}
