@@ -1,6 +1,8 @@
 var store = {
     current: {
-        slide: 2
+        org: {
+            name: 'שם הארגון'
+        }
     }
 }
 

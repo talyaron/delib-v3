@@ -2,6 +2,9 @@ const m = require('mithril');
 const root = document.body;
 import './style.css';
 
+//functions
+import './functions/firebaseAuth';
+
 //Views
 import Splash from "./views/Splash/Splash";
 import Delib from "./views/Delib/Delib";

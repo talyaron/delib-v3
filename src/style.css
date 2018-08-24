@@ -10,7 +10,56 @@ html, body {
     font-family: 'Varela Round', sans-serif;
 }
 
+body {
+    /* direction: rtl; */
+}
+
 .page {
     width: 100%;
     height: 100%;
+}
+
+.centerElement {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.centerInput {
+    max-width: 300px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.newElementShow {
+    animation-name: showUp;
+    animation-duration: 1s;
+}
+
+@keyframes showUp {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.headers {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    font-size: 1.4rem;
+    font-weight: 900;
+    box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    z-index: 100;
+}
+
+.navSubHeaders {
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
 }
