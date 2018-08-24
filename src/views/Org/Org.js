@@ -1,10 +1,10 @@
 import m from 'mithril';
-import './Splash.css';
+import './Org.css';
 
 module.exports = {
     view: (vnode) => {
         return (
-            <div>Splash</div>
+            <div>Org</div>
         )
     }
 }
