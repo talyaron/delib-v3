@@ -9,7 +9,7 @@ import './functions/firebaseAuth';
 import Splash from "./views/Splash/Splash";
 import Delib from "./views/Delib/Delib";
 import Option from "./views/Option/Option";
-import Options from "./views/Options/Options";
+import Issue from "./views/Issue/Issue";
 import Team from "./views/Team/Team";
 import Org from "./views/Org/Org";
 import Messages from "./views/Messages/Messages";
@@ -17,10 +17,10 @@ import Messages from "./views/Messages/Messages";
 
 m.route(root, "/splash", {
     "/splash": Splash,
-    "/delib": Delib,
     '/option/:id': Option,
-    'options/': Options,
-    'team/:id': Team,
-    'org/:id': Org,
-    'messages/:id': Messages
+    '/issue/:id': Issue,
+    '/team/:id': Team,
+    '/org/:id': Org,
+    '/messages/:id': Messages,
+    "/delib": Delib
 })

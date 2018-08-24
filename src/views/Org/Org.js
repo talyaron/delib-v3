@@ -1,28 +1,55 @@
 import m from 'mithril';
+import set from 'lodash/set';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
+import values from 'lodash/values';
+
 import './Org.css';
+
+import Header from '../Commons/Header';
+import Card from '../Commons/Card/Card';
+
 import store from '../../data/store';
 
 module.exports = {
     oninit: (vnode) => {
         getOrgDetials(vnode)
+        getTeams(vnode)
 
+        vnode.state = {
+            teams: []
+        }
     },
-    oncreate: (vnode) => {
-
-        var instance = M.Tabs.init(document.getElementById('orgNavTab'), {});
+    onbeforeupdate: (vnode) => {
+        setteamsFromStore(vnode);
     },
     view: (vnode) => {
         return (
-            <div class='headers'>
-                <div class='orgHeader'>{store.current.org.name}</div>
-                <div class='navSubHeaders'>
-                    <ul id='orgNavTab' class="tabs">
-                        <li class="tab col s3"><a>Test 4</a></li>
-                        <li class="tab col s3"><a class="active">Test 2</a></li>
-                        <li class="tab col s3"><a>Test 4</a></li>
-                    </ul>
+            <div class='page'>
+                <Header
+                    topic='ארגון'
+                    name={store.current.org.title}
+                    tabBkgColor='#03077b'
+                    color='white'
+                />
+
+                <div class='cardsContainer row' dir='rtl'>
+                    {
+                        vnode.state.teams.map((item, i) => {
+                            console.log('item', item)
+                            return (
+                                <Card
+                                    title={item.details.title || ''}
+                                    explanation={item.details.explanation || ''}
+                                    linkText='לדף הקבוצה'
+                                    id={item.id}
+                                    key={i} />
+                            )
+                        })
+                    }
                 </div>
             </div>
+
         )
     }
 }
@@ -30,7 +57,45 @@ module.exports = {
 function getOrgDetials(vnode) {
 
     DB.child('delib-v3/orgs/' + vnode.attrs.id + '/details/name').on('value', (detailsDB) => {
-        store.current.org.name = vnode.state.name = detailsDB.val() || 'אין שם לארגון';
+        store.current.org.title = vnode.state.title = detailsDB.val() || 'אין שם לארגון';
         m.redraw();
     })
+}
+
+function getTeams(vnode) {
+    DB.child('delib-v3/orgs/' + vnode.attrs.id + '/teamsToListen').on('child_added', teamsToListen => {
+
+        set(store, 'orgs[' + vnode.attrs.id + '].teams[' + teamsToListen.key + '].listen', true);
+        listenToIssue('on', teamsToListen.key, vnode);
+    })
+}
+
+function listenToIssue(onOff, issue, vnode) {
+    if (onOff == 'on') {
+        DB.child('delib-v3/teams/' + issue + '/details').on('value', issueDetails => {
+            if (issueDetails.exists()) {
+                set(store, 'orgs[' + vnode.attrs.id + '].teams[' + issue + ']', {
+                    details: issueDetails.val(),
+                    id: issue
+                })
+                m.redraw();
+            } else {
+                omit(store, issue, 'orgs[' + vnode.attrs.id + '].teams');
+
+                console.error('listenToIssue: Issue', issue, 'in organizaion', vnode.attrs.id, 'does not exists')
+            }
+
+        })
+    }
+    if (onOff == 'off') {
+        DB.child('delib-v3/teams/' + issue + '/details').off('value');
+    }
+
+}
+
+function setteamsFromStore(vnode) {
+
+    var teamsInStore = get(store, 'orgs[' + vnode.attrs.id + '].teams', {});
+    vnode.state.teams = values(teamsInStore);
+    console.dir(vnode.state.teams)
 }

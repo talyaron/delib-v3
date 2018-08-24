@@ -60,6 +60,8 @@ body {
     z-index: 100;
 }
 
-.navSubHeaders {
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+.navSubHeaders {}
+
+.cardsContainer {
+    margin-top: 85px;
 }

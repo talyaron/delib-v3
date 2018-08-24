@@ -1,105 +1,41 @@
-[debug] [2018-08-23T23:51:14.617Z] ----------------------------------------------------------------------
-[debug] [2018-08-23T23:51:14.620Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2018-08-23T23:51:14.620Z] CLI Version:   3.19.0
-[debug] [2018-08-23T23:51:14.620Z] Platform:      win32
-[debug] [2018-08-23T23:51:14.620Z] Node Version:  v8.11.2
-[debug] [2018-08-23T23:51:14.621Z] Time:          Fri Aug 24 2018 02:51:14 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:51:14.621Z] ----------------------------------------------------------------------
+[debug] [2018-08-24T08:52:15.453Z] ----------------------------------------------------------------------
+[debug] [2018-08-24T08:52:15.457Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-08-24T08:52:15.457Z] CLI Version:   3.19.0
+[debug] [2018-08-24T08:52:15.457Z] Platform:      win32
+[debug] [2018-08-24T08:52:15.458Z] Node Version:  v8.11.2
+[debug] [2018-08-24T08:52:15.458Z] Time:          Fri Aug 24 2018 11:52:15 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-24T08:52:15.458Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-08-23T23:51:14.644Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-08-23T23:51:14.645Z] > authorizing via signed-in user
-[debug] [2018-08-23T23:51:14.647Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2018-08-23T23:51:14.648Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+[debug] [2018-08-24T08:52:15.482Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-24T08:52:15.484Z] > authorizing via signed-in user
+[debug] [2018-08-24T08:52:15.487Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-08-24T08:52:15.488Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
  { refresh_token: '1/j74RzPSfH0WmFaf2cMFLIQPyraUwIAACoH45xysCUIVtsa2ILH97GbA_W74CuF4h',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Fri Aug 24 2018 02:51:14 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:51:15.084Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:51:15.105Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/delib21-aaeb0  
+ Fri Aug 24 2018 11:52:15 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-24T08:52:16.073Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-24T08:52:16.090Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/delib21-aaeb0  
   
- Fri Aug 24 2018 02:51:15 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:51:15.985Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:51:15.988Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/delib21-aaeb0/tokens  
+ Fri Aug 24 2018 11:52:16 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-24T08:52:17.172Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-24T08:52:17.173Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/delib21-aaeb0/tokens  
   
- Fri Aug 24 2018 02:51:15 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:51:16.841Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:51:16.842Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/delib21-aaeb0  
+ Fri Aug 24 2018 11:52:17 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-24T08:52:18.017Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-24T08:52:18.020Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/delib21-aaeb0  
   
- Fri Aug 24 2018 02:51:16 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:51:17.974Z] <<< HTTP RESPONSE 200
+ Fri Aug 24 2018 11:52:18 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-24T08:52:19.145Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from 'C:\Users\Lenovo\Documents\delib\delib\delib-v3'...
 [info] 
-[debug] [2018-08-23T23:51:17.980Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/845650714645/clients/_:getWebAppConfig  
+[debug] [2018-08-24T08:52:19.159Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/845650714645/clients/_:getWebAppConfig  
   
- Fri Aug 24 2018 02:51:17 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:51:18.835Z] <<< HTTP RESPONSE 200
-[info] i  hosting: Serving hosting files from: public
-[info] +  hosting: Local server: http://localhost:5000
-
-[debug] [2018-08-23T23:53:38.692Z] ----------------------------------------------------------------------
-[debug] [2018-08-23T23:53:38.695Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2018-08-23T23:53:38.695Z] CLI Version:   3.19.0
-[debug] [2018-08-23T23:53:38.695Z] Platform:      win32
-[debug] [2018-08-23T23:53:38.695Z] Node Version:  v8.11.2
-[debug] [2018-08-23T23:53:38.696Z] Time:          Fri Aug 24 2018 02:53:38 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:53:38.696Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2018-08-23T23:53:38.708Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-08-23T23:53:38.709Z] > authorizing via signed-in user
-[debug] [2018-08-23T23:53:38.713Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/delib21-aaeb0  
-  
- Fri Aug 24 2018 02:53:38 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:53:39.801Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:53:39.803Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/delib21-aaeb0/tokens  
-  
- Fri Aug 24 2018 02:53:39 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:53:40.742Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:53:40.745Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/delib21-aaeb0  
-  
- Fri Aug 24 2018 02:53:40 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:53:41.906Z] <<< HTTP RESPONSE 200
-[info] 
-[info] === Serving from 'C:\Users\Lenovo\Documents\delib\delib\delib-v3'...
-[info] 
-[debug] [2018-08-23T23:53:41.913Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/845650714645/clients/_:getWebAppConfig  
-  
- Fri Aug 24 2018 02:53:41 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:53:42.723Z] <<< HTTP RESPONSE 200
-[info] i  hosting: Serving hosting files from: public
-[info] +  hosting: Local server: http://localhost:5000
-
-[debug] [2018-08-23T23:54:32.756Z] ----------------------------------------------------------------------
-[debug] [2018-08-23T23:54:32.759Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2018-08-23T23:54:32.759Z] CLI Version:   3.19.0
-[debug] [2018-08-23T23:54:32.759Z] Platform:      win32
-[debug] [2018-08-23T23:54:32.759Z] Node Version:  v8.11.2
-[debug] [2018-08-23T23:54:32.760Z] Time:          Fri Aug 24 2018 02:54:32 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:54:32.760Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2018-08-23T23:54:32.776Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-08-23T23:54:32.777Z] > authorizing via signed-in user
-[debug] [2018-08-23T23:54:32.780Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/delib21-aaeb0  
-  
- Fri Aug 24 2018 02:54:32 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:54:33.650Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:54:33.651Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/delib21-aaeb0/tokens  
-  
- Fri Aug 24 2018 02:54:33 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:54:34.480Z] <<< HTTP RESPONSE 200
-[debug] [2018-08-23T23:54:34.482Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/delib21-aaeb0  
-  
- Fri Aug 24 2018 02:54:34 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:54:35.553Z] <<< HTTP RESPONSE 200
-[info] 
-[info] === Serving from 'C:\Users\Lenovo\Documents\delib\delib\delib-v3'...
-[info] 
-[debug] [2018-08-23T23:54:35.557Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/845650714645/clients/_:getWebAppConfig  
-  
- Fri Aug 24 2018 02:54:35 GMT+0300 (שעון קיץ ירושלים)
-[debug] [2018-08-23T23:54:36.314Z] <<< HTTP RESPONSE 200
+ Fri Aug 24 2018 11:52:19 GMT+0300 (שעון קיץ ירושלים)
+[debug] [2018-08-24T08:52:20.035Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] +  hosting: Local server: http://localhost:5000
 

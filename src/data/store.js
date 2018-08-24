@@ -1,9 +1,14 @@
 var store = {
     current: {
         org: {
-            name: 'שם הארגון'
+            title: 'שם הארגון'
+        },
+        team: {
+            title: 'שם הקבוצה'
         }
-    }
+    },
+    orgs: [],
+    teams: []
 }
 
 module.exports = store; 
