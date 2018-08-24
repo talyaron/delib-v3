@@ -1,0 +1,22 @@
+.splashPage {
+    background: var(--mainBackground);
+    color: var(--mainColor)
+}
+
+#splashCenter {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#splashName {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#splashSubName {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+}

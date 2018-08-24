@@ -5,6 +5,12 @@ import './style.css';
 //Views
 import Splash from "./views/Splash/Splash";
 import Delib from "./views/Delib/Delib";
+import Option from "./views/Option/Option";
+import Options from "./views/Options/Options";
+import Team from "./views/Team/Team";
+import Org from "./views/Org/Org";
+import Messages from "./views/Messages/Messages";
+
 
 m.route(root, "/splash", {
     "/splash": Splash,

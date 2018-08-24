@@ -29,8 +29,10 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
+    "animatorjs": "^1.0.2",
     "jquery": "^3.3.1",
     "mithril": "^1.1.6",
+    "mithril-transition": "^4.0.0",
     "slick-carousel": "^1.8.1"
   }
 }
