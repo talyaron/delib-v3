@@ -7,7 +7,7 @@ import values from 'lodash/values';
 import './Team.css';
 
 import Header from '../Commons/Header';
-import Card from '../Commons/Card';
+import Card from '../Commons/Card/Card';
 
 import store from '../../data/store';
 
