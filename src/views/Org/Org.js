@@ -13,6 +13,7 @@ import store from '../../data/store';
 
 module.exports = {
     oninit: (vnode) => {
+
         getOrgDetials(vnode)
         getTeams(vnode)
 
@@ -28,7 +29,7 @@ module.exports = {
             <div class='page'>
                 <Header
                     topic='ארגון'
-                    name={store.current.org.title}
+                    title={store.current.org.title}
                     tabBkgColor='#03077b'
                     color='white'
                 />
@@ -36,7 +37,7 @@ module.exports = {
                 <div class='cardsContainer row' dir='rtl'>
                     {
                         vnode.state.teams.map((item, i) => {
-                            console.log('item', item)
+
                             return (
                                 <Card
                                     title={item.details.title || ''}
@@ -56,8 +57,9 @@ module.exports = {
 
 function getOrgDetials(vnode) {
 
-    DB.child('delib-v3/orgs/' + vnode.attrs.id + '/details/name').on('value', (detailsDB) => {
-        store.current.org.title = vnode.state.title = detailsDB.val() || 'אין שם לארגון';
+    DB.child('delib-v3/orgs/' + vnode.attrs.id + '/details/title').on('value', (detailsDB) => {
+
+        store.current.org.title = detailsDB.val() || 'אין שם לארגון';
         m.redraw();
     })
 }
@@ -97,5 +99,5 @@ function setteamsFromStore(vnode) {
 
     var teamsInStore = get(store, 'orgs[' + vnode.attrs.id + '].teams', {});
     vnode.state.teams = values(teamsInStore);
-    console.dir(vnode.state.teams)
+
 }

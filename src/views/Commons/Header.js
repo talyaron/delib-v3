@@ -3,13 +3,14 @@ import './Header.css';
 
 module.exports = {
     oncreate: (vnode) => {
-        colorHeader(vnode);
+
         initTabsHeader();
         setColors(vnode);
 
 
     },
     view: (vnode) => {
+
         return (
             <div class='headers'>
                 <div id='topHeader'>{vnode.attrs.topic}: {vnode.attrs.title}</div>
@@ -26,9 +27,6 @@ module.exports = {
     }
 }
 
-function colorHeader(vnode) {
-    console.dir(vnode.dom)
-}
 
 function initTabsHeader() {
     var instance = M.Tabs.init(document.getElementById('navTab'), {});

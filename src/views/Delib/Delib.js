@@ -35,7 +35,10 @@ module.exports = {
 
                     <div id='selectOrg' class="input-field centerInput">
                         <select
-                            onchange={(e) => { m.route.set('org/' + e.target.value) }}
+                            onchange={(e) => {
+                                console.log('/org/' + e.target.value)
+                                m.route.set('/org/' + e.target.value)
+                            }}
                         >
                             <option value="" disabled selected>בחרו את הארגון שלכם</option>
                             <option value="tel-aviv" >עיריית תל-אביב</option>

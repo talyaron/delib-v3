@@ -41,10 +41,62 @@
     var DB = firebase.database().ref();
   </script>
 
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      font-family: 'Varela Round', sans-serif;
+    }
 
+    body {
+      /* direction: rtl; */
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+    }
+
+    .centerElement {
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .splashPage {
+      background: red;
+      color: white;
+    }
+
+    #splashName {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    #splashSubName {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+  </style>
 </head>
 
 <body>
+  <div class='page splashPage'>
+    <div class='centerElement'>
+      <div id='splashName'>
+        Delib
+      </div>
+      <div id='splashSubName'>
+        מחליטים ביחד
+      </div>
+      <a class="waves-effect waves-light grey darken-3 btn">כניסה</a>
+    </div>
+  </div>
+
   <script type="text/javascript" src="lib/jquery-3.3.1.slim.min.js"></script>
   <script type="text/javascript" src="lib/slick.min.js"></script>
 </body>
