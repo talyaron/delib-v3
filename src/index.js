@@ -4,25 +4,17 @@ import './style.css';
 
 //functions
 import './functions/firebase/config';
-import './functions/firebase/firebaseAuth';
-
+import { onAuth } from './functions/firebase/firebaseAuth';
+onAuth();
 
 //Views
 import Splash from "./views/Splash/Splash";
-import Delib from "./views/Delib/Delib";
-import Option from "./views/Option/Option";
-import Issue from "./views/Issue/Issue";
-import Team from "./views/Team/Team";
-import Org from "./views/Org/Org";
-import Messages from "./views/Messages/Messages";
+import Groups from "./views/Groups/Groups";
+
 
 
 m.route(root, "/splash", {
-    "/splash": Splash
-    // '/option/:id': Option,
-    // '/issue/:id': Issue,
-    // '/team/:id': Team,
-    // '/org/:id': Org,
-    // '/messages/:id': Messages,
-    // "/delib": Delib
+    "/splash": Splash,
+    "/groups": Groups
+
 })

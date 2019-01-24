@@ -1,6 +1,9 @@
 import m from 'mithril';
 import './Splash.css';
 
+//functions
+import googleLogin from '../../functions/firebase/googleLogin';
+
 module.exports = {
     oncreate: (vnode) => {
         // setTimeout(() => { m.route.set('/delib') }, 2500)
@@ -19,7 +22,10 @@ module.exports = {
                     <div id='splashSubName'>
                         מחליטים ביחד
                     </div>
-                    <a class="buttons loginButton"><div>התחברות עם גוגל</div><img src='img/icons8-google.svg'></img></a>
+                    <div class="buttons loginButton" onclick={() => { googleLogin() }}>
+                        <div>התחברות עם גוגל</div>
+                        <img src='img/icons8-google.svg'></img>
+                    </div>
                 </div>
             </div>
         )

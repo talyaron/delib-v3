@@ -1,5 +1,6 @@
 var store = {
     user: {},
+    userGroups: [],
     current: {
         org: {
             title: 'שם הארגון'
@@ -10,7 +11,7 @@ var store = {
     },
     orgs: [],
     teams: [],
-    lastPage:""
+    lastPage: ""
 }
 
 module.exports = store; 

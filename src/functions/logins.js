@@ -1,14 +1,16 @@
 import m from 'mithril';
 import store from '../data/store';
 
-function restrictedPage(URLPath, pathInDB) {
+function restrictedPage(URLPath) {
     //check if user is logged-in and has permission to view the page
 
     //check if user is logged-in, else redirect to login
     if (store.user.hasOwnProperty('isAnonymous')) {
         if (store.user.isAnonymous) {
-            redirectToLogin();
+            redirectToLogin(URLPath);
             return false
+        } else {
+            return true;
         }
     } else {
         redirectToLogin();
@@ -16,7 +18,7 @@ function restrictedPage(URLPath, pathInDB) {
     }
 }
 
-function redirectToLogin() {
+function redirectToLogin(URLPath) {
     store.lastPage = URLPath;
     m.route.set('/login');
 }

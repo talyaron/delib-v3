@@ -1,6 +1,13 @@
 :root {
     --mainBackground: red;
     --mainColor: white;
+    --textHeader: rgba(0, 0, 0, 0.78);
+    --textHeaderSize: 1.3rem;
+    --textHeaderWeight: 600;
+    --textSubHeader: rgba(0, 0, 0, 0.68);
+    --textHeaderSize: 1.1rem;
+    --textRegular: rgba(0, 0, 0, 0.55);
+    --textRegularSize: 1rem;
 }
 
 html, body {
@@ -17,6 +24,46 @@ body {
 .page {
     width: 100%;
     height: 100%;
+}
+
+header {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background: var(--mainBackground);
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    color: var(--mainColor);
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.wrapper {
+    max-width: 550px;
+    margin: 70px auto 30px auto;
+}
+
+.card {
+    background: white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    direction: rtl;
+    padding: 10px;
+    margin: 5px;
+}
+
+.cardTitle {
+    color: var(--textHeader);
+    font-size: var(--textHeaderSize);
+    font-weight: var(--textHeaderWeight);
+    margin-bottom: 10px;
+}
+
+.cardDescription {
+    color: var(--textSubHeader);
+    font-size: var(--textSubHeaderSize);
 }
 
 .centerElement {
