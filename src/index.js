@@ -10,11 +10,13 @@ onAuth();
 //Views
 import Splash from "./views/Splash/Splash";
 import Groups from "./views/Groups/Groups";
+import GroupPage from './views/GroupPage/GroupPage';
 
 
 
 m.route(root, "/splash", {
     "/splash": Splash,
-    "/groups": Groups
+    "/groups": Groups,
+    "/group/:id":GroupPage
 
 })

@@ -1,6 +1,8 @@
 import m from 'mithril';
 import store from '../../data/store';
 
+import DB from '../firebase/config';
+
 function googleLogin() {
     console.log('...')
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -10,9 +12,11 @@ function googleLogin() {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;
         // The signed-in user info.
-        store.user = result.user;
+        // store.user = result.user;
+        console.log(`user is logged in with google`)
 
-        console.log(store.user);
+
+
         m.route.set('/groups')
     }).catch(function (error) {
         // Handle Errors here.

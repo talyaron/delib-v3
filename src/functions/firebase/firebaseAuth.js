@@ -1,5 +1,6 @@
 import store from '../../data/store';
 import m from 'mithril';
+import DB from '../firebase/config';
 
 function AnonymousLogin() {
     firebase.auth().signInAnonymously().catch(function (error) {
@@ -17,6 +18,18 @@ function onAuth() {
         if (user) {
             console.log('User', store.user.uid, 'is signed in.');
             if (!user.isAnonymous) {
+
+
+                DB.collection("users").doc(user.uid).set({
+                    uid: store.user.uid,
+                    name: store.user.displayName,
+                    email: store.user.email
+                }).then(function () {
+                    console.log("Document successfully written!");
+                }).catch(function (error) {
+                    console.error("Error writing document: ", error);
+                });
+
                 m.route.set('/groups');
             }
         } else {

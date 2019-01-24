@@ -4,15 +4,16 @@
 // require("firebase/firestore");
 
 var config = {
-    apiKey: "AIzaSyAjyyjWM63PSjyRoDI-87MpRtfOFnOO0aA",
-    authDomain: "delib21-aaeb0.firebaseapp.com",
-    databaseURL: "https://delib21-aaeb0.firebaseio.com",
-    projectId: "delib21-aaeb0",
-    storageBucket: "delib21-aaeb0.appspot.com",
-    messagingSenderId: "845650714645"
+    apiKey: "AIzaSyBEumZUTCL3Jc9pt7_CjiSVTxmz9aMqSvo",
+    authDomain: "synthesistalyaron.firebaseapp.com",
+    databaseURL: "https://synthesistalyaron.firebaseio.com",
+    projectId: "synthesistalyaron",
+    storageBucket: "synthesistalyaron.appspot.com",
+    messagingSenderId: "799655218679"
 };
 firebase.initializeApp(config);
 const DB = firebase.firestore();
+window.db = DB;
 DB.settings({
     timestampsInSnapshots: true
 });

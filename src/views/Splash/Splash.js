@@ -5,9 +5,7 @@ import './Splash.css';
 import googleLogin from '../../functions/firebase/googleLogin';
 
 module.exports = {
-    oncreate: (vnode) => {
-        // setTimeout(() => { m.route.set('/delib') }, 2500)
-    },
+
     view: (vnode) => {
         return (
             <div
