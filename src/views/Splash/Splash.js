@@ -3,7 +3,7 @@ import './Splash.css';
 
 module.exports = {
     oncreate: (vnode) => {
-        setTimeout(() => { m.route.set('/delib') }, 2500)
+        // setTimeout(() => { m.route.set('/delib') }, 2500)
     },
     view: (vnode) => {
         return (
@@ -19,10 +19,7 @@ module.exports = {
                     <div id='splashSubName'>
                         מחליטים ביחד
                     </div>
-                    <a
-                        class="waves-effect waves-light grey darken-3 btn"
-
-                    >כניסה</a>
+                    <a class="buttons loginButton"><div>התחברות עם גוגל</div><img src='img/icons8-google.svg'></img></a>
                 </div>
             </div>
         )

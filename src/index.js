@@ -3,7 +3,9 @@ const root = document.body;
 import './style.css';
 
 //functions
-import './functions/firebaseAuth';
+import './functions/firebase/config';
+import './functions/firebase/firebaseAuth';
+
 
 //Views
 import Splash from "./views/Splash/Splash";
@@ -16,11 +18,11 @@ import Messages from "./views/Messages/Messages";
 
 
 m.route(root, "/splash", {
-    "/splash": Splash,
-    '/option/:id': Option,
-    '/issue/:id': Issue,
-    '/team/:id': Team,
-    '/org/:id': Org,
-    '/messages/:id': Messages,
-    "/delib": Delib
+    "/splash": Splash
+    // '/option/:id': Option,
+    // '/issue/:id': Issue,
+    // '/team/:id': Team,
+    // '/org/:id': Org,
+    // '/messages/:id': Messages,
+    // "/delib": Delib
 })
