@@ -31,9 +31,10 @@ module.exports = {
                 <div class='wrapper groupsWrapper'>
                     {
                         store.userGroups.map((group, key) => {
+                            console.log(group)
                             return <Group
-                                title={group.data.title}
-                                description={group.data.description}
+                                title={group.title}
+                                description={group.description}
                                 key={key} />
                         })
                     }
