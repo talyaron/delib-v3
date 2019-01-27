@@ -30,7 +30,7 @@ function onAuth() {
                     console.error("Error writing document: ", error);
                 });
 
-                m.route.set('/groups');
+                m.route.set(store.lastPage);
             }
         } else {
 

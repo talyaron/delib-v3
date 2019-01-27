@@ -17,6 +17,7 @@ import store from '../../data/store';
 
 module.exports = {
     oninit: (vnode) => {
+        store.lastPage = '/groups'
         if (restrictedPage('/groups')) {
             getUserGroups('on', store.user.uid);
         }
@@ -37,6 +38,7 @@ module.exports = {
                             return <Group
                                 title={group.title}
                                 description={group.description}
+                                id={group.id}
                                 key={key} />
                         })
                     }

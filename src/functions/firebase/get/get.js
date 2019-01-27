@@ -23,13 +23,13 @@ function getUserGroups(onOff, userId) {
                 //listen a group and update...
                 unsubscribe[groupOwnedDB.data().id] = DB.collection('groups').doc(groupOwnedDB.data().id).onSnapshot(groupDB => {
 
-                    console.log('update on group', groupOwnedDB.id)
+
                     let tempObj = groupDB.data();
                     tempObj.id = groupOwnedDB.id;
 
                     groupsObj[groupOwnedDB.data().id] = tempObj;
                     count++;
-                    console.log(count)
+
 
                     if (count == groupsNumber) { //first update
                         for (let i in groupsObj) {
@@ -48,15 +48,13 @@ function getUserGroups(onOff, userId) {
                     }
 
                 })
-                console.log(unsubscribe)
+
             })
-
-
-
         })
     } else {
+        //turn off listeners
         for (let i in unsubscribe) {
-            console.log('unsubscribing from', i)
+
             unsubscribe[i]();
         }
 

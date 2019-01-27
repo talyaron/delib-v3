@@ -17,4 +17,8 @@ function createGroup(creatorId, title, description) {
     });
 }
 
-module.exports = { createGroup }
+function createQuestion(groupId, creatorId, title, description) {
+    console.log(groupId, creatorId, title, description)
+}
+
+module.exports = { createGroup, createQuestion }
