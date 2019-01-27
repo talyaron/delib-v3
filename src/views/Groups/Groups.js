@@ -18,11 +18,13 @@ import store from '../../data/store';
 module.exports = {
     oninit: (vnode) => {
         if (restrictedPage('/groups')) {
-            getUserGroups(store.user.uid);
+            getUserGroups('on', store.user.uid);
         }
 
     },
-
+    onremove: vnode => {
+        getUserGroups('off', store.user.uid);
+    },
     view: (vnode) => {
 
         return (
