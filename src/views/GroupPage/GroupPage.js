@@ -1,9 +1,11 @@
 import m from 'mithril';
 import './GroupPage.css';
+import Group from '../Groups/Group/Group';
 import store from '../../data/store';
 
 //functions
 import { createQuestion } from '../../functions/firebase/set/set';
+import { getQuestions } from '../../functions/firebase/get/get';
 
 module.exports = {
     oninit: vnode => {
@@ -14,13 +16,41 @@ module.exports = {
                 title: '',
                 description: ''
             },
-            addQuestion: false
+            addQuestion: false,
+            questions: [],
+            unsubscribe: {}
         }
+
+        getQuestions('on', vnode.attrs.id, vnode);
+    },
+    onbeforeupdate: vnode => {
+        let questionsArray = [];
+        for (let i in store.questions[vnode.attrs.id]) {
+            questionsArray.push(store.questions[vnode.attrs.id][i]);
+        }
+        vnode.state.questions = questionsArray;
+    },
+    onremove: vnode => {
+        getQuestions('off', vnode.attrs.id, vnode);
     },
     view: vnode => {
         return (
             <div class='page'>
-                <div>Group {vnode.attrs.id} page</div>
+                <header>דליב - שאלות</header>
+                <div class='wrapper groupsWrapper'>
+                    {
+                        vnode.state.questions.map((question, key) => {
+                            return (
+                                <Group
+                                    title={question.title}
+                                    description={question.description}
+                                    id={question.id}
+                                    key={key}
+                                />
+                            )
+                        })
+                    }
+                </div>
                 <div class='fav' onclick={() => { toggleAddQuestion(vnode) }} >
                     <div>+</div>
                 </div>

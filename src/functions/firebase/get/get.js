@@ -1,6 +1,7 @@
 import m from 'mithril';
 import DB from '../config';
 import store from '../../../data/store';
+import { set } from 'lodash';
 
 var unsubscribe = {};
 
@@ -61,4 +62,22 @@ function getUserGroups(onOff, userId) {
     }
 }
 
-module.exports = { getUserGroups }
+
+
+function getQuestions(onOff, groupId, vnode) {
+    if (onOff === 'on') {
+        vnode.state.unsubscribe = DB.collection('groups').doc(groupId).collection('questions').onSnapshot(questionsDb => {
+            questionsDb.forEach(questionDB => {
+                if (questionDB.data().id) {
+                    set(store.questions, `[${groupId}][${questionDB.data().id}]`, questionDB.data())
+                }
+            })
+
+            m.redraw();
+        })
+    } else {
+        vnode.state.unsubscribe();
+    }
+}
+
+module.exports = { getUserGroups, getQuestions }

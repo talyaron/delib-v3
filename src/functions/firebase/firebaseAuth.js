@@ -14,12 +14,10 @@ function AnonymousLogin() {
 function onAuth() {
     firebase.auth().onAuthStateChanged(function (user) {
         store.user = user;
-        console.log(store.user)
+
         if (user) {
             console.log('User', store.user.uid, 'is signed in.');
             if (!user.isAnonymous) {
-
-
                 DB.collection("users").doc(user.uid).set({
                     uid: store.user.uid,
                     name: store.user.displayName,

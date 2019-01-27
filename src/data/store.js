@@ -11,7 +11,8 @@ var store = {
     },
     orgs: [],
     teams: [],
-    lastPage: ""
+    lastPage: "",
+    questions: {}
 }
 
 module.exports = store; 
