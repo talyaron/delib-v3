@@ -1,15 +1,17 @@
 import m from 'mithril';
+import { get } from 'lodash';
 import './GroupPage.css';
 import Group from '../Groups/Group/Group';
 import store from '../../data/store';
 
 //functions
 import { createQuestion } from '../../functions/firebase/set/set';
-import { getQuestions } from '../../functions/firebase/get/get';
+import { getQuestions, getGroupDetails } from '../../functions/firebase/get/get';
 
 module.exports = {
     oninit: vnode => {
-        store.lastPage = '/group/' + vnode.attrs.id
+        store.lastPage = '/group/' + vnode.attrs.id;
+        sessionStorage.setItem('lastPage', store.lastPage)
 
         vnode.state = {
             add: {
@@ -18,12 +20,20 @@ module.exports = {
             },
             addQuestion: false,
             questions: [],
-            unsubscribe: {}
+            unsubscribe: {},
+            groupName: get(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה')
         }
 
         getQuestions('on', vnode.attrs.id, vnode);
+        getGroupDetails('on', vnode.attrs.id, vnode);
     },
     onbeforeupdate: vnode => {
+
+        //update name of group
+        vnode.state.groupName = get(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה');
+        document.title = `דליב - ${vnode.state.groupName}`
+
+        //update array of questions
         let questionsArray = [];
         for (let i in store.questions[vnode.attrs.id]) {
             questionsArray.push(store.questions[vnode.attrs.id][i]);
@@ -32,16 +42,18 @@ module.exports = {
     },
     onremove: vnode => {
         getQuestions('off', vnode.attrs.id, vnode);
+        getGroupDetails('off', vnode.attrs.id, vnode);
     },
     view: vnode => {
         return (
             <div class='page'>
-                <header>דליב - שאלות</header>
+                <header>דליב - {vnode.state.groupName}</header>
                 <div class='wrapper groupsWrapper'>
                     {
                         vnode.state.questions.map((question, key) => {
                             return (
                                 <Group
+                                    route={'/question/' + vnode.attrs.id + '/'}
                                     title={question.title}
                                     description={question.description}
                                     id={question.id}

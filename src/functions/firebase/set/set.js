@@ -18,7 +18,7 @@ function createGroup(creatorId, title, description) {
 }
 
 function createQuestion(groupId, creatorId, title, description) {
-    console.log(groupId, creatorId, title, description);
+
     DB.collection('groups').doc(groupId).collection('questions').add({
         title: title,
         description: description,
@@ -33,4 +33,30 @@ function createQuestion(groupId, creatorId, title, description) {
 
 }
 
-module.exports = { createGroup, createQuestion }
+function createOption(groupId, questionId, creatorId, title, description) {
+    console.log(groupId, questionId, creatorId, title, description);
+    DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('options')
+        .add({
+            groupId, questionId, creatorId, title, description, time: new Date().getTime()
+        }).then(newOption => {
+            DB.collection('groups').doc(groupId)
+                .collection('questions').doc(questionId)
+                .collection('options').doc(newOption.id).update({ id: newOption.id })
+            console.log('new option created:', newOption.id);
+            console.dir(newOption)
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+function setLike(groupId, questionId, optionId, creatorId, like) {
+    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
+        .collection('options').doc(optionId).collection('likes').doc(creatorId).set({ like })
+        .then(newLike => {           
+            console.log('new like', like);
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+module.exports = { createGroup, createQuestion, createOption, setLike }

@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "animatorjs": "^1.0.2",
+    "firebase-admin": "^6.5.1",
+    "firebase-functions": "^2.1.0",
     "jquery": "^3.3.1",
     "mithril": "^1.1.6",
     "mithril-transition": "^4.0.0",

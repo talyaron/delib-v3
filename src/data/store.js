@@ -12,7 +12,9 @@ var store = {
     orgs: [],
     teams: [],
     lastPage: "",
-    questions: {}
+    questions: {}, //list of questions in groupPage
+    groups: {}, //groups name
+    options: [] //options in a given question
 }
 
 module.exports = store; 

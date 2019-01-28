@@ -1,0 +1,19 @@
+.questionHeadr {
+    background: var(--mainBackground);
+    color: white;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.mainHeader {
+    padding: 10px;
+    text-align: center;
+}
+
+.subHeader {
+    background: var(--subBackground);
+    padding: 20px;
+}

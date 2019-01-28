@@ -17,7 +17,9 @@ import store from '../../data/store';
 
 module.exports = {
     oninit: (vnode) => {
-        store.lastPage = '/groups'
+        store.lastPage = '/groups';
+        sessionStorage.setItem('lastPage', store.lastPage);
+
         if (restrictedPage('/groups')) {
             getUserGroups('on', store.user.uid);
         }
@@ -36,6 +38,7 @@ module.exports = {
                         store.userGroups.map((group, key) => {
 
                             return <Group
+                                route='/group/'
                                 title={group.title}
                                 description={group.description}
                                 id={group.id}

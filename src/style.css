@@ -1,5 +1,6 @@
 :root {
     --mainBackground: #f14a4a;
+    --subBackground: #ee7171;
     --mainColor: white;
     --accent: blue;
     --textHeader: rgba(0, 0, 0, 0.78);
@@ -126,6 +127,8 @@ header {
     margin-top: 85px;
 }
 
+/*  Buttons */
+
 .buttons {
     width: fit-content;
     padding: 12px 25px;
@@ -173,6 +176,28 @@ header {
     color: white;
     text-align: center;
     font-size: 3rem;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0%;
+    width: 100%;
+    background: var(--subBackground);
+    color: white;
+    display: flex;
+    justify-content: stretch;
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.footerButton {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    padding: 11px;
 }
 
 /* module */

@@ -18,6 +18,7 @@ function onAuth() {
         if (user) {
             console.log('User', store.user.uid, 'is signed in.');
             if (!user.isAnonymous) {
+                console.log('user', user.displayName, 'is logged in')
                 DB.collection("users").doc(user.uid).set({
                     uid: store.user.uid,
                     name: store.user.displayName,
@@ -28,7 +29,8 @@ function onAuth() {
                     console.error("Error writing document: ", error);
                 });
 
-                m.route.set(store.lastPage);
+                let lastPage = sessionStorage.getItem('lastPage') || '/groups'
+                m.route.set(lastPage);
             }
         } else {
 

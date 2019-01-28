@@ -1,0 +1,70 @@
+.optionCard {}
+
+.optionMain {
+    display: flex;
+    justify-content: space-between;
+}
+
+.optionContent {
+    width: 100%;
+    padding: 5px;
+}
+
+.optionVote {
+    background: rgba(128, 128, 128, 0.14);
+    border-radius: 5px;
+    padding: 0px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.optionVote:active {
+    background: rgba(128, 128, 128, 0.3);
+}
+
+.optionSelcet {
+    background: rgba(128, 128, 128, 0.3);
+}
+
+.voteUp {
+    animation-name: voteUp;
+    animation-duration: 0.3s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: 3;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes voteUp {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(-35deg)
+    }
+}
+
+.voteDown {
+    animation-name: voteDown;
+    animation-duration: 0.3s;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: 3;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes voteDown {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(35deg)
+    }
+}
+
+.optionInfo {
+    display: flex;
+    justify-content: space-around;
+    color: var(--textRegular);
+    margin-top: 8px;
+    border-top: 0.5px solid #d2d2d2;
+}
