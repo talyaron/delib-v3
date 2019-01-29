@@ -120,7 +120,7 @@ function getOptions(groupId, questionId) {
         .onSnapshot(optionsDB => {
             let optionsArray = [];
             optionsDB.forEach(optionDB => {
-                optionsArray.push(optionDB.data())
+                optionsArray.push(optionDB.data())                
             })
            
             store.options = optionsArray;

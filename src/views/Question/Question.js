@@ -52,7 +52,9 @@ module.exports = {
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.id}
                                 optionId={option.id}
-                                title={option.title} description={option.description} />
+                                title={option.title} description={option.description}
+                                consensusPrecentage={option.consensusPrecentage}
+                            />
                         })
                     }
                 </div>

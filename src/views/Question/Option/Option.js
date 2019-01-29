@@ -17,7 +17,7 @@ module.exports = {
         return (
             <div class='card optionCard'>
                 <div class='optionMain'>
-                    <div class={vnode.state.up ? 'optionVote optionSelcet' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
+                    <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img
                             class={vnode.state.up ? 'voteUp' : ''}
                             src='img/icons8-facebook-like-32.png'
@@ -27,7 +27,7 @@ module.exports = {
                         <div class='cardTitle'>{vnode.attrs.title}</div>
                         <div class='cardDescription'>{vnode.attrs.description}</div>
                     </div>
-                    <div class={vnode.state.down ? 'optionVote optionSelcet' : 'optionVote'} onclick={() => { setSelection('down', vnode) }}>
+                    <div class={vnode.state.down ? 'optionVote optionSelcetDown' : 'optionVote'} onclick={() => { setSelection('down', vnode) }}>
                         <img
                             class={vnode.state.down ? 'voteDown' : ''}
                             src='img/icons8-thumbs-down-32.png' />
@@ -35,7 +35,7 @@ module.exports = {
                 </div>
                 <div class='optionInfo'>
                     <div class='optionLikes'>
-                        לייק: 23
+                        הסכמה: {vnode.attrs.consensusPrecentage || 0}
                     </div>
                     <div class='optionChat'>
                         שיחות: 45

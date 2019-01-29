@@ -1,8 +1,13 @@
-.optionCard {}
+.optionCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .optionMain {
     display: flex;
     justify-content: space-between;
+    height: 100%;
 }
 
 .optionContent {
@@ -23,8 +28,12 @@
     background: rgba(128, 128, 128, 0.3);
 }
 
-.optionSelcet {
-    background: rgba(128, 128, 128, 0.3);
+.optionSelcetUp {
+    background: rgba(21, 128, 26, 0.3);
+}
+
+.optionSelcetDown {
+    background: rgba(124, 30, 30, 0.3);
 }
 
 .voteUp {
