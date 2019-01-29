@@ -3,14 +3,49 @@ import './Option.css';
 import store from '../../../data/store';
 
 import { setLike } from '../../../functions/firebase/set/set';
-
+import { getOptionVote } from '../../../functions/firebase/get/get';
+import { json } from 'body-parser';
 
 module.exports = {
     oninit: vnode => {
         vnode.state = {
             up: false,
-            down: false
+            down: false,
+            consensusPrecentage: '',
+            isConNegative: false
         }
+        getOptionVote('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
+    },
+    onbeforeupdate: vnode => {
+        let optionVote = store.optionsVotes[vnode.attrs.optionId]
+        
+        //set conesnsus level to string
+        if (vnode.attrs.consensusPrecentage !== undefined) {
+            if (vnode.attrs.consensusPrecentage >= 0) {
+                vnode.state.consensusPrecentage = Math.round(vnode.attrs.consensusPrecentage * 100) + "%";
+                vnode.state.isConNegative = false;
+            } else {
+                vnode.state.consensusPrecentage = Math.abs(Math.round(vnode.attrs.consensusPrecentage * 100)) + "%" + ' -'
+                vnode.state.isConNegative = true;
+            }
+        }
+
+
+
+        if (optionVote > 0) {
+            
+            vnode.state.up = true;
+            vnode.state.down = false;
+        } else if (optionVote < 0) {
+           
+            vnode.state.up = false;
+            vnode.state.down = true;
+        } else {
+           
+            vnode.state.up = false;
+            vnode.state.down = false;
+        }
+        
     },
     view: (vnode) => {
 
@@ -34,8 +69,8 @@ module.exports = {
                     </div>
                 </div>
                 <div class='optionInfo'>
-                    <div class='optionLikes'>
-                        הסכמה: {vnode.attrs.consensusPrecentage || 0}
+                    <div class={vnode.state.isConNegative ? 'optionLikes negative' : 'optionLikes'}>
+                        הסכמה: {vnode.state.consensusPrecentage}
                     </div>
                     <div class='optionChat'>
                         שיחות: 45

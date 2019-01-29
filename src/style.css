@@ -152,6 +152,10 @@ header {
     background: #e85353;
 }
 
+.negative{
+    color:red;
+}
+
 .fav {
     background: var(--accent);
     width: 60px;

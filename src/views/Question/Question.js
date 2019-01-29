@@ -15,7 +15,7 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         store.options = [];
-        getOptions(vnode.attrs.groupId, vnode.attrs.id);
+        getOptions('on', vnode.attrs.groupId, vnode.attrs.id);
 
         getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
         vnode.state = {
@@ -34,6 +34,7 @@ module.exports = {
     },
     onremove: vnode => {
         getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        getOptions('off', vnode.attrs.groupId, vnode.attrs.id);
     },
     view: vnode => {
         return (

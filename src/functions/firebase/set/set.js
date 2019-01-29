@@ -53,7 +53,7 @@ function setLike(groupId, questionId, optionId, creatorId, like) {
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
         .collection('options').doc(optionId).collection('likes').doc(creatorId).set({ like })
         .then(newLike => {           
-            console.log('new like', like);
+           
         }).catch(function (error) {
             console.error("Error adding document: ", error);
         });

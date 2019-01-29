@@ -107,25 +107,45 @@ function getQuestionDetails(onOff, groupId, questionId, vnode) {
             .collection('groups').doc(groupId)
             .collection('questions').doc(questionId)
             .onSnapshot(function () { })()
-        console.dir(vnode.state.questionUnsubscribe)
+        
         // unsubscribe();
     }
 }
 
-function getOptions(groupId, questionId) {
-    
-    DB.collection('groups').doc(groupId)
+function getOptions(onOff, groupId, questionId) {
+    let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('options')
-        .onSnapshot(optionsDB => {
-            let optionsArray = [];
-            optionsDB.forEach(optionDB => {
-                optionsArray.push(optionDB.data())                
-            })
+        .collection('options');
+    
+    if (onOff === 'on') {
+        optionRef.onSnapshot(optionsDB => {
+                let optionsArray = [];
+                optionsDB.forEach(optionDB => {
+                    optionsArray.push(optionDB.data())
+                })
            
-            store.options = optionsArray;
-            m.redraw()
-        })
+                store.options = optionsArray;
+                m.redraw()
+            })
+    } else {
+        optionRef.onSnapshot(() => { })();
+    }
 }
 
-module.exports = { getUserGroups, getQuestions, getGroupDetails, getQuestionDetails, getOptions }
+function getOptionVote(onOff, groupId, questionId, optionId, creatorId) {
+    let voteRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('options').doc(optionId)
+        .collection('likes').doc(creatorId);
+    
+    if (onOff === 'on') {
+        voteRef.onSnapshot(voteDB => {
+            store.optionsVotes[optionId] = voteDB.data().like;
+            m.redraw();
+        })
+    } else {
+        voteRef.onSnapshot(() => { })();
+    }
+}
+
+module.exports = { getUserGroups, getQuestions, getGroupDetails, getQuestionDetails, getOptions, getOptionVote}
