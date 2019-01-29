@@ -107,7 +107,7 @@ function getQuestionDetails(onOff, groupId, questionId, vnode) {
             .collection('groups').doc(groupId)
             .collection('questions').doc(questionId)
             .onSnapshot(function () { })()
-        
+
         // unsubscribe();
     }
 }
@@ -116,7 +116,7 @@ function getOptions(onOff, groupId, questionId, order) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
-    
+
     if (onOff === 'on') {
         let orderBy = 'time'
         switch (order) {
@@ -130,14 +130,31 @@ function getOptions(onOff, groupId, questionId, order) {
                 orderBy = 'time';
         }
         optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
-                let optionsArray = [];
-                optionsDB.forEach(optionDB => {
-                    optionsArray.push(optionDB.data())
-                })
-           
-                store.options = optionsArray;
-                m.redraw()
+            let optionsArray = [];
+            optionsDB.forEach(optionDB => {
+                let optionObj = optionDB.data();
+               
+
+                //get before position
+                let elm = document.getElementById(optionObj.id)
+                if (elm) {
+                    store.optionsLoc[optionObj.id] = {
+                        top: elm.offsetTop,
+                        left: elm.offsetLeft
+                    };
+                   
+                } else {
+                    store.optionsLoc[optionObj.id] = { top: 0, left: 0 }
+                }
+
+                console.log('before (DB):', optionObj.title, store.optionsLoc[optionObj.id].top, store.optionsLoc[optionObj.id].left)
+
+                optionsArray.push(optionObj)
             })
+
+            store.options = optionsArray;
+            m.redraw()
+        })
     } else {
         optionRef.onSnapshot(() => { })();
     }
@@ -148,10 +165,11 @@ function getOptionVote(onOff, groupId, questionId, optionId, creatorId) {
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId)
         .collection('likes').doc(creatorId);
-    
+
     if (onOff === 'on') {
         voteRef.onSnapshot(voteDB => {
             store.optionsVotes[optionId] = voteDB.data().like;
+            console.log('voteDB:',optionId)
             m.redraw();
         })
     } else {
@@ -159,4 +177,4 @@ function getOptionVote(onOff, groupId, questionId, optionId, creatorId) {
     }
 }
 
-module.exports = { getUserGroups, getQuestions, getGroupDetails, getQuestionDetails, getOptions, getOptionVote}
+module.exports = { getUserGroups, getQuestions, getGroupDetails, getQuestionDetails, getOptions, getOptionVote }
