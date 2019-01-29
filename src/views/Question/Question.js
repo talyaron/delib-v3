@@ -15,7 +15,7 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         store.options = [];
-        getOptions('on', vnode.attrs.groupId, vnode.attrs.id);
+        getOptions('on', vnode.attrs.groupId, vnode.attrs.id, 'top');
 
         getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
         vnode.state = {
@@ -25,7 +25,8 @@ module.exports = {
             add: {
                 title: '',
                 description: ''
-            }
+            },
+            orderBy:'new'
         }
     },
     onbeforeupdate: vnode => {
@@ -60,8 +61,14 @@ module.exports = {
                     }
                 </div>
                 <div class='footer'>
-                    <div class='footerButton'>אקראי</div>
-                    <div class='footerButton'>Top</div>
+                    <div
+                        class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
+                        onclick={() => { orderBy('new', vnode) }}
+                    >חדש</div>
+                    <div
+                        class={vnode.state.orderBy == 'top' ? 'footerButton footerButtonSelected' : 'footerButton'}
+                        onclick={() => { orderBy('top', vnode) }}
+                    >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
                 <div class='fav' onclick={() => { toggleAddOption(vnode) }} >
@@ -103,4 +110,10 @@ module.exports = {
 
 function toggleAddOption(vnode) {
     vnode.state.addOption = !vnode.state.addOption;
+}
+
+function orderBy(order, vnode) {
+    getOptions('off', vnode.attrs.groupId, vnode.attrs.id, order);
+    getOptions('on', vnode.attrs.groupId, vnode.attrs.id, order);
+    vnode.state.orderBy = order
 }

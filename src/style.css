@@ -152,8 +152,8 @@ header {
     background: #e85353;
 }
 
-.negative{
-    color:red;
+.negative {
+    color: red;
 }
 
 .fav {
@@ -202,6 +202,10 @@ header {
     user-select: none;
     cursor: pointer;
     padding: 11px;
+}
+
+.footerButtonSelected {
+    background: var(--mainBackground);
 }
 
 /* module */

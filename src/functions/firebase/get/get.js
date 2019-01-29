@@ -112,13 +112,24 @@ function getQuestionDetails(onOff, groupId, questionId, vnode) {
     }
 }
 
-function getOptions(onOff, groupId, questionId) {
+function getOptions(onOff, groupId, questionId, order) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
     
     if (onOff === 'on') {
-        optionRef.onSnapshot(optionsDB => {
+        let orderBy = 'time'
+        switch (order) {
+            case "new":
+                orderBy = 'time';
+                break;
+            case 'top':
+                orderBy = 'consensusPrecentage';
+                break;
+            default:
+                orderBy = 'time';
+        }
+        optionRef.orderBy(orderBy, 'desc').limit(10).onSnapshot(optionsDB => {
                 let optionsArray = [];
                 optionsDB.forEach(optionDB => {
                     optionsArray.push(optionDB.data())
