@@ -129,7 +129,7 @@ function getOptions(onOff, groupId, questionId, order) {
             default:
                 orderBy = 'time';
         }
-        optionRef.orderBy(orderBy, 'desc').limit(10).onSnapshot(optionsDB => {
+        optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
                 let optionsArray = [];
                 optionsDB.forEach(optionDB => {
                     optionsArray.push(optionDB.data())

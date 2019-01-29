@@ -1,7 +1,18 @@
+
+
 .optionCard {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    transition: all 1s;
+    height: 120px;
+}
+
+.cardDescription{
+    height: 75px;
 }
 
 .optionMain {

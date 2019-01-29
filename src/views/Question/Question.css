@@ -1,3 +1,6 @@
+.wrapper{
+    margin: 120px auto 150px auto;
+}
 .questionHeadr {
     background: var(--mainBackground);
     color: white;
@@ -6,6 +9,7 @@
     width: 100%;
     top: 0px;
     left: 0px;
+    z-index: 100;
 }
 
 .mainHeader {

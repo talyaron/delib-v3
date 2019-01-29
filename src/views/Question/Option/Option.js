@@ -12,13 +12,14 @@ module.exports = {
             up: false,
             down: false,
             consensusPrecentage: '',
-            isConNegative: false
+            isConNegative: false,
+            posBefore:{ top: 0, left: 0 }
         }
         getOptionVote('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
     },
     onbeforeupdate: vnode => {
         let optionVote = store.optionsVotes[vnode.attrs.optionId]
-        
+
         //set conesnsus level to string
         if (vnode.attrs.consensusPrecentage !== undefined) {
             if (vnode.attrs.consensusPrecentage >= 0) {
@@ -33,24 +34,72 @@ module.exports = {
 
 
         if (optionVote > 0) {
-            
+
             vnode.state.up = true;
             vnode.state.down = false;
         } else if (optionVote < 0) {
-           
+
             vnode.state.up = false;
             vnode.state.down = true;
         } else {
-           
+
             vnode.state.up = false;
             vnode.state.down = false;
         }
+
+        //get before position
+        let elm = document.getElementById(vnode.attrs.optionId)
+        if (elm) {
+            store.optionsLoc[vnode.attrs.optionId] = {
+                top: elm.offsetTop,
+                left: elm.offsetLeft
+            };
+            console.log('before:', vnode.attrs.title, vnode.state.posBefore.top, vnode.state.posBefore.left)
+        } else {
+            vnode.state.posBefore = {top:0, left:0}
+        }
+
         
+
     },
+    onupdate: vnode => {
+        let elm = document.getElementById(vnode.attrs.optionId)
+        vnode.state.posAfter = {
+            top: elm.offsetTop,
+            left: elm.offsetLeft
+        };
+
+        console.log('after:', vnode.attrs.title, vnode.state.posAfter.top, vnode.state.posAfter.left)
+
+        //move back
+        let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
+        let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
+        // elm.style.transition = 'none';
+        // elm.style.left = vnode.state.posBefore.left+'px';
+        // elm.style.top = vnode.state.posBefore.top + 'px';
+        
+        elm.style.transition = 'all 1s';
+        elm.style.left = (-1*leftMove) + 'px';
+        elm.style.top = (-1*topMove) + 'px';
+        // console.log('animate', topMove)
+        // elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px"},
+        //     {
+        //         duration: 0,
+        //         begin: (elms) => { },
+
+        //     })
+        //     .velocity({ top: "0px", left:'0px' }, {
+        //         duration: 550,
+        //         complete: (elms) => {
+        //             // m.redraw();
+        //         }
+        //     }, 'easeInOutCubic')
+        // console.log(leftMove, topMove)
+    }, 
     view: (vnode) => {
 
         return (
-            <div class='card optionCard'>
+            <div class='card optionCard' id={vnode.attrs.optionId}>
                 <div class='optionMain'>
                     <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img

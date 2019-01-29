@@ -11,13 +11,6 @@ import { createOption } from '../../functions/firebase/set/set';
 module.exports = {
     oninit: vnode => {
 
-        store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
-        sessionStorage.setItem('lastPage', store.lastPage);
-
-        store.options = [];
-        getOptions('on', vnode.attrs.groupId, vnode.attrs.id, 'top');
-
-        getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
         vnode.state = {
             title: get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].title`, 'כותרת השאלה'),
             questionUnsubscribe: {},
@@ -26,8 +19,17 @@ module.exports = {
                 title: '',
                 description: ''
             },
-            orderBy:'new'
+            orderBy: 'new'
         }
+
+        store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
+        sessionStorage.setItem('lastPage', store.lastPage);
+
+        store.options = [];
+        getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
+
+        getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
+       
     },
     onbeforeupdate: vnode => {
         vnode.state.title = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].title`, 'כותרת השאלה');
