@@ -32,12 +32,12 @@ module.exports = {
        
     },
     onbeforeupdate: vnode => {
-        console.log('QUESTION BEFORE')
+       
         vnode.state.title = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].title`, 'כותרת השאלה');
         vnode.state.description = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].description`, '');
     },
     onupdate: vnode => {
-        console.log('QUESTION After')  
+       
     },
     onremove: vnode => {
         getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.id, vnode);

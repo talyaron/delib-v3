@@ -65,7 +65,7 @@ module.exports = {
 
     },
     onupdate: vnode => {
-        console.log('option .... update')
+       
         // elm.style.transition = 'none';
         // elm.style.left = vnode.state.posBefore.left+'px';
         // elm.style.top = vnode.state.posBefore.top + 'px';
@@ -92,35 +92,38 @@ module.exports = {
         //         vnode.state.isAnimating = false;
         //     }, 2000)
         // }
+        
         let elm = document.getElementById(vnode.attrs.optionId)
-        vnode.state.posAfter = {
-            top: elm.offsetTop,
-            left: elm.offsetLeft
-        };
+        if (elm != undefined) {
+            vnode.state.posAfter = {
+                top: elm.offsetTop,
+                left: elm.offsetLeft
+            };
 
-        //move back
-        let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
-        let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
+            //move back
+            let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
+            let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
 
-        console.log('to animate?', !vnode.state.isAnimating)
-        if (!vnode.state.isAnimating) {
-            console.log('animate', topMove)
-            elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
-                {
-                    duration: 0,
-                    begin: (elms) => {
-                        console.log('animating.................')
-                        vnode.state.isAnimating = true;
-                    },
-
-                })
-                .velocity({ top: "0px", left: '0px' }, {
-                    duration: 550,
-                    complete: (elms) => {
-                        vnode.state.isAnimating = false;
-                        // m.redraw();
-                    }
-                }, 'easeInOutCubic')
+            console.log('to animate?', store.optionsLoc[vnode.attrs.optionId].toAnimate)
+            if (store.optionsLoc[vnode.attrs.optionId].toAnimate) {
+                
+                elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
+                    {
+                        duration: 10,
+                        begin: (elms) => {
+                            console.log('animating.................', topMove, leftMove, vnode.attrs.title)                           
+                        },
+                    })
+                    .velocity({ top: "0px", left: '0px' }, {
+                        duration: 500,
+                        complete: (elms) => {
+                            console.log('finished', topMove, leftMove, vnode.attrs.title)
+                           
+                            store.optionsLoc[vnode.attrs.optionId].toAnimate = false;
+                            // m.redraw();
+                        }
+                    }, 'easeInOutCubic')
+            }
         }
         // console.log(leftMove, topMove)
     },

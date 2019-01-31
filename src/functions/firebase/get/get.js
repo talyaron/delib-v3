@@ -140,7 +140,8 @@ function getOptions(onOff, groupId, questionId, order) {
                 if (elm) {
                     store.optionsLoc[optionObj.id] = {
                         top: elm.offsetTop,
-                        left: elm.offsetLeft
+                        left: elm.offsetLeft,
+                        toAnimate: true
                     };
                    
                 } else {
