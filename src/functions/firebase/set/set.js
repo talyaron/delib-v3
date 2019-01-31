@@ -59,4 +59,19 @@ function setLike(groupId, questionId, optionId, creatorId, like) {
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, setLike }
+function setMessage(groupId, questionId, optionId, creatorId, creatorName, message) {
+    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
+        .collection('options').doc(optionId).collection('messages').add({
+            creatorId,
+            creatorName,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+            message
+        }).then(messageDB => {
+           
+           
+        }).catch(error => {
+            console.log('Error:', error)
+        })
+}
+
+module.exports = { createGroup, createQuestion, createOption, setLike, setMessage }

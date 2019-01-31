@@ -36,7 +36,7 @@ header {
     width: 100%;
     background: var(--mainBackground);
     box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.5);
-    padding: 10px;
+    padding: 10px 0px;
     color: var(--mainColor);
     text-align: center;
     font-size: 1.3rem;
@@ -47,6 +47,7 @@ header {
     max-width: 550px;
     margin: 70px auto 30px auto;
     position: relative;
+    z-index: -3;
 }
 
 .groupsWrapper {
@@ -79,7 +80,6 @@ header {
 .cardDescription {
     color: var(--textSubHeader);
     font-size: var(--textSubHeaderSize);
-    
     overflow: hidden;
     text-overflow: ellipsis;
 }

@@ -1,0 +1,50 @@
+.chatOptionHeader {
+    background: var(--subBackground);
+}
+
+header {
+    cursor: pointer;
+    user-select: none;
+}
+
+.chatOptionDescription {
+    background: rgb(236, 236, 236);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chatBox {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background: var(--subBackground);
+    display: flex;
+}
+
+.chatBox>* {
+    margin: 10px;
+}
+
+.chatBox>textarea {
+    width: 100%;
+    height: 3.5rem;
+    border: none;
+    border-radius: 10px;
+    resize: none;
+    padding: 8px;
+    outline: none !important;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 11px;
+    /* -moz-box-shadow: inset 0 0 10px #000000;
+    -webkit-box-shadow: inset 0 0 10px #000000; */
+    box-shadow: inset -2px 2px 4px #00000077;
+    background: wheat;
+}
+
+.chatBox>img {
+    height: 32px;
+    width: 32px;
+    margin-right: 20px;
+}

@@ -1,4 +1,5 @@
 import m from 'mithril';
+import { set } from 'lodash';
 import './Option.css';
 import store from '../../../data/store';
 
@@ -8,6 +9,7 @@ import { json } from 'body-parser';
 
 module.exports = {
     oninit: vnode => {
+        console.dir(vnode.attrs)
         vnode.state = {
             up: false,
             down: false,
@@ -17,6 +19,8 @@ module.exports = {
             isAnimating: false
         }
         getOptionVote('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
+        set(store.optionsDetails, `[${vnode.attrs.optionId}].title`, vnode.attrs.title);
+        set(store.optionsDetails, `[${vnode.attrs.optionId }].description`, vnode.attrs.description);
     },
     onbeforeupdate: vnode => {
         let optionVote = store.optionsVotes[vnode.attrs.optionId]
@@ -93,38 +97,38 @@ module.exports = {
         //     }, 2000)
         // }
         
-        let elm = document.getElementById(vnode.attrs.optionId)
-        if (elm != undefined) {
-            vnode.state.posAfter = {
-                top: elm.offsetTop,
-                left: elm.offsetLeft
-            };
+        // let elm = document.getElementById(vnode.attrs.optionId)
+        // if (elm != undefined) {
+        //     vnode.state.posAfter = {
+        //         top: elm.offsetTop,
+        //         left: elm.offsetLeft
+        //     };
 
-            //move back
-            let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
-            let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
+        //     //move back
+        //     let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
+        //     let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
 
-            console.log('to animate?', store.optionsLoc[vnode.attrs.optionId].toAnimate)
-            if (store.optionsLoc[vnode.attrs.optionId].toAnimate) {
+        //     console.log('to animate?', store.optionsLoc[vnode.attrs.optionId].toAnimate)
+        //     if (store.optionsLoc[vnode.attrs.optionId].toAnimate) {
                 
-                elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
-                    {
-                        duration: 10,
-                        begin: (elms) => {
-                            console.log('animating.................', topMove, leftMove, vnode.attrs.title)                           
-                        },
-                    })
-                    .velocity({ top: "0px", left: '0px' }, {
-                        duration: 500,
-                        complete: (elms) => {
-                            console.log('finished', topMove, leftMove, vnode.attrs.title)
+        //         elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
+        //             {
+        //                 duration: 10,
+        //                 begin: (elms) => {
+                                                     
+        //                 },
+        //             })
+        //             .velocity({ top: "0px", left: '0px' }, {
+        //                 duration: 500,
+        //                 complete: (elms) => {
+        //                     console.log('finished', topMove, leftMove, vnode.attrs.title)
                            
-                            store.optionsLoc[vnode.attrs.optionId].toAnimate = false;
-                            // m.redraw();
-                        }
-                    }, 'easeInOutCubic')
-            }
-        }
+        //                     store.optionsLoc[vnode.attrs.optionId].toAnimate = false;
+        //                     // m.redraw();
+        //                 }
+        //             }, 'easeInOutCubic')
+        //     }
+        // }
         // console.log(leftMove, topMove)
     },
     view: (vnode) => {
@@ -138,7 +142,8 @@ module.exports = {
                             src='img/icons8-facebook-like-32.png'
                         />
                     </div>
-                    <div class='optionContent'>
+                    <div class='optionContent'
+                        onclick={() => { m.route.set('/optionchat/' + vnode.attrs.groupId +'/'+vnode.attrs.questionId+'/'+vnode.attrs.optionId) }}>
                         <div class='cardTitle'>{vnode.attrs.title}</div>
                         <div class='cardDescription'>{vnode.attrs.description}</div>
                     </div>

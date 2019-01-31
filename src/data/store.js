@@ -16,7 +16,8 @@ var store = {
     groups: {}, //groups name
     options: [],//options in a given question
     optionsVotes: {},
-    optionsLoc:{} //vote on options by user
+    optionsLoc: {},
+    optionsDetails:{} //vote on options by user
 }
 
 module.exports = store; 
