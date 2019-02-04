@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { get } from 'lodash';
-import FLIP from '../../functions/FLIP';
+
 import './Question.css';
 import Option from './Option/Option';
 
