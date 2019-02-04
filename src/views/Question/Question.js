@@ -53,75 +53,22 @@ module.exports = {
                     </div>
                     <div class='subHeader'>{vnode.state.description}</div>
                 </div>
-                {
-                    m('div', { class: 'wrapper groupsWrapper', style: "margin-top:150px" },
-                        m(FLIP, {
-                            enter: (vnodeChild, flip) => {
-                                console.log('enter()', vnodeChild, flip)
-                                var anim = [
-                                    { transform: 'translate3d(0,-100%,0)', opacity: 0 },
-                                    { transform: 'none', opacity: 1 },
-                                ]
+                <div class='wrapper groupsWrapper' style="margin-top:150px">
+                    {
 
-                                var waapi = vnodeChild.dom.animate(anim, {
-                                    duration: 1000,
-                                })
+                        store.options.map((option, index) => {
+                            return <Option
+                                groupId={vnode.attrs.groupId}
+                                questionId={vnode.attrs.id}
+                                optionId={option.id}
+                                title={option.title} description={option.description}
+                                consensusPrecentage={option.consensusPrecentage}
+                                key={index}
+                            />
+                        })
+                    }
+                </div>
 
-                                waapi.onfinish = (e) => {
-                                    console.log('finished enter()')
-                                }
-                            },
-
-                            move: (vnodeChild, flip) => {
-                                console.log('move()', vnodeChild, flip)
-                                let flipBounding = flip.boundingClients[vnodeChild.key],
-                                    diff = flipBounding.deltaY,
-                                    anim = [
-                                        { transform: 'translate3d(0,' + diff + 'px,0)', opacity: 0 },
-                                        { transform: 'translate3d(0,0,0)', opacity: 1 },
-                                    ]
-
-                                let waapi = vnodeChild.dom.animate(anim, {
-                                    duration: 1000,
-                                })
-
-                                waapi.onfinish = (e) => {
-                                    console.log('finished move()')
-                                }
-                            },
-
-                            exit: (vnodeChild, flip) => {
-                                console.log('exit()', vnodeChild, flip)
-                                let anim = [
-                                    { transform: 'none', opacity: 1 },
-                                    { transform: 'translate3d(25%,100%,0)', opacity: 0 },
-                                ]
-                                let waapi = vnodeChild.dom.animate(anim, {
-                                    duration: 3000,
-                                })
-
-                                return new Promise((resolve) => {
-                                    waapi.onfinish = function (e) {
-                                        console.log('finished exit()')
-                                        resolve()
-                                    }
-                                })
-                            },
-                        },
-                            store.options.map(listItem)
-                            // store.options.map((option, index) => {
-                            //     return <Option
-                            //         groupId={vnode.attrs.groupId}
-                            //         questionId={vnode.attrs.id}
-                            //         optionId={option.id}
-                            //         title={option.title} description={option.description}
-                            //         consensusPrecentage={option.consensusPrecentage}
-                            //         key={index}
-                            //     />
-                            // })
-                        )
-                    )
-                }
                 <div class='footer'>
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
