@@ -1,5 +1,6 @@
 import m from 'mithril';
 import { get } from 'lodash';
+import FLIP from '../../functions/FLIP';
 import './Question.css';
 import Option from './Option/Option';
 
@@ -29,15 +30,15 @@ module.exports = {
         getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
 
         getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
-       
+
     },
     onbeforeupdate: vnode => {
-       
+
         vnode.state.title = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].title`, 'כותרת השאלה');
         vnode.state.description = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].description`, '');
     },
     onupdate: vnode => {
-       
+
     },
     onremove: vnode => {
         getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.id, vnode);
@@ -46,26 +47,81 @@ module.exports = {
     view: vnode => {
         return (
             <div>
-                <div class='questionHeadr'>
+                <div class='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
                     <div class='mainHeader'>
                         שאלה: {vnode.state.title}
                     </div>
                     <div class='subHeader'>{vnode.state.description}</div>
                 </div>
+                {
+                    m('div', { class: 'wrapper groupsWrapper', style: "margin-top:150px" },
+                        m(FLIP, {
+                            enter: (vnodeChild, flip) => {
+                                console.log('enter()', vnodeChild, flip)
+                                var anim = [
+                                    { transform: 'translate3d(0,-100%,0)', opacity: 0 },
+                                    { transform: 'none', opacity: 1 },
+                                ]
 
-                <div class='wrapper groupsWrapper' style="margin-top:150px">
-                    {
-                        store.options.map((option, index) => {
-                            return <Option
-                                groupId={vnode.attrs.groupId}
-                                questionId={vnode.attrs.id}
-                                optionId={option.id}
-                                title={option.title} description={option.description}
-                                consensusPrecentage={option.consensusPrecentage}
-                            />
-                        })
-                    }
-                </div>
+                                var waapi = vnodeChild.dom.animate(anim, {
+                                    duration: 1000,
+                                })
+
+                                waapi.onfinish = (e) => {
+                                    console.log('finished enter()')
+                                }
+                            },
+
+                            move: (vnodeChild, flip) => {
+                                console.log('move()', vnodeChild, flip)
+                                let flipBounding = flip.boundingClients[vnodeChild.key],
+                                    diff = flipBounding.deltaY,
+                                    anim = [
+                                        { transform: 'translate3d(0,' + diff + 'px,0)', opacity: 0 },
+                                        { transform: 'translate3d(0,0,0)', opacity: 1 },
+                                    ]
+
+                                let waapi = vnodeChild.dom.animate(anim, {
+                                    duration: 1000,
+                                })
+
+                                waapi.onfinish = (e) => {
+                                    console.log('finished move()')
+                                }
+                            },
+
+                            exit: (vnodeChild, flip) => {
+                                console.log('exit()', vnodeChild, flip)
+                                let anim = [
+                                    { transform: 'none', opacity: 1 },
+                                    { transform: 'translate3d(25%,100%,0)', opacity: 0 },
+                                ]
+                                let waapi = vnodeChild.dom.animate(anim, {
+                                    duration: 3000,
+                                })
+
+                                return new Promise((resolve) => {
+                                    waapi.onfinish = function (e) {
+                                        console.log('finished exit()')
+                                        resolve()
+                                    }
+                                })
+                            },
+                        },
+                            store.options.map(listItem)
+                            // store.options.map((option, index) => {
+                            //     return <Option
+                            //         groupId={vnode.attrs.groupId}
+                            //         questionId={vnode.attrs.id}
+                            //         optionId={option.id}
+                            //         title={option.title} description={option.description}
+                            //         consensusPrecentage={option.consensusPrecentage}
+                            //         key={index}
+                            //     />
+                            // })
+                        )
+                    )
+                }
                 <div class='footer'>
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
@@ -112,6 +168,11 @@ module.exports = {
             </div>
         )
     }
+}
+
+function listItem(dataItem) {
+    console.log(listItem)
+    return m('div', { key: dataItem }, dataItem)
 }
 
 function toggleAddOption(vnode) {

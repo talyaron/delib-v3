@@ -41,13 +41,14 @@ header {
     text-align: center;
     font-size: 1.3rem;
     font-weight: 600;
+    z-index: 3;
 }
 
 .wrapper {
     max-width: 550px;
     margin: 70px auto 30px auto;
     position: relative;
-    z-index: -3;
+    z-index: 2;
 }
 
 .groupsWrapper {
@@ -169,11 +170,12 @@ header {
     justify-content: center;
     position: fixed;
     right: 6vw;
-    bottom: 4vh;
+    bottom: 6vh;
     border-radius: 50%;
     box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.5);
     user-select: none;
     cursor: pointer;
+    z-index: 5;
 }
 
 .fav:active {
@@ -196,6 +198,7 @@ header {
     display: flex;
     justify-content: stretch;
     box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 4;
 }
 
 .footerButton {

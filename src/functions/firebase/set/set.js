@@ -67,7 +67,7 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
             time: firebase.firestore.FieldValue.serverTimestamp(),
             message
         }).then(messageDB => {
-           
+            
            
         }).catch(error => {
             console.log('Error:', error)

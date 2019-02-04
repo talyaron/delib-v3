@@ -29,9 +29,8 @@ module.exports = {
         getUserGroups('off', store.user.uid);
     },
     view: (vnode) => {
-
         return (
-            <div class='page'>
+            <div >
                 <header class='groupsHeader'>דליב - קבוצות</header>
                 <div class='wrapper groupsWrapper'>
                     {

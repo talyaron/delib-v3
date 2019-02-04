@@ -47,7 +47,7 @@ module.exports = {
     view: vnode => {
         return (
             <div class='page'>
-                <header>דליב - {vnode.state.groupName}</header>
+                <header onclick={()=>{m.route.set('/groups')}}>דליב - {vnode.state.groupName}</header>
                 <div class='wrapper groupsWrapper'>
                     {
                         vnode.state.questions.map((question, key) => {

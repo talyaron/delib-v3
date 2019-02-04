@@ -16,7 +16,8 @@ module.exports = {
             questionTitle: get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה'),
             optionTitle: get(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות'),
             optionDescription: get(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות'),
-            messages: []
+            messages: [],
+            messagesIds: {} // used to check if message is new
         }
 
         //set last page for login screen
@@ -31,6 +32,10 @@ module.exports = {
     onbeforeupdate: vnode => {
         updateDetials(vnode);
 
+    },
+    onupdate: vnode => {
+        window.scrollTo(0,document.body.scrollHeight );
+       
     },
     onremove: vnode => {
         getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode);
@@ -54,14 +59,22 @@ module.exports = {
                     </div>
                     {
                         vnode.state.messages.map((message, index) => {
-                            return <div class='message'>{message.message}</div>
+                            return (
+                                <div class={message.isNew ? 'message newMessage' : 'message'}>
+                                    <span>{message.creatorName}</span>: {message.message}
+                                </div>
+                            )
                         })
                     }
                 </div>
 
                 <form class='chatBox'>
                     <img src='img/icons8-paper-plane-32.png'></img>
-                    <textarea class='chatInput' autofocus onkeyup={(e) => { sendMessage(e, vnode) }} />
+                    <textarea
+                        class='chatInput'
+                        autofocus
+                        onkeyup={(e) => { sendMessage(e, vnode) }}
+                        value={vnode.state.input} />
                 </form>
             </div>
         )
@@ -75,15 +88,20 @@ function updateDetials(vnode) {
     vnode.state.optionDescription = get(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות');
 }
 
-function sendMessage(e,vnode) {
+function sendMessage(e, vnode) {
     e.preventDefault();
+    vnode.state.input = e.target.value;
     //get input
-    
+
     if (e.key == "Enter") {
+
         let va = vnode.attrs
         console.log(va.groupId, va.questionId, va.optionId);
         setMessage(va.groupId, va.questionId, va.optionId, store.user.uid, store.user.displayName || 'אנונימי', e.target.value)
+        vnode.state.input = ''
     }
-    
+
 }
+
+
 

@@ -21,6 +21,7 @@ header {
     width: 100%;
     background: var(--subBackground);
     display: flex;
+    z-index: 3;
 }
 
 .chatBox>* {
@@ -47,4 +48,30 @@ header {
     height: 32px;
     width: 32px;
     margin-right: 20px;
+}
+
+.message {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background: rgb(157, 221, 157);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.message>span {
+    font-size: .8rem;
+    color: gray;
+}
+.newMessage {
+    animation-name: newMessage;
+    animation-duration: 0.5s;
+}
+
+@keyframes newMessage {
+    from {
+        transform: scale(0, 0);
+    }
+    to {
+        transform: scaleY(1, 1);
+    }
 }

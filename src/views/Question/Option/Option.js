@@ -9,7 +9,7 @@ import { json } from 'body-parser';
 
 module.exports = {
     oninit: vnode => {
-        console.dir(vnode.attrs)
+       
         vnode.state = {
             up: false,
             down: false,

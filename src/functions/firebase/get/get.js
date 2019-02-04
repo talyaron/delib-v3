@@ -96,12 +96,12 @@ function getGroupDetails(onOff, groupId, vnode) {
 function getQuestionDetails(onOff, groupId, questionId, vnode) {
     if (onOff == 'on') {
         DB.collection('groups').doc(groupId)
-        .collection('questions').doc(questionId)
-        .onSnapshot(questionDB => {
-            set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
-            
-            m.redraw();
-        })
+            .collection('questions').doc(questionId)
+            .onSnapshot(questionDB => {
+                set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
+
+                m.redraw();
+            })
     } else {
         var unsubscribe = DB
             .collection('groups').doc(groupId)
@@ -148,7 +148,7 @@ function getOptions(onOff, groupId, questionId, order) {
                     store.optionsLoc[optionObj.id] = { top: 0, left: 0 }
                 }
 
-                console.log('before (DB):', optionObj.title, store.optionsLoc[optionObj.id].top, store.optionsLoc[optionObj.id].left)
+                
 
                 optionsArray.push(optionObj)
             })
@@ -165,11 +165,11 @@ function getOptionDetails(onOff, groupId, questionId, optionId) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId);
-    
+
     if (onOff === 'on') {
         optionRef.onSnapshot(optionDB => {
             store.optionsDetails[optionId] = optionDB.data();
-            console.dir(store.optionsDetails[optionId])        
+
             m.redraw();
         })
     } else {
@@ -186,7 +186,7 @@ function getOptionVote(onOff, groupId, questionId, optionId, creatorId) {
     if (onOff === 'on') {
         voteRef.onSnapshot(voteDB => {
             store.optionsVotes[optionId] = voteDB.data().like;
-            
+
             m.redraw();
         })
     } else {
@@ -201,16 +201,32 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
         .collection('messages');
 
     if (onOff === 'on') {
-        messagesRef.orderBy('time').limit(10).onSnapshot(messagesDB => {
+        messagesRef.orderBy('time', 'desc').limit(10).onSnapshot(messagesDB => {
             let messagesArray = [];
+
+            
             messagesDB.forEach(messageDB => {
-                messagesArray.push(messageDB.data())
+                let tempMessage = messageDB.data();
+                
+                //check if message is new
+                if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
+                  
+                    tempMessage.isNew = true;
+                } else {
+                    tempMessage.isNew = false;
+                }
+
+                messagesArray.unshift(tempMessage);
+                vnode.state.messagesIds[messageDB.id] = true;
             })
             vnode.state.messages = messagesArray;
+           
+            
+
             m.redraw();
         })
     } else {
-        voteRef.onSnapshot(() => { })();
+        messagesRef.onSnapshot(() => { })();
     }
 }
 
