@@ -16,13 +16,18 @@ module.exports = {
             consensusPrecentage: '',
             isConNegative: false,
             posBefore: { top: 0, left: 0 },
-            isAnimating: false
+            isAnimating: false,
+            oldElement: {
+                offsetTop: 0,
+                offsetLeft:0
+            }
         }
         getOptionVote('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
         set(store.optionsDetails, `[${vnode.attrs.optionId}].title`, vnode.attrs.title);
         set(store.optionsDetails, `[${vnode.attrs.optionId }].description`, vnode.attrs.description);
     },
     onbeforeupdate: vnode => {
+        
         let optionVote = store.optionsVotes[vnode.attrs.optionId]
 
         //set conesnsus level to string
@@ -66,75 +71,86 @@ module.exports = {
         // }
 
 
+        // let beforeElement = document.getElementById(vnode.attrs.optionId);
+        // if (beforeElement != null) {
+            
+        //     vnode.state.oldElement = { offsetTop: beforeElement.offsetTop, offsetLeft: beforeElement.offsetLeft };
 
+        //     if (vnode.attrs.optionId == 'fuPyiBpsBzZVxAEoxK5X') {
+        //         console.log('before:', vnode.state.oldElement.offsetTop)
+        //     }
+        // } else {
+        //     if (vnode.attrs.optionId == 'fuPyiBpsBzZVxAEoxK5X') {
+        //         console.log('couldnt find it')
+        //     }
+           
+        // }
     },
     onupdate: vnode => {
-       
-        // elm.style.transition = 'none';
-        // elm.style.left = vnode.state.posBefore.left+'px';
-        // elm.style.top = vnode.state.posBefore.top + 'px';
         
-        // if (!vnode.state.isAnimating) {
-        //     setTimeout(() => {
+        // console.log('update:', vnode.attrs.title, vnode.dom.offsetTop)
+        let element = vnode.dom
+        let elementY = element.offsetTop
+        let elementX = element.offsetLeft;
+        let oldElement = { offsetTop: 0, offsetLeft: 0 };
+        let toAnimate = false;
+        if (store.optionsLoc.hasOwnProperty(vnode.attrs.optionId)) {
+            oldElement = store.optionsLoc[vnode.attrs.optionId];
+            toAnimate = store.optionsLoc[vnode.attrs.optionId].toAnimate;
 
-        //         let elm = document.getElementById(vnode.attrs.optionId)
-        //         vnode.state.posAfter = {
-        //             top: elm.offsetTop,
-        //             left: elm.offsetLeft
-        //         };
-
-        //         console.log('after:', vnode.attrs.title, vnode.state.posAfter.top, vnode.state.posAfter.left)
-
-        //         //move back
-        //         let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
-        //         let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
-
-        //         elm.style.transition = 'all 1s';
-        //         elm.style.left = (-1 * leftMove) + 'px';
-        //         elm.style.top = (-1 * topMove) + 'px';
-
-        //         vnode.state.isAnimating = false;
-        //     }, 2000)
-        // }
+        }
         
-        // let elm = document.getElementById(vnode.attrs.optionId)
-        // if (elm != undefined) {
-        //     vnode.state.posAfter = {
-        //         top: elm.offsetTop,
-        //         left: elm.offsetLeft
-        //     };
-
-        //     //move back
-        //     let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
-        //     let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
-
-        //     console.log('to animate?', store.optionsLoc[vnode.attrs.optionId].toAnimate)
-        //     if (store.optionsLoc[vnode.attrs.optionId].toAnimate) {
+        let topMove = elementY - oldElement.offsetTop;
+        let leftMove = elementX - oldElement.offsetLeft;
+        
+        if (vnode.attrs.optionId == 'fuPyiBpsBzZVxAEoxK5X') {
+            console.log('after:', elementY)
+            console.log(topMove)
+        }
+        // console.log(vnode.attrs.title, vnode.attrs.optionId, topMove, leftMove);
+        // console.log(vnode.attrs.key, vnode.attrs.title, topMove, leftMove)
+        let elementDOM = document.getElementById(vnode.attrs.optionId)
+        if ((Math.abs(topMove) > 30 || Math.abs(leftMove) > 30) && toAnimate) {
+           
+            if (Math.abs(topMove) > 30 || Math.abs(leftMove) > 30) {
+                element.style.background = 'orange'
+                //animate
                 
-        //         elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
-        //             {
-        //                 duration: 10,
-        //                 begin: (elms) => {
-                                                     
-        //                 },
-        //             })
-        //             .velocity({ top: "0px", left: '0px' }, {
-        //                 duration: 500,
-        //                 complete: (elms) => {
-        //                     console.log('finished', topMove, leftMove, vnode.attrs.title)
-                           
-        //                     store.optionsLoc[vnode.attrs.optionId].toAnimate = false;
-        //                     // m.redraw();
-        //                 }
-        //             }, 'easeInOutCubic')
-        //     }
-        // }
-        // console.log(leftMove, topMove)
+                console.log('animate ............', vnode.attrs.title)
+                store.optionsLoc[vnode.attrs.optionId] = { offsetTop: 0, offsetLeft: 0, toAnimate: false }
+
+                elementDOM.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
+                    {
+                        duration: 0,
+                        begin: (elms) => {
+
+                        },
+                    })
+                    .velocity({ top: "0px", left: '0px' }, {
+                        duration: 1200,
+                        complete: (elms) => {
+                            // console.dir(elms)
+                            // elementDOM = document.getElementById(vnode.attrs.optionId)
+                            
+                          
+                            // m.redraw();
+                        }
+                    }, 'easeInOutCubic')
+
+               
+            } else {
+            //    console.log('no change in ', vnode.attrs.title)
+                element.style.background = 'white'
+            }
+        } else {
+            // console.log('NEW ELEMENT....');
+            element.style.background = 'green'
+        }
     },
     view: (vnode) => {
 
         return (
-            <div class='card optionCard' id={vnode.attrs.optionId}>
+            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key}>
                 <div class='optionMain'>
                     <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img

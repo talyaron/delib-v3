@@ -20,7 +20,8 @@ module.exports = {
                 title: '',
                 description: ''
             },
-            orderBy: 'new'
+            orderBy: 'new',
+            options: {}
         }
 
         store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
@@ -38,7 +39,14 @@ module.exports = {
         vnode.state.description = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].description`, '');
     },
     onupdate: vnode => {
+        //get final position
 
+        
+        store.options.forEach(option => {
+
+            // vnode.state.options[option.id] = { x: elementX, y: elementY}
+
+        })
     },
     onremove: vnode => {
         getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.id, vnode);
@@ -72,11 +80,17 @@ module.exports = {
                 <div class='footer'>
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
-                        onclick={() => { orderBy('new', vnode) }}
+                        onclick={() => {
+
+                            orderBy('new', vnode)
+                        }}
                     >חדש</div>
                     <div
                         class={vnode.state.orderBy == 'top' ? 'footerButton footerButtonSelected' : 'footerButton'}
-                        onclick={() => { orderBy('top', vnode) }}
+                        onclick={() => {
+
+                            orderBy('top', vnode)
+                        }}
                     >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
@@ -117,10 +131,7 @@ module.exports = {
     }
 }
 
-function listItem(dataItem) {
-    console.log(listItem)
-    return m('div', { key: dataItem }, dataItem)
-}
+
 
 function toggleAddOption(vnode) {
     vnode.state.addOption = !vnode.state.addOption;

@@ -113,6 +113,7 @@ function getQuestionDetails(onOff, groupId, questionId, vnode) {
 }
 
 function getOptions(onOff, groupId, questionId, order) {
+    console.log('....getOptions.....' + onOff)
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
@@ -130,6 +131,7 @@ function getOptions(onOff, groupId, questionId, order) {
                 orderBy = 'time';
         }
         optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
+            console.log('change in options or reorder.....')
             let optionsArray = [];
             optionsDB.forEach(optionDB => {
                 let optionObj = optionDB.data();
@@ -139,21 +141,22 @@ function getOptions(onOff, groupId, questionId, order) {
                 let elm = document.getElementById(optionObj.id)
                 if (elm) {
                     store.optionsLoc[optionObj.id] = {
-                        top: elm.offsetTop,
-                        left: elm.offsetLeft,
+                        offsetTop: elm.offsetTop,
+                        offsetLeft: elm.offsetLeft,
                         toAnimate: true
                     };
 
                 } else {
-                    store.optionsLoc[optionObj.id] = { top: 0, left: 0 }
+                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false }
                 }
 
-                
+
 
                 optionsArray.push(optionObj)
             })
 
             store.options = optionsArray;
+
             m.redraw()
         })
     } else {
@@ -204,13 +207,13 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
         messagesRef.orderBy('time', 'desc').limit(10).onSnapshot(messagesDB => {
             let messagesArray = [];
 
-            
+
             messagesDB.forEach(messageDB => {
                 let tempMessage = messageDB.data();
-                
+
                 //check if message is new
                 if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
-                  
+
                     tempMessage.isNew = true;
                 } else {
                     tempMessage.isNew = false;
@@ -220,8 +223,8 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
                 vnode.state.messagesIds[messageDB.id] = true;
             })
             vnode.state.messages = messagesArray;
-           
-            
+
+
 
             m.redraw();
         })

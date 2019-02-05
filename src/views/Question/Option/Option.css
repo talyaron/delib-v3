@@ -1,3 +1,6 @@
+#fuPyiBpsBzZVxAEoxK5X {
+    background: blue;
+}
 .optionCard {
     display: flex;
     flex-direction: column;
@@ -5,17 +8,17 @@
     position: relative;
     top: 0px;
     left: 0px;
-    transition: all 1s;
+    /* transition: all 1s; */
     height: 120px;
     animation-name: show;
     animation-duration: 3s;
 }
 
 @keyframes show {
-    from{
+    from {
         background: green
     }
-    to{
+    to {
         background: white;
     }
 }

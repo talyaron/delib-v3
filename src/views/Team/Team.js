@@ -1,114 +1,66 @@
 import m from 'mithril';
-import set from 'lodash/set';
-import get from 'lodash/get';
-import omit from 'lodash/omit';
-import values from 'lodash/values';
-
-import './Team.css';
-
-import Header from '../Commons/Header';
-import Card from '../Commons/Card/Card';
-
+import FLIP from '../../functions/FLIP';
 import store from '../../data/store';
 
 module.exports = {
-    oninit: (vnode) => {
-        getTeamDetials('on', vnode);
-        getIssues(vnode);
-
-        vnode.state = {
-            issues: [],
-
-        }
+    oninit: vnode => {
+        store.lastPage = '/team';
+        sessionStorage.setItem('lastPage', store.lastPage);  
     },
-    onbeforeupdate: (vnode) => {
-        getTeamsFromStore(vnode);
-    },
-    onremove: vnode => {
-        getTeamDetials('off', vnode);
-    },
-    view: (vnode) => {
+    view: vnode => {
+        let data = vnode.attrs.data;
         return (
-            <div class='page'>
-                <Header
-                    topic='צוות'
-                    title={store.current.team.title}
-                    tabBkgColor='white'
-                    color='blue'
-                />
-                <div class='cardsContainer row' dir='rtl'>
-                    {
-                        vnode.state.issues.map((item, i) => {
 
-                            return (
-                                <Card
-                                    title={item.details.title || ''}
-                                    explanation={item.details.explanation || ''}
-                                    linkText='לנושא'
-                                    id={item.id}
-                                    key={i} />
-                            )
-                        })
-                    }
-                </div>
-            </div>
+            m('', {}, [
+                m('div', { style: { display: 'flex', 'overflow': 'hidden' } },
+                    m(FLIP, {
+                        move: (vnodeChild, flip) => {
+                            console.log('move()', vnodeChild, flip)
+                            let flipBounding = flip.boundingClients[vnodeChild.key]
+                            let diff = flipBounding.deltaX
+                            let anim = [
+                                { transform: 'translate3d(' + diff + 'px,0,0)' },
+                                { transform: 'translate3d(0,0,0)' },
+                            ]
 
+                            var waapi = vnodeChild.dom.animate(anim, {
+                                duration: 1000,
+                            })
+                            waapi.onfinish = (e) => {
+                                console.log('finished')
+                            }
+
+                        }
+                    },
+                        listItem(data)
+                    )
+                )
+            ])
 
         )
+
+        function listItem(strData) {
+            var letterKeysDD = FLIP.letterKeysSS(strData)
+            return Array.from(letterKeys).map((dataItem, i) => {
+                return m('div', { key: dataItem.key }, dataItem.letter);
+            })
+        }
     }
 }
 
-function getTeamDetials(onOff, vnode) {
-    if (onOff === 'on') {
-        DB.child('delib-v3/teams/' + vnode.attrs.id + '/details/title').on('value', (detailsDB) => {
+var values = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+]
+var currentIndex = 0
 
-            store.current.team.title = vnode.state.title = detailsDB.val() || 'אין שם לצוות';
-            console.log(vnode.state.title)
-            m.redraw();
-        })
-    } else {
-        DB.child('delib-v3/teams/' + vnode.attrs.id + '/details/title').off
-    }
-}
-
-function getIssues(vnode) {
-
-    DB.child('delib-v3/teams/' + vnode.attrs.id + '/issuesToListen').on('child_added', issuesToListen => {
-
-        set(store, 'orgs[' + issuesToListen.val().org + '.teams[' + vnode.attrs.id + '].issues[' + issuesToListen.key + '].listen', true);
-
-        listenToIssue('on', issuesToListen.key, issuesToListen.val().org, vnode);
-    })
-}
-
-function listenToIssue(onOff, issue, org, vnode) {
-
-    if (onOff == 'on') {
-        DB.child('delib-v3/issues/' + issue + '/details').on('value', issueDetails => {
-            if (issueDetails.exists()) {
-                set(store, 'orgs[' + org + '.teams[' + vnode.attrs.id + '].issues[' + issue + ']', {
-                    details: issueDetails.val(),
-                    id: issue
-                });
-                console.dir(store)
-                m.redraw();
-            } else {
-                omit(store, issue, 'orgs[' + org + '.teams[' + vnode.attrs.id + '].issues');
-
-                console.error('listenToIssue: Issue', issue, 'in team', vnode.attrs.id, 'does not exists')
-            }
-
-        })
-    }
-    if (onOff == 'off') {
-        DB.child('delib-v3/issues/' + issue + '/details').off('value');
-    }
-
-}
-
-function getTeamsFromStore(vnode) {
-
-    var issuesInStore = get(store, 'teams[' + vnode.attrs.id + '].issues', {});
-    vnode.state.issues = values(issuesInStore);
-
-}
