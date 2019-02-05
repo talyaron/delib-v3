@@ -107,7 +107,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
 }
 
 function getOptions(onOff, groupId, questionId, order) {
-    console.log('....getOptions.....' + onOff)
+   
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
@@ -124,8 +124,8 @@ function getOptions(onOff, groupId, questionId, order) {
             default:
                 orderBy = 'time';
         }
-        let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
-            console.log('change in options or reorder.....')
+        let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+            
             let optionsArray = [];
             optionsDB.forEach(optionDB => {
                 let optionObj = optionDB.data();
@@ -137,14 +137,13 @@ function getOptions(onOff, groupId, questionId, order) {
                     store.optionsLoc[optionObj.id] = {
                         offsetTop: elm.offsetTop,
                         offsetLeft: elm.offsetLeft,
-                        toAnimate: true
+                        toAnimate: true,
+                        new:false
                     };
 
                 } else {
-                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false }
+                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new:true }
                 }
-
-
 
                 optionsArray.push(optionObj)
             })
@@ -155,7 +154,7 @@ function getOptions(onOff, groupId, questionId, order) {
             m.redraw();
 
         })
-        console.dir(unsubscribe)
+       
         return unsubscribe;
     } else {
         optionRef.onSnapshot(() => { })();
@@ -178,21 +177,19 @@ function getOptionDetails(onOff, groupId, questionId, optionId) {
     }
 }
 
-function getOptionVote(onOff, groupId, questionId, optionId, creatorId) {
+function getOptionVote(groupId, questionId, optionId, creatorId) {
     let voteRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId)
         .collection('likes').doc(creatorId);
 
-    if (onOff === 'on') {
-        voteRef.onSnapshot(voteDB => {
-            store.optionsVotes[optionId] = voteDB.data().like;
-
-            m.redraw();
-        })
-    } else {
-        voteRef.onSnapshot(() => { })();
-    }
+    
+    let unsubscribe = voteRef.onSnapshot(voteDB => {
+        store.optionsVotes[optionId] = voteDB.data().like;
+        m.redraw();
+    });
+    return unsubscribe;
+    
 }
 
 function getMessages(onOff, groupId, questionId, optionId, vnode) {

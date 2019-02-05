@@ -1,6 +1,7 @@
-.wrapper{
-    margin: 120px auto 150px auto;
+.wrapper {
+    margin: 0px auto 120px auto;
 }
+
 .questionHeadr {
     background: var(--mainBackground);
     color: white;
@@ -20,6 +21,31 @@
 }
 
 .subHeader {
-    background: var(--subBackground);
-    padding: 20px;
+    background: var(--accent);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    width: 90%;
+    max-width: 550px;
+    z-index: 5;
+    transform: translate(-50%, 0vh);
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.582);
+}
+
+.hideOnScroll {
+    animation-name: hideOnScroll;
+    animation-duration: 3s;
+    animation-fill-mode: forwards
+}
+
+@keyframes hideOnScroll {
+    from {
+        transform: scaleY(1) translate(-50%, 0vh);
+    }
+    to {
+        transform: scaleY(0) translate(-50%, -50vh);
+    }
 }

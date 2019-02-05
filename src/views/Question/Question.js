@@ -22,7 +22,8 @@ module.exports = {
                 description: ''
             },
             orderBy: 'top',
-            options: {}
+            options: {},
+            scrollY:false
         }
 
         store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
@@ -32,7 +33,16 @@ module.exports = {
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
 
 
-        vnode.state.unsubscribeQuestion = getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
+        
+        //scroll detection
+        let oldScroll = 0, scrollY = 0;
+        window.onscroll = function (e) {
+            // print "false" if direction is down and "true" if up
+            if (this.oldScroll < this.scrollY) { vnode.state.scrollY = true; m.redraw() }
+            this.oldScroll = this.scrollY;
+            console.log(vnode.state.scrollY)
+        }
 
     },
     onbeforeupdate: vnode => {
@@ -55,14 +65,16 @@ module.exports = {
         vnode.state.unsubscribeQuestion();
     },
     view: vnode => {
+        console.log('re:', vnode.state.scrollY)
         return (
             <div>
                 <div class='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
                     <div class='mainHeader'>
                         שאלה: {vnode.state.title}
                     </div>
-                    <div class='subHeader'>{vnode.state.description}</div>
+                 
                 </div>
+                <div class={vnode.state.scrollY ? 'subHeader hideOnScroll' : 'subHeader'}>{vnode.state.description}</div>
                 <div class='wrapper groupsWrapper' style="margin-top:150px">
                     {
 
