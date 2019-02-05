@@ -9,20 +9,25 @@ import { json } from 'body-parser';
 
 module.exports = {
     oninit: vnode => {
-       
+
         vnode.state = {
             up: false,
             down: false,
             consensusPrecentage: '',
             isConNegative: false,
             posBefore: { top: 0, left: 0 },
-            isAnimating: false
+            isAnimating: false,
+            oldElement: {
+                offsetTop: 0,
+                offsetLeft: 0
+            }
         }
-        getOptionVote('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
+        vnode.state.likeUnsubscribe = getOptionVote( vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
         set(store.optionsDetails, `[${vnode.attrs.optionId}].title`, vnode.attrs.title);
-        set(store.optionsDetails, `[${vnode.attrs.optionId }].description`, vnode.attrs.description);
+        set(store.optionsDetails, `[${vnode.attrs.optionId}].description`, vnode.attrs.description);
     },
     onbeforeupdate: vnode => {
+
         let optionVote = store.optionsVotes[vnode.attrs.optionId]
 
         //set conesnsus level to string
@@ -52,89 +57,50 @@ module.exports = {
             vnode.state.down = false;
         }
 
-
-        //get before position
-        // let elm = document.getElementById(vnode.attrs.optionId)
-        // if (elm) {
-        //     store.optionsLoc[vnode.attrs.optionId] = {
-        //         top: elm.offsetTop,
-        //         left: elm.offsetLeft
-        //     };
-        //     console.log('before:', vnode.attrs.title, vnode.state.posBefore.top, vnode.state.posBefore.left)
-        // } else {
-        //     vnode.state.posBefore = {top:0, left:0}
-        // }
-
-
-
     },
     onupdate: vnode => {
+
+
+        //animation 
+        let element = vnode.dom
+        let elementY = element.offsetTop
+        let elementX = element.offsetLeft;
+        let oldElement = { offsetTop: 0, offsetLeft: 0 };
+        let toAnimate = false;
        
-        // elm.style.transition = 'none';
-        // elm.style.left = vnode.state.posBefore.left+'px';
-        // elm.style.top = vnode.state.posBefore.top + 'px';
-        
-        // if (!vnode.state.isAnimating) {
-        //     setTimeout(() => {
+        if (store.optionsLoc.hasOwnProperty(vnode.attrs.optionId)) {
+            oldElement = store.optionsLoc[vnode.attrs.optionId];
+            toAnimate = store.optionsLoc[vnode.attrs.optionId].toAnimate;            
+        }
 
-        //         let elm = document.getElementById(vnode.attrs.optionId)
-        //         vnode.state.posAfter = {
-        //             top: elm.offsetTop,
-        //             left: elm.offsetLeft
-        //         };
+        let topMove = elementY - oldElement.offsetTop;
+        let leftMove = elementX - oldElement.offsetLeft;        
+       
+        if ((Math.abs(topMove) > 30 || Math.abs(leftMove) > 30) && toAnimate) {
+            let elementDOM = document.getElementById(vnode.attrs.optionId);
 
-        //         console.log('after:', vnode.attrs.title, vnode.state.posAfter.top, vnode.state.posAfter.left)
+            //animate
+            store.optionsLoc[vnode.attrs.optionId] = { offsetTop: 0, offsetLeft: 0, toAnimate: false }
 
-        //         //move back
-        //         let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
-        //         let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
-
-        //         elm.style.transition = 'all 1s';
-        //         elm.style.left = (-1 * leftMove) + 'px';
-        //         elm.style.top = (-1 * topMove) + 'px';
-
-        //         vnode.state.isAnimating = false;
-        //     }, 2000)
-        // }
-        
-        // let elm = document.getElementById(vnode.attrs.optionId)
-        // if (elm != undefined) {
-        //     vnode.state.posAfter = {
-        //         top: elm.offsetTop,
-        //         left: elm.offsetLeft
-        //     };
-
-        //     //move back
-        //     let leftMove = vnode.state.posAfter.left - store.optionsLoc[vnode.attrs.optionId].left;
-        //     let topMove = vnode.state.posAfter.top - store.optionsLoc[vnode.attrs.optionId].top;
-
-        //     console.log('to animate?', store.optionsLoc[vnode.attrs.optionId].toAnimate)
-        //     if (store.optionsLoc[vnode.attrs.optionId].toAnimate) {
-                
-        //         elm.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
-        //             {
-        //                 duration: 10,
-        //                 begin: (elms) => {
-                                                     
-        //                 },
-        //             })
-        //             .velocity({ top: "0px", left: '0px' }, {
-        //                 duration: 500,
-        //                 complete: (elms) => {
-        //                     console.log('finished', topMove, leftMove, vnode.attrs.title)
-                           
-        //                     store.optionsLoc[vnode.attrs.optionId].toAnimate = false;
-        //                     // m.redraw();
-        //                 }
-        //             }, 'easeInOutCubic')
-        //     }
-        // }
-        // console.log(leftMove, topMove)
+            elementDOM.velocity({ top: (-1 * topMove) + "px", left: (-1 * leftMove) + "px" },
+                {
+                    duration: 0,
+                    begin: (elms) => {
+                    },
+                })
+                .velocity({ top: "0px", left: '0px' }, {
+                    duration: 750,
+                    complete: (elms) => { }
+                }, 'easeInOutCubic');
+        }
+    },
+    onremove: vnode => {
+        vnode.state.likeUnsubscribe();  
     },
     view: (vnode) => {
 
         return (
-            <div class='card optionCard' id={vnode.attrs.optionId}>
+            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key}>
                 <div class='optionMain'>
                     <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img
@@ -143,7 +109,7 @@ module.exports = {
                         />
                     </div>
                     <div class='optionContent'
-                        onclick={() => { m.route.set('/optionchat/' + vnode.attrs.groupId +'/'+vnode.attrs.questionId+'/'+vnode.attrs.optionId) }}>
+                        onclick={() => { m.route.set('/optionchat/' + vnode.attrs.groupId + '/' + vnode.attrs.questionId + '/' + vnode.attrs.optionId) }}>
                         <div class='cardTitle'>{vnode.attrs.title}</div>
                         <div class='cardDescription'>{vnode.attrs.description}</div>
                     </div>

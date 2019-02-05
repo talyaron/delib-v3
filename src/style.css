@@ -54,6 +54,8 @@ header {
 .groupsWrapper {
     display: grid;
     grid-template-columns: 50% 50%;
+    /* display: flex;
+    flex-wrap: wrap; */
 }
 
 @media screen and (max-width: 480px) {

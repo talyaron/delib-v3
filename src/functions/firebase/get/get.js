@@ -93,26 +93,21 @@ function getGroupDetails(onOff, groupId, vnode) {
     }
 }
 
-function getQuestionDetails(onOff, groupId, questionId, vnode) {
-    if (onOff == 'on') {
-        DB.collection('groups').doc(groupId)
-            .collection('questions').doc(questionId)
-            .onSnapshot(questionDB => {
-                set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
+function getQuestionDetails(groupId, questionId, vnode) {
 
-                m.redraw();
-            })
-    } else {
-        var unsubscribe = DB
-            .collection('groups').doc(groupId)
-            .collection('questions').doc(questionId)
-            .onSnapshot(function () { })()
+    let unsubscribe = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .onSnapshot(questionDB => {
+            set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
 
-        // unsubscribe();
-    }
+            m.redraw();
+        })
+
+    return unsubscribe;
 }
 
 function getOptions(onOff, groupId, questionId, order) {
+   
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
@@ -129,7 +124,8 @@ function getOptions(onOff, groupId, questionId, order) {
             default:
                 orderBy = 'time';
         }
-        optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
+        let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+            
             let optionsArray = [];
             optionsDB.forEach(optionDB => {
                 let optionObj = optionDB.data();
@@ -139,23 +135,27 @@ function getOptions(onOff, groupId, questionId, order) {
                 let elm = document.getElementById(optionObj.id)
                 if (elm) {
                     store.optionsLoc[optionObj.id] = {
-                        top: elm.offsetTop,
-                        left: elm.offsetLeft,
-                        toAnimate: true
+                        offsetTop: elm.offsetTop,
+                        offsetLeft: elm.offsetLeft,
+                        toAnimate: true,
+                        new:false
                     };
 
                 } else {
-                    store.optionsLoc[optionObj.id] = { top: 0, left: 0 }
+                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new:true }
                 }
-
-                
 
                 optionsArray.push(optionObj)
             })
 
+
             store.options = optionsArray;
-            m.redraw()
+
+            m.redraw();
+
         })
+       
+        return unsubscribe;
     } else {
         optionRef.onSnapshot(() => { })();
     }
@@ -177,21 +177,19 @@ function getOptionDetails(onOff, groupId, questionId, optionId) {
     }
 }
 
-function getOptionVote(onOff, groupId, questionId, optionId, creatorId) {
+function getOptionVote(groupId, questionId, optionId, creatorId) {
     let voteRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId)
         .collection('likes').doc(creatorId);
 
-    if (onOff === 'on') {
-        voteRef.onSnapshot(voteDB => {
-            store.optionsVotes[optionId] = voteDB.data().like;
-
-            m.redraw();
-        })
-    } else {
-        voteRef.onSnapshot(() => { })();
-    }
+    
+    let unsubscribe = voteRef.onSnapshot(voteDB => {
+        store.optionsVotes[optionId] = voteDB.data().like;
+        m.redraw();
+    });
+    return unsubscribe;
+    
 }
 
 function getMessages(onOff, groupId, questionId, optionId, vnode) {
@@ -204,13 +202,13 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
         messagesRef.orderBy('time', 'desc').limit(10).onSnapshot(messagesDB => {
             let messagesArray = [];
 
-            
+
             messagesDB.forEach(messageDB => {
                 let tempMessage = messageDB.data();
-                
+
                 //check if message is new
                 if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
-                  
+
                     tempMessage.isNew = true;
                 } else {
                     tempMessage.isNew = false;
@@ -220,8 +218,8 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
                 vnode.state.messagesIds[messageDB.id] = true;
             })
             vnode.state.messages = messagesArray;
-           
-            
+
+
 
             m.redraw();
         })

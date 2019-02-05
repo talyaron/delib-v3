@@ -9,6 +9,7 @@ import store from '../../data/store';
 import { getQuestionDetails, getOptions } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
 
+
 module.exports = {
     oninit: vnode => {
 
@@ -20,16 +21,28 @@ module.exports = {
                 title: '',
                 description: ''
             },
-            orderBy: 'new'
+            orderBy: 'top',
+            options: {},
+            scrollY:false
         }
 
         store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
         sessionStorage.setItem('lastPage', store.lastPage);
 
         store.options = [];
-        getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
+        vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
 
-        getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
+
+        vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
+        
+        //scroll detection
+        let oldScroll = 0, scrollY = 0;
+        window.onscroll = function (e) {
+            // print "false" if direction is down and "true" if up
+            if (this.oldScroll < this.scrollY) { vnode.state.scrollY = true; m.redraw() }
+            this.oldScroll = this.scrollY;
+            console.log(vnode.state.scrollY)
+        }
 
     },
     onbeforeupdate: vnode => {
@@ -38,21 +51,30 @@ module.exports = {
         vnode.state.description = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].description`, '');
     },
     onupdate: vnode => {
+        //get final position
 
+
+        store.options.forEach(option => {
+
+            // vnode.state.options[option.id] = { x: elementX, y: elementY}
+
+        })
     },
     onremove: vnode => {
-        getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.id, vnode);
-        getOptions('off', vnode.attrs.groupId, vnode.attrs.id);
+        vnode.state.unsubscribeOptions();
+        vnode.state.unsubscribeQuestion();
     },
     view: vnode => {
+        console.log('re:', vnode.state.scrollY)
         return (
             <div>
                 <div class='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
                     <div class='mainHeader'>
                         שאלה: {vnode.state.title}
                     </div>
-                    <div class='subHeader'>{vnode.state.description}</div>
+                 
                 </div>
+                <div class={vnode.state.scrollY ? 'subHeader hideOnScroll' : 'subHeader'}>{vnode.state.description}</div>
                 <div class='wrapper groupsWrapper' style="margin-top:150px">
                     {
 
@@ -72,11 +94,17 @@ module.exports = {
                 <div class='footer'>
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
-                        onclick={() => { orderBy('new', vnode) }}
+                        onclick={() => {
+                        
+                            orderBy('new', vnode)
+                        }}
                     >חדש</div>
                     <div
                         class={vnode.state.orderBy == 'top' ? 'footerButton footerButtonSelected' : 'footerButton'}
-                        onclick={() => { orderBy('top', vnode) }}
+                        onclick={() => {
+
+                            orderBy('top', vnode)
+                        }}
                     >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
@@ -117,17 +145,16 @@ module.exports = {
     }
 }
 
-function listItem(dataItem) {
-    console.log(listItem)
-    return m('div', { key: dataItem }, dataItem)
-}
+
 
 function toggleAddOption(vnode) {
     vnode.state.addOption = !vnode.state.addOption;
 }
 
 function orderBy(order, vnode) {
-    getOptions('off', vnode.attrs.groupId, vnode.attrs.id, order);
-    getOptions('on', vnode.attrs.groupId, vnode.attrs.id, order);
+    // getOptions('off', vnode.attrs.groupId, vnode.attrs.id, order);
+
+    vnode.state.unsubscribeOptions();
+    vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, order);
     vnode.state.orderBy = order
 }
