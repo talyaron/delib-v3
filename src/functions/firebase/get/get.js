@@ -93,23 +93,17 @@ function getGroupDetails(onOff, groupId, vnode) {
     }
 }
 
-function getQuestionDetails(onOff, groupId, questionId, vnode) {
-    if (onOff == 'on') {
-        DB.collection('groups').doc(groupId)
-            .collection('questions').doc(questionId)
-            .onSnapshot(questionDB => {
-                set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
+function getQuestionDetails(groupId, questionId, vnode) {
 
-                m.redraw();
-            })
-    } else {
-        var unsubscribe = DB
-            .collection('groups').doc(groupId)
-            .collection('questions').doc(questionId)
-            .onSnapshot(function () { })()
+    let unsubscribe = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .onSnapshot(questionDB => {
+            set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
 
-        // unsubscribe();
-    }
+            m.redraw();
+        })
+
+    return unsubscribe;
 }
 
 function getOptions(onOff, groupId, questionId, order) {
@@ -130,7 +124,7 @@ function getOptions(onOff, groupId, questionId, order) {
             default:
                 orderBy = 'time';
         }
-        optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
+        let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(6).onSnapshot(optionsDB => {
             console.log('change in options or reorder.....')
             let optionsArray = [];
             optionsDB.forEach(optionDB => {
@@ -155,10 +149,14 @@ function getOptions(onOff, groupId, questionId, order) {
                 optionsArray.push(optionObj)
             })
 
+
             store.options = optionsArray;
 
-            m.redraw()
+            m.redraw();
+
         })
+        console.dir(unsubscribe)
+        return unsubscribe;
     } else {
         optionRef.onSnapshot(() => { })();
     }

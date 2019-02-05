@@ -9,6 +9,7 @@ import store from '../../data/store';
 import { getQuestionDetails, getOptions } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
 
+
 module.exports = {
     oninit: vnode => {
 
@@ -20,7 +21,7 @@ module.exports = {
                 title: '',
                 description: ''
             },
-            orderBy: 'new',
+            orderBy: 'top',
             options: {}
         }
 
@@ -28,9 +29,10 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         store.options = [];
-        getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
+        vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
 
-        getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
+
+        vnode.state.unsubscribeQuestion = getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.id, vnode);
 
     },
     onbeforeupdate: vnode => {
@@ -41,7 +43,7 @@ module.exports = {
     onupdate: vnode => {
         //get final position
 
-        
+
         store.options.forEach(option => {
 
             // vnode.state.options[option.id] = { x: elementX, y: elementY}
@@ -49,8 +51,8 @@ module.exports = {
         })
     },
     onremove: vnode => {
-        getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.id, vnode);
-        getOptions('off', vnode.attrs.groupId, vnode.attrs.id);
+        vnode.state.unsubscribeOptions();
+        vnode.state.unsubscribeQuestion();
     },
     view: vnode => {
         return (
@@ -81,7 +83,7 @@ module.exports = {
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
                         onclick={() => {
-
+                        
                             orderBy('new', vnode)
                         }}
                     >חדש</div>
@@ -138,7 +140,9 @@ function toggleAddOption(vnode) {
 }
 
 function orderBy(order, vnode) {
-    getOptions('off', vnode.attrs.groupId, vnode.attrs.id, order);
-    getOptions('on', vnode.attrs.groupId, vnode.attrs.id, order);
+    // getOptions('off', vnode.attrs.groupId, vnode.attrs.id, order);
+
+    vnode.state.unsubscribeOptions();
+    vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, order);
     vnode.state.orderBy = order
 }

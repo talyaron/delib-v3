@@ -113,7 +113,7 @@ module.exports = {
         if ((Math.abs(topMove) > 30 || Math.abs(leftMove) > 30) && toAnimate) {
            
             if (Math.abs(topMove) > 30 || Math.abs(leftMove) > 30) {
-                element.style.background = 'orange'
+                // element.style.background = 'orange'
                 //animate
                 
                 console.log('animate ............', vnode.attrs.title)
@@ -140,11 +140,11 @@ module.exports = {
                
             } else {
             //    console.log('no change in ', vnode.attrs.title)
-                element.style.background = 'white'
+                // element.style.background = 'white'
             }
         } else {
             // console.log('NEW ELEMENT....');
-            element.style.background = 'green'
+            // element.style.background = 'green'
         }
     },
     view: (vnode) => {
