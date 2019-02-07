@@ -3,6 +3,7 @@ import { deep_value } from '../../functions/general'
 
 import './Question.css';
 import Option from './Option/Option';
+import Message from '../Commons/Message/Message';
 
 import store from '../../data/store';
 
@@ -75,7 +76,7 @@ module.exports = {
                     </div>
 
                 </div>
-                <div class={vnode.state.scrollY ? 'subHeader hideOnScroll' : 'subHeader'}>{vnode.state.description}</div>
+                <Message title='הסבר על השאלה:' content={vnode.state.description}/>
                 <div class='wrapper groupsWrapper' style="margin-top:150px">
                     {
 
