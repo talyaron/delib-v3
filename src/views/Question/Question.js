@@ -32,6 +32,14 @@ module.exports = {
 
         store.options = [];
 
+        // help show message only one time
+        if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
+            console.log('shown in the past')
+            store.messagesShow[vnode.attrs.id] = false
+        } else {
+            console.log('not shown in the past')
+            store.messagesShow[vnode.attrs.id] = true
+        }
 
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
@@ -76,7 +84,7 @@ module.exports = {
                     </div>
 
                 </div>
-                <Message title='הסבר על השאלה:' content={vnode.state.description}/>
+                <Message title='הסבר על השאלה:' content={vnode.state.description} toShow={store.messagesShow[vnode.attrs.id]}/>
                 <div class='wrapper groupsWrapper' style="margin-top:150px">
                     {
 

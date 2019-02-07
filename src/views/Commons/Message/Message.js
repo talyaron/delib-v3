@@ -5,7 +5,7 @@ module.exports = {
 
     oninit: vnode => {
         vnode.state = { show: true };
-        
+        vnode.state.show = vnode.attrs.toShow;  
     },
     view: vnode => {
 
