@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { deep_value} from '../../functions/general'
+import { deep_value } from '../../functions/general'
 
 import './Question.css';
 import Option from './Option/Option';
@@ -23,7 +23,7 @@ module.exports = {
             },
             orderBy: 'top',
             options: {},
-            scrollY:false
+            scrollY: false
         }
 
         store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
@@ -34,14 +34,14 @@ module.exports = {
 
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        
+
         //scroll detection
-        
+
         window.onscroll = function (e) {
-           
+
             if (this.oldScroll < this.scrollY) { vnode.state.scrollY = true; m.redraw() }
             this.oldScroll = this.scrollY;
-            
+
         }
 
     },
@@ -49,7 +49,7 @@ module.exports = {
 
         vnode.state.title = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה');
         vnode.state.description = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.description`, '');
-       
+
     },
     onupdate: vnode => {
         //get final position
@@ -66,14 +66,14 @@ module.exports = {
         vnode.state.unsubscribeQuestion();
     },
     view: vnode => {
-       
+
         return (
             <div>
                 <div class='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
                     <div class='mainHeader'>
                         שאלה: {vnode.state.title}
                     </div>
-                 
+
                 </div>
                 <div class={vnode.state.scrollY ? 'subHeader hideOnScroll' : 'subHeader'}>{vnode.state.description}</div>
                 <div class='wrapper groupsWrapper' style="margin-top:150px">
@@ -96,7 +96,7 @@ module.exports = {
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
                         onclick={() => {
-                        
+
                             orderBy('new', vnode)
                         }}
                     >חדש</div>
@@ -109,7 +109,7 @@ module.exports = {
                     >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
-                <div class='fav' onclick={() => { toggleAddOption(vnode) }} >
+                <div class='fav' onclick={() => { toggleAddOption('on', vnode) }} >
                     <div>+</div>
                 </div>
                 {vnode.state.addOption ?
@@ -131,10 +131,10 @@ module.exports = {
                             </div>
                             <div class='moduleButtons'>
                                 <div class='buttons confirm' onclick={() => {
-                                    toggleAddOption(vnode);
+                                    toggleAddOption('off', vnode);
                                     createOption(vnode.attrs.groupId, vnode.attrs.id, store.user.uid, vnode.state.add.title, vnode.state.add.description)
                                 }}>הוספה</div>
-                                <div class='buttons cancel' onclick={() => { toggleAddOption(vnode) }}>ביטול</div>
+                                <div class='buttons cancel' onclick={() => { toggleAddOption('off', vnode) }}>ביטול</div>
                             </div>
                         </div>
                     </div>
@@ -148,8 +148,12 @@ module.exports = {
 
 
 
-function toggleAddOption(vnode) {
-    vnode.state.addOption = !vnode.state.addOption;
+function toggleAddOption(onOff, vnode) {
+    if (onOff == 'on') {
+        vnode.state.addOption = true;
+    } else {
+        vnode.state.addOption = false;
+    }
 }
 
 function orderBy(order, vnode) {
