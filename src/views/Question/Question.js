@@ -4,6 +4,7 @@ import { deep_value } from '../../functions/general'
 import './Question.css';
 import Option from './Option/Option';
 import Message from '../Commons/Message/Message';
+import Spinner from '../Commons/Spinner/Spinner';
 
 import store from '../../data/store';
 
@@ -84,9 +85,15 @@ module.exports = {
                     </div>
 
                 </div>
-                <Message title='הסבר על השאלה:' content={vnode.state.description} toShow={store.messagesShow[vnode.attrs.id]}/>
+                {store.options.length == 0?<div />:
+                    <Message
+                        title='הסבר על השאלה:'
+                        content={vnode.state.description}
+                        toShow={store.messagesShow[vnode.attrs.id]}
+                    />
+                }
                 <div class='wrapper groupsWrapper' style="margin-top:150px">
-                    {
+                    {store.options.length == 0?<Spinner />:
 
                         store.options.map((option, index) => {
                             return <Option
