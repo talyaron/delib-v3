@@ -78,6 +78,8 @@ header {
     font-size: var(--textHeaderSize);
     font-weight: var(--textHeaderWeight);
     margin-bottom: 10px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;  
 }
 
 .cardDescription {

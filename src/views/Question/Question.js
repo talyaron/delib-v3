@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { get } from 'lodash';
+import { deep_value} from '../../functions/general'
 
 import './Question.css';
 import Option from './Option/Option';
@@ -14,7 +14,7 @@ module.exports = {
     oninit: vnode => {
 
         vnode.state = {
-            title: get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].title`, 'כותרת השאלה'),
+            title: deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה'),
             questionUnsubscribe: {},
             addOption: false,
             add: {
@@ -30,25 +30,26 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         store.options = [];
+
+
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
-
-
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
         
         //scroll detection
-        let oldScroll = 0, scrollY = 0;
+        
         window.onscroll = function (e) {
-            // print "false" if direction is down and "true" if up
+           
             if (this.oldScroll < this.scrollY) { vnode.state.scrollY = true; m.redraw() }
             this.oldScroll = this.scrollY;
-            console.log(vnode.state.scrollY)
+            
         }
 
     },
     onbeforeupdate: vnode => {
 
-        vnode.state.title = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].title`, 'כותרת השאלה');
-        vnode.state.description = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.id}].description`, '');
+        vnode.state.title = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה');
+        vnode.state.description = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.description`, '');
+       
     },
     onupdate: vnode => {
         //get final position
@@ -65,7 +66,7 @@ module.exports = {
         vnode.state.unsubscribeQuestion();
     },
     view: vnode => {
-        console.log('re:', vnode.state.scrollY)
+       
         return (
             <div>
                 <div class='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>

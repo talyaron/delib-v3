@@ -1,5 +1,7 @@
 import m from 'mithril';
-import { get } from 'lodash';
+
+import { deep_value } from '../../functions/general';
+
 import './GroupPage.css';
 import Group from '../Groups/Group/Group';
 import store from '../../data/store';
@@ -21,7 +23,7 @@ module.exports = {
             addQuestion: false,
             questions: [],
             unsubscribe: {},
-            groupName: get(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה')
+            groupName: deep_value(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה')
         }
 
         getQuestions('on', vnode.attrs.id, vnode);
@@ -30,7 +32,7 @@ module.exports = {
     onbeforeupdate: vnode => {
 
         //update name of group
-        vnode.state.groupName = get(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה');
+        vnode.state.groupName = deep_value(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה');
         document.title = `דליב - ${vnode.state.groupName}`
 
         //update array of questions

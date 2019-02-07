@@ -1,11 +1,11 @@
 import m from 'mithril';
-import { set } from 'lodash';
+
 import './Option.css';
 import store from '../../../data/store';
 
 import { setLike } from '../../../functions/firebase/set/set';
 import { getOptionVote } from '../../../functions/firebase/get/get';
-import { json } from 'body-parser';
+
 
 module.exports = {
     oninit: vnode => {
@@ -23,8 +23,12 @@ module.exports = {
             }
         }
         vnode.state.likeUnsubscribe = getOptionVote( vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
-        set(store.optionsDetails, `[${vnode.attrs.optionId}].title`, vnode.attrs.title);
-        set(store.optionsDetails, `[${vnode.attrs.optionId}].description`, vnode.attrs.description);
+        // set(store.optionsDetails, `[${vnode.attrs.optionId}].title`, vnode.attrs.title);
+        // set(store.optionsDetails, `[${vnode.attrs.optionId}].description`, vnode.attrs.description);
+        store.optionsDetails[vnode.attrs.optionId] = {
+            title: vnode.attrs.title,
+            description: vnode.attrs.description
+        }
     },
     onbeforeupdate: vnode => {
 
@@ -153,4 +157,6 @@ function setSelection(upDown, vnode) {
         }
     }
 }
+
+
 

@@ -1,5 +1,6 @@
 import m from 'mithril';
-import { get } from 'lodash';
+
+import { deep_value } from '../../functions/general';
 
 import './ChatPage.css';
 
@@ -13,9 +14,9 @@ module.exports = {
 
         //initilize state from store
         vnode.state = {
-            questionTitle: get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה'),
-            optionTitle: get(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות'),
-            optionDescription: get(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות'),
+            questionTitle: deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה'),
+            optionTitle: deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות'),
+            optionDescription: deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות'),
             messages: [],
             messagesIds: {} // used to check if message is new
         }
@@ -83,9 +84,11 @@ module.exports = {
 
 function updateDetials(vnode) {
     //update details
-    vnode.state.questionTitle = get(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה');
-    vnode.state.optionTitle = get(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות');
-    vnode.state.optionDescription = get(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות');
+    
+        // vnode.state.questionTitle = deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה');
+    vnode.state.questionTitle = deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה');
+    vnode.state.optionTitle = deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות');
+    vnode.state.optionDescription = deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות');
 }
 
 function sendMessage(e, vnode) {
@@ -102,6 +105,8 @@ function sendMessage(e, vnode) {
     }
 
 }
+
+
 
 
 

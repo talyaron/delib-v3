@@ -1,7 +1,7 @@
 import m from 'mithril';
 import DB from '../config';
 import store from '../../../data/store';
-import { set } from 'lodash';
+
 
 var unsubscribe = {};
 
@@ -69,7 +69,9 @@ function getQuestions(onOff, groupId, vnode) {
         vnode.state.unsubscribe = DB.collection('groups').doc(groupId).collection('questions').onSnapshot(questionsDb => {
             questionsDb.forEach(questionDB => {
                 if (questionDB.data().id) {
-                    set(store.questions, `[${groupId}][${questionDB.data().id}]`, questionDB.data())
+                    // set(store.questions, `[${groupId}][${questionDB.data().id}]`, questionDB.data())
+                    setStore(store.questions, groupId, questionDB.data().id, questionDB.data());
+                    
                 }
             })
 
@@ -78,6 +80,17 @@ function getQuestions(onOff, groupId, vnode) {
     } else {
         vnode.state.unsubscribe();
     }
+}
+
+function setStore(obj, groupId, questionId, data) {
+    
+    if (!obj.hasOwnProperty(groupId)) {
+        obj[groupId] = {};
+        obj[groupId][questionId]  = data
+    } else {
+        obj[groupId][questionId] = data
+    }  
+    
 }
 
 function getGroupDetails(onOff, groupId, vnode) {
@@ -98,8 +111,9 @@ function getQuestionDetails(groupId, questionId, vnode) {
     let unsubscribe = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .onSnapshot(questionDB => {
-            set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
-
+            // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
+            setStore(store.questions, groupId, questionId, questionDB.data())
+          
             m.redraw();
         })
 
@@ -185,7 +199,12 @@ function getOptionVote(groupId, questionId, optionId, creatorId) {
 
     
     let unsubscribe = voteRef.onSnapshot(voteDB => {
-        store.optionsVotes[optionId] = voteDB.data().like;
+     
+        if (voteDB.exists) {
+            store.optionsVotes[optionId] = voteDB.data().like;
+        } else {
+            store.optionsVotes[optionId] = 0;
+        }
         m.redraw();
     });
     return unsubscribe;
