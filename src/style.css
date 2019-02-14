@@ -47,26 +47,14 @@ header {
 
 .wrapperAll {
     position: relative;
+    margin: auto;
+    max-width: 550px;
 }
 
 .wrapper {
     max-width: 550px;
-    
     position: relative;
     z-index: 2;
-}
-
-.groupsWrapper {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    /* display: flex;
-    flex-wrap: wrap; */
-}
-
-@media screen and (max-width: 480px) {
-    .groupsWrapper {
-        grid-template-columns: 100%;
-    }
 }
 
 .card {
