@@ -1,19 +1,26 @@
 import m from 'mithril';
-import { deep_value } from '../../functions/general'
+
 
 import './Question.css';
 import Option from './Option/Option';
 import Message from '../Commons/Message/Message';
 import Spinner from '../Commons/Spinner/Spinner';
+import SubQuestions from './SubSections/SubQuestions';
+import Description from './SubSections/Description';
+import Goals from './SubSections/Goals';
+import Evaluation from './SubSections/Evaluation';
 
 import store from '../../data/store';
 
 import { getQuestionDetails, getOptions } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
+import { deep_value, setWrapperHeight, setRapperFromFooter } from '../../functions/general';
 
 
 module.exports = {
     oninit: vnode => {
+        store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
+        sessionStorage.setItem('lastPage', store.lastPage);
 
         vnode.state = {
             title: deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה'),
@@ -28,8 +35,7 @@ module.exports = {
             scrollY: false
         }
 
-        store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
-        sessionStorage.setItem('lastPage', store.lastPage);
+
 
         store.options = [];
 
@@ -55,6 +61,10 @@ module.exports = {
         }
 
     },
+    oncreate: vnode => {
+        setWrapperHeight('questionHeadr', 'questionWrapperAll')
+        setRapperFromFooter('questionFooter', 'optionsWrapper');
+    },
     onbeforeupdate: vnode => {
 
         vnode.state.title = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה');
@@ -63,7 +73,7 @@ module.exports = {
     },
     onupdate: vnode => {
         //get final position
-
+        setWrapperHeight('questionHeadr', 'questionWrapperAll')
 
         store.options.forEach(option => {
 
@@ -79,36 +89,53 @@ module.exports = {
 
         return (
             <div>
-                <div class='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
+                <div class='questionHeadr' id='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
                     <div class='mainHeader'>
                         שאלה: {vnode.state.title}
                     </div>
-
                 </div>
-                {store.options.length == 0?<div />:
-                    <Message
-                        title='הסבר על השאלה:'
-                        content={vnode.state.description}
-                        toShow={store.messagesShow[vnode.attrs.id]}
-                    />
-                }
-                <div class='wrapper groupsWrapper' style="margin-top:150px">
-                    {store.options.length == 0?<Spinner />:
+                <div class='wrapperAll' id='questionWrapperAll'>
 
-                        store.options.map((option, index) => {
-                            return <Option
-                                groupId={vnode.attrs.groupId}
-                                questionId={vnode.attrs.id}
-                                optionId={option.id}
-                                title={option.title} description={option.description}
-                                consensusPrecentage={option.consensusPrecentage}
-                                key={index}
-                            />
-                        })
-                    }
+                    <div class='wrapper'>
+                        <Description
+                            title='הסבר על השאלה:'
+                            content={vnode.state.description}
+                        />
+                        <SubQuestions />
+                        <Goals />
+                        <Evaluation />
+                    </div>
+                    <div class='wrapper groupsWrapper' id='optionsWrapper' >
+                        <div class='questionSection'>
+                            <div class='questionSectionTitle questions'>הצעות</div>
+
+
+
+                            {store.options.length == 0 ? <Spinner /> :
+
+                                store.options.map((option, index) => {
+                                    return <Option
+                                        groupId={vnode.attrs.groupId}
+                                        questionId={vnode.attrs.id}
+                                        optionId={option.id}
+                                        title={option.title} description={option.description}
+                                        consensusPrecentage={option.consensusPrecentage}
+                                        key={index}
+                                    />
+                                })
+                            }
+                            <div class='questionSectionFooter'>
+                                <div
+                                    class='buttons questionSectionAddButton'
+                                    onclick={() => { toggleAddOption('on', vnode) }}
+                                >הוסף הצעה</div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class='footer'>
+                <div class='footer' id='questionFooter'>
                     <div
                         class={vnode.state.orderBy == 'new' ? 'footerButton footerButtonSelected' : 'footerButton'}
                         onclick={() => {
@@ -125,9 +152,7 @@ module.exports = {
                     >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
-                <div class='fav' onclick={() => { toggleAddOption('on', vnode) }} >
-                    <div>+</div>
-                </div>
+
                 {vnode.state.addOption ?
                     <div class='module'>
                         <div class='moduleBox'>

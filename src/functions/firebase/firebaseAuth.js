@@ -24,13 +24,16 @@ function onAuth() {
                     name: store.user.displayName,
                     email: store.user.email
                 }).then(function () {
-                    console.log("Document successfully written!");
+                    
                 }).catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
 
                 let lastPage = sessionStorage.getItem('lastPage') || '/groups'
                 m.route.set(lastPage);
+            } else {
+                let lastPage = sessionStorage.getItem('lastPage') || '/login'
+                m.route.set(lastPage)
             }
         } else {
 

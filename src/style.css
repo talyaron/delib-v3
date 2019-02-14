@@ -8,6 +8,7 @@
     --textHeaderWeight: 600;
     --textSubHeader: rgba(0, 0, 0, 0.68);
     --textHeaderSize: 1.1rem;
+    --textHeaderSubTitleSize: 1rem;
     --textRegular: rgba(0, 0, 0, 0.55);
     --textRegularSize: 1rem;
 }
@@ -44,9 +45,13 @@ header {
     z-index: 3;
 }
 
+.wrapperAll {
+    position: relative;
+}
+
 .wrapper {
     max-width: 550px;
-    margin: 70px auto 30px auto;
+    
     position: relative;
     z-index: 2;
 }
@@ -79,7 +84,7 @@ header {
     font-weight: var(--textHeaderWeight);
     margin-bottom: 10px;
     overflow-x: hidden;
-    text-overflow: ellipsis;  
+    text-overflow: ellipsis;
 }
 
 .cardDescription {
