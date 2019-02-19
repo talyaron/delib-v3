@@ -11,7 +11,7 @@ module.exports = {
         vnode.state = { showAnswers: false }
     },
     oncreate: vnode => {
-        //hide sub answers
+        //hide sub answers...
         vnode.dom.children[1].style.height = '0px';
     },
     view: (vnode) => {
@@ -30,6 +30,17 @@ module.exports = {
                     <div class='subQuestionCardTalk'>שיחות</div>
                 </div>
                 <div class={showAnswers ? 'subAnswersWrapper showAnswers' : 'subAnswersWrapper hideAnswers'}>
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
+                    <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
                     <SubAnswer text='תשובה כל שהיא' author='יציק שמולי' time='12:34' />
                     <form onsubmit='addAnswer(vnode)' class='addInputForm'>
                         <textarea placeholder='כתבו את תשובתכם כאן'>
