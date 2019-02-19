@@ -1,0 +1,28 @@
+.subQuestionCardCotent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subQuestionCardAuthor {
+    color: gray;
+    font-size: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.subQuestionCardDesc {
+    margin-bottom: 5px;
+    color: var(--textHeader);
+}
+
+.subQuestionCardVote {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.voteCount {
+    font-size: 0.75rem;
+    color: gray;
+}

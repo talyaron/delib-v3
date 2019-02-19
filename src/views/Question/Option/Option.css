@@ -40,7 +40,7 @@
 .optionVote {
     background: rgba(128, 128, 128, 0.14);
     border-radius: 5px;
-    padding: 0px 6px;
+    padding: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
