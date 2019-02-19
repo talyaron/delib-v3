@@ -16,12 +16,18 @@ function deep_value(obj, path, alternativeValue) {
 
 
 function setWrapperHeight(headerId, wrapperId) {
-    let headerHeight = document.getElementById(headerId).clientHeight;
-    document.getElementById(wrapperId).style.top = headerHeight + 'px'
+    let header = document.getElementById(headerId);
+    if (header != null) {
+        let headerHeight = header.clientHeight;
+        document.getElementById(wrapperId).style.top = headerHeight + 'px';
+
+    } else {
+        console.error('No such header exists')
+    }
 }
 
-function setRapperFromFooter(footerId, wrapperId) {
+function setWrapperFromFooter(footerId, wrapperId) {
     let footerHeight = document.getElementById(footerId).clientHeight;
     document.getElementById(wrapperId).style.marginBottom = footerHeight + 30 + 'px'
 }
-module.exports = { deep_value, setWrapperHeight, setRapperFromFooter }
+module.exports = { deep_value, setWrapperHeight, setWrapperFromFooter }

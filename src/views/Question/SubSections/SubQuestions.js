@@ -28,6 +28,7 @@ module.exports = {
                         })
                     }
                     <div class='buttons questionSectionAddButton'>הוסף שאלה</div>
+
                 </div>
             </div>
         )

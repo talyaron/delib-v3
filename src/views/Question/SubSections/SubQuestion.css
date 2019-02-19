@@ -1,10 +1,16 @@
+.subQuestionCard {
+    margin: 5px 5px 1px 5px !important;
+    background: #427fb1c4
+}
+
 .subQuestionCardCotent {
     display: flex;
     justify-content: space-between;
+    color: white;
 }
 
 .subQuestionCardAuthor {
-    color: gray;
+    color: rgba(255, 255, 255, 0.719);
     font-size: 0.75rem;
     cursor: pointer;
     user-select: none;
@@ -25,4 +31,56 @@
 .voteCount {
     font-size: 0.75rem;
     color: gray;
+}
+
+.subAnswersWrapper {
+    max-height: 148px;
+    overflow-y: auto;
+    margin-top: 2px;
+    transition: all 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.showAnswers {
+    /* animation-name: showAnswers;
+    animation-duration: 2s;
+    animation-fill-mode: forwards; */
+    visibility: visible;
+    height: 100px;
+}
+
+@keyframes showAnswers {
+    from {
+        opacity: 0;
+        /* transform: scaleY(0); */
+        /* height: 0px; */
+        visibility: hidden;
+    }
+    to {
+        opacity: 1;
+        /* transform: scaleY(1); */
+        /* height: fit-content; */
+        visibility: visible
+    }
+}
+
+.hideAnswers {
+    /* animation-name: hideAnswers;
+    animation-duration: 2s;
+    animation-fill-mode: forwards; */
+    visibility: hidden;
+    height: 0px;
+}
+
+@keyframes hideAnswers {
+    from {
+        opacity: 1;
+        transform: scaleY(1);
+        height: fit-content;
+    }
+    to {
+        opacity: 0;
+        transform: scaleY(0);
+        height: 0px;
+    }
 }

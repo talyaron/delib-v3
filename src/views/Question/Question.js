@@ -14,7 +14,7 @@ import store from '../../data/store';
 
 import { getQuestionDetails, getOptions } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
-import { deep_value, setWrapperHeight, setRapperFromFooter } from '../../functions/general';
+import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functions/general';
 
 
 module.exports = {
@@ -63,7 +63,7 @@ module.exports = {
     },
     oncreate: vnode => {
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
-        setRapperFromFooter('questionFooter', 'optionsWrapper');
+        setWrapperFromFooter('questionFooter', 'optionsWrapper');
     },
     onbeforeupdate: vnode => {
 
@@ -75,11 +75,7 @@ module.exports = {
         //get final position
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
 
-        store.options.forEach(option => {
 
-            // vnode.state.options[option.id] = { x: elementX, y: elementY}
-
-        })
     },
     onremove: vnode => {
         vnode.state.unsubscribeOptions();

@@ -1,6 +1,6 @@
 import m from 'mithril';
 
-import { deep_value } from '../../functions/general';
+import { deep_value, setWrapperHeight } from '../../functions/general';
 
 import './GroupPage.css';
 import Group from '../Groups/Group/Group';
@@ -29,6 +29,9 @@ module.exports = {
         getQuestions('on', vnode.attrs.id, vnode);
         getGroupDetails('on', vnode.attrs.id, vnode);
     },
+    oncreate: vnode => {
+        setWrapperHeight('groupHeader', 'groupWrapper');
+    },
     onbeforeupdate: vnode => {
 
         //update name of group
@@ -42,6 +45,9 @@ module.exports = {
         }
         vnode.state.questions = questionsArray;
     },
+    onupdate: vnode => {
+        setWrapperHeight('groupHeader', 'groupWrapper');
+    },
     onremove: vnode => {
         getQuestions('off', vnode.attrs.id, vnode);
         getGroupDetails('off', vnode.attrs.id, vnode);
@@ -49,8 +55,8 @@ module.exports = {
     view: vnode => {
         return (
             <div class='page'>
-                <header onclick={()=>{m.route.set('/groups')}}>דליב - {vnode.state.groupName}</header>
-                <div class='wrapper groupsWrapper'>
+                <header onclick={() => { m.route.set('/groups') }} id='groupHeader'>דליב - {vnode.state.groupName}</header>
+                <div class='wrapper groupsWrapper' id='groupWrapper'>
                     {
                         vnode.state.questions.map((question, key) => {
                             return (
