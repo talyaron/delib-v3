@@ -1,6 +1,7 @@
 .subQuestionCard {
     margin: 5px 5px 1px 5px !important;
-    background: #427fb1c4
+    background: #427fb1c4;
+    cursor: pointer;
 }
 
 .subQuestionCardCotent {
@@ -18,7 +19,7 @@
 
 .subQuestionCardDesc {
     margin-bottom: 5px;
-    color: var(--textHeader);
+    color: white;
 }
 
 .subQuestionCardVote {
@@ -37,50 +38,34 @@
     max-height: 148px;
     overflow-y: auto;
     margin-top: 2px;
-    transition: all 0.2s;
+    transition: all 0.5s;
     transition-timing-function: ease-in-out;
 }
 
 .showAnswers {
-    /* animation-name: showAnswers;
-    animation-duration: 2s;
-    animation-fill-mode: forwards; */
-    visibility: visible;
-    height: 100px;
-}
-
-@keyframes showAnswers {
-    from {
-        opacity: 0;
-        /* transform: scaleY(0); */
-        /* height: 0px; */
-        visibility: hidden;
-    }
-    to {
-        opacity: 1;
-        /* transform: scaleY(1); */
-        /* height: fit-content; */
-        visibility: visible
-    }
+    opacity: 1;
 }
 
 .hideAnswers {
-    /* animation-name: hideAnswers;
-    animation-duration: 2s;
-    animation-fill-mode: forwards; */
-    visibility: hidden;
-    height: 0px;
+    opacity: 0.5;
 }
 
-@keyframes hideAnswers {
-    from {
-        opacity: 1;
-        transform: scaleY(1);
-        height: fit-content;
-    }
-    to {
-        opacity: 0;
-        transform: scaleY(0);
-        height: 0px;
-    }
+/* input form */
+
+.addInputForm {
+    position: relative;
+    bottom: 0px;
+}
+
+.addInputForm>textarea {
+    border: 0px solid transparent;
+    border-bottom: 1px solid #a0a0a0;
+    resize: none;
+    width: 85%;
+    position: relative;
+    right: 50%;
+    transform: translateX(50%);
+    margin-top: 10px;
+    background: #fff0d4;
+    border-radius: 5px;
 }
