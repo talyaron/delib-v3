@@ -220,7 +220,7 @@ function getSubQuestions(groupId, questionId, vnode) {
     unsubscribe = subQuestionsRef.onSnapshot(subQuestionsDB => {
 
         subQuestionsDB.docChanges().forEach(function (change) {
-            console.log(change.doc.id)
+
             if (change.type === "added") {
                 vnode.state.subAnswersUnsb[change.doc.id] = getSubAnswers(groupId, questionId, change.doc.id, vnode) //listen to answers
             }
@@ -255,17 +255,20 @@ function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId)
         .collection('subAnswers')
+        .orderBy("time", "desc").limit(100)
 
 
     unsubscribe = subAnswersRef.onSnapshot(subAnswersDB => {
+
         let subAnswersArr = [];
         subAnswersDB.forEach(subAnswerDB => {
+
             let subAnswerObj = subAnswerDB.data()
 
             subAnswerObj.id = subAnswerDB.id
             subAnswersArr.push(subAnswerObj)
         })
-        console.dir(subAnswersArr);
+
 
         vnode.state.subAnswers[subQuestionId] = subAnswersArr;
         m.redraw();

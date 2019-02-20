@@ -37,7 +37,13 @@ function createOption(groupId, questionId, creatorId, title, description) {
     console.log(groupId, questionId, creatorId, title, description);
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('options')
         .add({
-            groupId, questionId, creatorId, title, description, time: new Date().getTime(), consensusPrecentage:0
+            groupId,
+            questionId,
+            creatorId,
+            title,
+            description,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+            consensusPrecentage: 0
         }).then(newOption => {
             DB.collection('groups').doc(groupId)
                 .collection('questions').doc(questionId)
@@ -52,8 +58,8 @@ function createOption(groupId, questionId, creatorId, title, description) {
 function setLike(groupId, questionId, optionId, creatorId, like) {
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
         .collection('options').doc(optionId).collection('likes').doc(creatorId).set({ like })
-        .then(newLike => {           
-           
+        .then(newLike => {
+
         }).catch(function (error) {
             console.error("Error adding document: ", error);
         });
@@ -67,11 +73,32 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
             time: firebase.firestore.FieldValue.serverTimestamp(),
             message
         }).then(messageDB => {
-            
-           
+
+
         }).catch(error => {
             console.log('Error:', error)
         })
 }
 
-module.exports = { createGroup, createQuestion, createOption, setLike, setMessage }
+function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName, message) {
+    console.log(groupId, questionId, subQuestionId, creatorId, creatorName, message)
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('subAnswers').add({
+            groupId,
+            questionId,
+            subQuestionId,
+            creatorId,
+            author: creatorName,
+            creatorId,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+            message
+        }).then(newLike => {
+
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+module.exports = { createGroup, createQuestion, createOption, setLike, setMessage, setSubAnswer }

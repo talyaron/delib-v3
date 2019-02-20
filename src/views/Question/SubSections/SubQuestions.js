@@ -4,6 +4,8 @@ import SubQuestion from './SubQuestion';
 
 
 
+
+
 module.exports = {
     oninit: vnode => {
 
@@ -15,7 +17,7 @@ module.exports = {
                 <div class='questionSectionFooter'>
                     {
                         vnode.attrs.subQuestions.map((subQuestion, index) => {
-                            console.dir(vnode.attrs.subAnswers[subQuestion.id])
+
                             return <SubQuestion
                                 description={subQuestion.description}
                                 author={subQuestion.author}
@@ -23,6 +25,7 @@ module.exports = {
                                 questionId={subQuestion.id}
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
+                                subQuestionId={subQuestion.id}
                                 subAnswers={vnode.attrs.subAnswers[subQuestion.id]}
                                 key={index}
                             />

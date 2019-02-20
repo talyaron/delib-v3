@@ -3,6 +3,9 @@ import m from 'mithril';
 import SubAnswer from './SubAnswer/SubAnswer';
 import './SubQuestion.css';
 
+import { setSubAnswer } from '../../../functions/firebase/set/set';
+
+import store from '../../../data/store';
 
 
 module.exports = {
@@ -17,18 +20,26 @@ module.exports = {
         vnode.dom.children[1].style.height = '0px';
     },
     onbeforeupdate: vnode => {
-        vnode.state.subAnswers = vnode.attrs.subAnswers || []
+        if (vnode.attrs.subAnswers) {
+            vnode.state.subAnswers = [];
+            for (let i = 0; i < vnode.attrs.subAnswers.length; i++) {
+                vnode.state.subAnswers.unshift(vnode.attrs.subAnswers[i])
+            }
+        }
+
     },
     onupdate: vnode => {
+        console.dir(vnode)
+        //roll down the sub Messages window
+        document.getElementById('subAnswers' + vnode.attrs.subQuestionId).scrollTo(0, document.body.scrollHeight);
 
-        console.dir(vnode.state.subAnswers)
     },
     onremove: vnode => {
 
     },
     view: (vnode) => {
         let showAnswers = vnode.state.showAnswers;
-
+        let numberOfSubAnswers = vnode.state.subAnswers.length;
         return (
             <div>
                 <div class='card subQuestionCard' onclick={() => toggleSubQuestion(vnode, 182)}>
@@ -40,19 +51,19 @@ module.exports = {
                         </div>
                     </div>
                     <div class='subQuestionCardAuthor'>{vnode.attrs.author}</div>
-                    <div class='subQuestionCardTalk'>שיחות</div>
+                    <div class='subQuestionCardTalk'>שיחות: {numberOfSubAnswers}</div>
                 </div>
                 <div class={showAnswers ? 'subAnswersWrapper showAnswers' : 'subAnswersWrapper hideAnswers'}>
-                    <div class='subAnswersWrapper2'>
+                    <div class='subAnswersWrapper2' id={'subAnswers' + vnode.attrs.subQuestionId}>
                         {
                             vnode.state.subAnswers.map((subAnswer, index) => {
-                                console.dir(subAnswer)
-                                return <SubAnswer text={subAnswer.text} author={subAnswer.author} time={subAnswer.time} />
+
+                                return <SubAnswer message={subAnswer.message} author={subAnswer.author} time={subAnswer.time} />
                             })
                         }
                     </div>
-                    <form onsubmit='addAnswer(vnode)' class='addInputForm'>
-                        <textarea placeholder='כתבו את תשובתכם כאן' autofocus>
+                    <form onsubmit={() => addAnswer(event, vnode)} class='addInputForm'>
+                        <textarea placeholder='כתבו את תשובתכם כאן' autofocus onkeyup={() => addAnswer(event, vnode)} >
 
                         </textarea>
                     </form>
@@ -69,6 +80,25 @@ function toggleSubQuestion(vnode, height) {
         vnode.dom.children[1].style.height = height + 'px';
     } else {
         vnode.dom.children[1].style.height = '0px';
+    }
+}
+
+function addAnswer(event, vnode) {
+
+    if (event.key == "Enter") {
+
+        let va = vnode.attrs;
+        let userName = '';
+
+        if (store.user.isAnonymous || store.user.displayName == null) {
+            userName = 'אנונימי/ת'
+        } else {
+            userName = store.user.displayName
+        }
+
+
+        setSubAnswer(va.groupId, va.questionId, va.subQuestionId, store.user.uid, userName, event.target.value)
+        event.target.value = '';
     }
 }
 

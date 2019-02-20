@@ -16,6 +16,7 @@ function onAuth() {
         store.user = user;
 
         if (user) {
+            console.dir(user)
             console.log('User', store.user.uid, 'is signed in.');
             if (!user.isAnonymous) {
                 console.log('user', user.displayName, 'is logged in')
@@ -24,7 +25,7 @@ function onAuth() {
                     name: store.user.displayName,
                     email: store.user.email
                 }).then(function () {
-                    
+
                 }).catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
