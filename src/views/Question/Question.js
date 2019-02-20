@@ -12,7 +12,7 @@ import Evaluation from './SubSections/Evaluation';
 
 import store from '../../data/store';
 
-import { getQuestionDetails, getOptions } from '../../functions/firebase/get/get';
+import { getQuestionDetails, getOptions, getSubQuestions } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functions/general';
 
@@ -32,7 +32,10 @@ module.exports = {
             },
             orderBy: 'top',
             options: {},
-            scrollY: false
+            scrollY: false,
+            subQuestions: [],
+            subAnswers: {}, //used to set sub answers to each sub question
+            subAnswersUnsb: {} //used to unsubscribe
         }
 
 
@@ -50,6 +53,7 @@ module.exports = {
 
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeSubQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode)
 
         //scroll detection
 
@@ -80,6 +84,7 @@ module.exports = {
     onremove: vnode => {
         vnode.state.unsubscribeOptions();
         vnode.state.unsubscribeQuestion();
+        vnode.state.unsubscribeSubQuestions();
     },
     view: vnode => {
 
@@ -97,7 +102,13 @@ module.exports = {
                             title='הסבר על השאלה:'
                             content={vnode.state.description}
                         />
-                        <SubQuestions />
+                        <SubQuestions
+                            subQuestions={vnode.state.subQuestions}
+                            subAnswers={vnode.state.subAnswers}
+                            groupId={vnode.attrs.groupId}
+                            questionId={vnode.attrs.id}
+
+                        />
                         <Goals />
                         <Evaluation />
                     </div>

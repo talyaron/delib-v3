@@ -7,4 +7,8 @@
 
 .subAnswerText {}
 
-.subAnswerAuthor {}
+.subAnswerAuthor {
+    color: gray;
+    margin-top: 4px;
+    font-size: 0.85rem;
+}

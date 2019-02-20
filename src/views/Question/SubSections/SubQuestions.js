@@ -6,24 +6,25 @@ import SubQuestion from './SubQuestion';
 
 module.exports = {
     oninit: vnode => {
-        vnode.state = {
-            subQuestions: [
-                { description: 'מה עושים עם זה?', author: 'טל ירון', support: 23 },
-                { description: 'כיצד זה יכול לעזור לנו?', author: 'ניסים ביר', support: 45 }
-            ]
-        }
+
     },
-    view: (vnode) => {
+    view: vnode => {
         return (
             <div class='questionSection'>
                 <div class='questionSectionTitle questions'> שאלות המשך</div>
                 <div class='questionSectionFooter'>
                     {
-                        vnode.state.subQuestions.map((subQuestion, index) => {
+                        vnode.attrs.subQuestions.map((subQuestion, index) => {
+                            console.dir(vnode.attrs.subAnswers[subQuestion.id])
                             return <SubQuestion
                                 description={subQuestion.description}
                                 author={subQuestion.author}
                                 support={subQuestion.support}
+                                questionId={subQuestion.id}
+                                groupId={vnode.attrs.groupId}
+                                questionId={vnode.attrs.questionId}
+                                subAnswers={vnode.attrs.subAnswers[subQuestion.id]}
+                                key={index}
                             />
                         })
                     }

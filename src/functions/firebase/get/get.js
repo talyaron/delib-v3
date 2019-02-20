@@ -71,7 +71,7 @@ function getQuestions(onOff, groupId, vnode) {
                 if (questionDB.data().id) {
                     // set(store.questions, `[${groupId}][${questionDB.data().id}]`, questionDB.data())
                     setStore(store.questions, groupId, questionDB.data().id, questionDB.data());
-                    
+
                 }
             })
 
@@ -83,14 +83,14 @@ function getQuestions(onOff, groupId, vnode) {
 }
 
 function setStore(obj, groupId, questionId, data) {
-    
+
     if (!obj.hasOwnProperty(groupId)) {
         obj[groupId] = {};
-        obj[groupId][questionId]  = data
+        obj[groupId][questionId] = data
     } else {
         obj[groupId][questionId] = data
-    }  
-    
+    }
+
 }
 
 function getGroupDetails(onOff, groupId, vnode) {
@@ -113,7 +113,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
         .onSnapshot(questionDB => {
             // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
             setStore(store.questions, groupId, questionId, questionDB.data())
-          
+
             m.redraw();
         })
 
@@ -121,7 +121,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
 }
 
 function getOptions(onOff, groupId, questionId, order) {
-   
+
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
@@ -139,7 +139,7 @@ function getOptions(onOff, groupId, questionId, order) {
                 orderBy = 'time';
         }
         let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
-            
+
             let optionsArray = [];
             optionsDB.forEach(optionDB => {
                 let optionObj = optionDB.data();
@@ -152,11 +152,11 @@ function getOptions(onOff, groupId, questionId, order) {
                         offsetTop: elm.offsetTop,
                         offsetLeft: elm.offsetLeft,
                         toAnimate: true,
-                        new:false
+                        new: false
                     };
 
                 } else {
-                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new:true }
+                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new: true }
                 }
 
                 optionsArray.push(optionObj)
@@ -168,7 +168,7 @@ function getOptions(onOff, groupId, questionId, order) {
             m.redraw();
 
         })
-       
+
         return unsubscribe;
     } else {
         optionRef.onSnapshot(() => { })();
@@ -197,9 +197,9 @@ function getOptionVote(groupId, questionId, optionId, creatorId) {
         .collection('options').doc(optionId)
         .collection('likes').doc(creatorId);
 
-    
+
     let unsubscribe = voteRef.onSnapshot(voteDB => {
-     
+
         if (voteDB.exists) {
             store.optionsVotes[optionId] = voteDB.data().like;
         } else {
@@ -208,7 +208,70 @@ function getOptionVote(groupId, questionId, optionId, creatorId) {
         m.redraw();
     });
     return unsubscribe;
-    
+
+}
+
+function getSubQuestions(groupId, questionId, vnode) {
+    let subQuestionsRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions')
+
+
+    unsubscribe = subQuestionsRef.onSnapshot(subQuestionsDB => {
+
+        subQuestionsDB.docChanges().forEach(function (change) {
+            console.log(change.doc.id)
+            if (change.type === "added") {
+                vnode.state.subAnswersUnsb[change.doc.id] = getSubAnswers(groupId, questionId, change.doc.id, vnode) //listen to answers
+            }
+
+            if (change.type === "removed") {
+                //unsubscribe from answers
+            }
+        });
+
+
+
+        let subQuestionsArr = [];
+        subQuestionsDB.forEach(subQuestionDB => {
+
+
+
+            let subQuestionObj = subQuestionDB.data()
+
+            subQuestionObj.id = subQuestionDB.id
+            subQuestionsArr.push(subQuestionObj)
+        })
+
+        vnode.state.subQuestions = subQuestionsArr;
+        m.redraw();
+    });
+    return unsubscribe;
+
+}
+
+function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
+    let subAnswersRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('subAnswers')
+
+
+    unsubscribe = subAnswersRef.onSnapshot(subAnswersDB => {
+        let subAnswersArr = [];
+        subAnswersDB.forEach(subAnswerDB => {
+            let subAnswerObj = subAnswerDB.data()
+
+            subAnswerObj.id = subAnswerDB.id
+            subAnswersArr.push(subAnswerObj)
+        })
+        console.dir(subAnswersArr);
+
+        vnode.state.subAnswers[subQuestionId] = subAnswersArr;
+        m.redraw();
+    });
+    return unsubscribe;
+
 }
 
 function getMessages(onOff, groupId, questionId, optionId, vnode) {
@@ -254,6 +317,8 @@ module.exports = {
     getQuestionDetails,
     getOptions,
     getOptionVote,
+    getSubQuestions,
+    getSubAnswers,
     getOptionDetails,
     getMessages
 }

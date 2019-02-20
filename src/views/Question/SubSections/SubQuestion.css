@@ -35,19 +35,23 @@
 }
 
 .subAnswersWrapper {
-    max-height: 148px;
-    overflow-y: auto;
+    /* max-height: 148px; */
     margin-top: 2px;
     transition: all 0.5s;
     transition-timing-function: ease-in-out;
 }
 
+.subAnswersWrapper2 {
+    overflow-y: auto;
+    height: 120px;
+}
+
 .showAnswers {
-    opacity: 1;
+    display: block;
 }
 
 .hideAnswers {
-    opacity: 0.5;
+    display: none;
 }
 
 /* input form */
