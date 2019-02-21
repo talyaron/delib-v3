@@ -9,6 +9,7 @@ import SubQuestions from './SubSections/SubQuestions';
 import Description from './SubSections/Description';
 import Goals from './SubSections/Goals';
 import Evaluation from './SubSections/Evaluation';
+import Modal from '../Commons/Modal/Modal';
 
 import store from '../../data/store';
 
@@ -35,7 +36,11 @@ module.exports = {
             scrollY: false,
             subQuestions: [],
             subAnswers: {}, //used to set sub answers to each sub question
-            subAnswersUnsb: {} //used to unsubscribe
+            subAnswersUnsb: {}, //used to unsubscribe
+            showModal: {
+                isShow: false,
+                which: ''
+            }
         }
 
 
@@ -134,7 +139,7 @@ module.exports = {
                             <div class='questionSectionFooter'>
                                 <div
                                     class='buttons questionSectionAddButton'
-                                    onclick={() => { toggleAddOption('on', vnode) }}
+                                    onclick={() => { openModal('addOption', true, vnode) }}
                                 >הוסף הצעה</div>
                             </div>
                         </div>
@@ -159,50 +164,28 @@ module.exports = {
                     >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
-
-                {vnode.state.addOption ?
-                    <div class='module'>
-                        <div class='moduleBox'>
-                            <div class='moduleTitle'>הוספת אפשרות</div>
-                            <div class='moduleInputs'>
-                                <textarea
-                                    class='moduleQuestionTitle'
-                                    autofocus='true'
-                                    placeholder='כותרת האפשרות'
-                                    onkeyup={(e) => { vnode.state.add.title = e.target.value }}
-                                ></textarea>
-                                <textarea
-                                    class='moduleQuestionTitle moduleDescription'
-                                    placeholder='הסבר על האפשרות'
-                                    onkeyup={(e) => { vnode.state.add.description = e.target.value }}
-                                ></textarea>
-                            </div>
-                            <div class='moduleButtons'>
-                                <div class='buttons confirm' onclick={() => {
-                                    toggleAddOption('off', vnode);
-                                    createOption(vnode.attrs.groupId, vnode.attrs.id, store.user.uid, vnode.state.add.title, vnode.state.add.description)
-                                }}>הוספה</div>
-                                <div class='buttons cancel' onclick={() => { toggleAddOption('off', vnode) }}>ביטול</div>
-                            </div>
-                        </div>
-                    </div>
-                    :
-                    <div />
-                }
+                <Modal
+                    showModal={vnode.state.showModal.isShow}
+                    whichModal={vnode.state.showModal.which}
+                    title='הוספת אפשרויות'
+                    placeholderTitle='כותרת'
+                    placeholderDescription='הסבר'
+                    vnode={vnode}
+                />
             </div>
         )
     }
 }
 
 
-
-function toggleAddOption(onOff, vnode) {
-    if (onOff == 'on') {
-        vnode.state.addOption = true;
-    } else {
-        vnode.state.addOption = false;
+function openModal(whichModal, isShow, vnode) {
+    console.log('open', whichModal, isShow, vnode)
+    switch (whichModal) {
+        case 'addOption':
+            vnode.state.showModal = { which: 'addOption', isShow: isShow };
     }
 }
+
 
 function orderBy(order, vnode) {
     // getOptions('off', vnode.attrs.groupId, vnode.attrs.id, order);

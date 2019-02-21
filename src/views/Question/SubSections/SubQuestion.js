@@ -29,7 +29,7 @@ module.exports = {
 
     },
     onupdate: vnode => {
-        console.dir(vnode)
+
         //roll down the sub Messages window
         document.getElementById('subAnswers' + vnode.attrs.subQuestionId).scrollTo(0, document.body.scrollHeight);
 

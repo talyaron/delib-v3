@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <script src="dev.bundle.js?v2019-2-7-2"></script>
+  <script src="dev.bundle.js?v2019-2-20-2"></script>
   <script>
     // Retrieve Firebase Messaging object.
     const messaging = firebase.messaging();
@@ -128,13 +128,13 @@
     });
 
     // Handle incoming messages. Called when:
-      // - a message is received while the app has focus
-      // - the user clicks on an app notification created by a service worker
-      //   `messaging.setBackgroundMessageHandler` handler.
-      messaging.onMessage(function (payload) {
-        console.log('Message received. ', payload);
-        // ...
-      });
+    // - a message is received while the app has focus
+    // - the user clicks on an app notification created by a service worker
+    //   `messaging.setBackgroundMessageHandler` handler.
+    messaging.onMessage(function (payload) {
+      console.log('Message received. ', payload);
+      // ...
+    });
 
 
   </script>

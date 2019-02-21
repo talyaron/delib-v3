@@ -31,11 +31,15 @@ module.exports = {
                             />
                         })
                     }
-                    <div class='buttons questionSectionAddButton'>הוסף שאלה</div>
+                    <div class='buttons questionSectionAddButton' onclick={openNewQuestion()}>הוסף שאלה</div>
 
                 </div>
             </div>
         )
     }
+}
+
+function openNewQuestion() {
+
 }
 
