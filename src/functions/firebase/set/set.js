@@ -80,8 +80,28 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
         })
 }
 
+function createSubQuestion(groupId, questionId, creatorId, creatorName, title, description) {
+    console.log(groupId, questionId, creatorId, title, description);
+    DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('subQuestions')
+        .add({
+            groupId,
+            questionId,
+            creatorId,
+            title,
+            description,
+            author: creatorName,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+            consensusPrecentage: 0
+        }).then(newOption => {
+
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+
 function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName, message) {
-    console.log(groupId, questionId, subQuestionId, creatorId, creatorName, message)
+
     DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId)
@@ -101,4 +121,4 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, setLike, setMessage, setSubAnswer }
+module.exports = { createGroup, createQuestion, createOption, createSubQuestion, setLike, setMessage, setSubAnswer }

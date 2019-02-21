@@ -2,7 +2,7 @@
 import m from 'mithril';
 import './Modal.css';
 
-import { createOption } from '../../../functions/firebase/set/set';
+import { createOption, createSubQuestion } from '../../../functions/firebase/set/set';
 
 import store from '../../../data/store';
 
@@ -20,9 +20,7 @@ module.exports = {
         }
     },
     onbeforeupdate: vnode => {
-        console.dir(vnode.attrs)
 
-        console.dir(vnode.state)
         vnode.state.showModal = vnode.attrs.showModal;
     },
     view: vnode => {
@@ -49,7 +47,7 @@ module.exports = {
                                 </div>
                                 <div class='moduleButtons'>
                                     <div class='buttons confirm' onclick={() => {
-                                        createOption(vnp.attrs.groupId, vnp.attrs.id, store.user.uid, vnode.state.add.title, vnode.state.add.description);
+                                        setNewInfo(vnp, vnode)
                                         toggleShowModal('off', vnode);
                                     }}>הוספה</div>
                                     <div class='buttons cancel' onclick={() => { toggleShowModal('off', vnode) }}>ביטול</div>
@@ -64,6 +62,21 @@ module.exports = {
     }
 }
 
+
+function setNewInfo(vnp, vnode) {
+    switch (vnp.state.showModal.which) {
+        case 'addOption':
+            createOption(vnp.attrs.groupId, vnp.attrs.id, store.user.uid, vnode.state.add.title, vnode.state.add.description);
+            break;
+        case 'addSubQuestion':
+            console.log('addSubQuestion');
+            createSubQuestion(vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
+            break;
+        default:
+            console.log('couldnt find such case:', vnp.state.showModal.which)
+    }
+    vnp.state.showModal.isShow = false;
+}
 
 function toggleShowModal(onOff, vnode) {
     if (onOff == 'on') {

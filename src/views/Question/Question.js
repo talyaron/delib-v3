@@ -49,10 +49,10 @@ module.exports = {
 
         // help show message only one time
         if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
-            console.log('shown in the past')
+
             store.messagesShow[vnode.attrs.id] = false
         } else {
-            console.log('not shown in the past')
+
             store.messagesShow[vnode.attrs.id] = true
         }
 
@@ -112,6 +112,7 @@ module.exports = {
                             subAnswers={vnode.state.subAnswers}
                             groupId={vnode.attrs.groupId}
                             questionId={vnode.attrs.id}
+                            questionVnode={vnode}
 
                         />
                         <Goals />
@@ -139,7 +140,7 @@ module.exports = {
                             <div class='questionSectionFooter'>
                                 <div
                                     class='buttons questionSectionAddButton'
-                                    onclick={() => { openModal('addOption', true, vnode) }}
+                                    onclick={() => { addQuestion(vnode) }}
                                 >הוסף הצעה</div>
                             </div>
                         </div>
@@ -167,7 +168,7 @@ module.exports = {
                 <Modal
                     showModal={vnode.state.showModal.isShow}
                     whichModal={vnode.state.showModal.which}
-                    title='הוספת אפשרויות'
+                    title={vnode.state.showModal.title}
                     placeholderTitle='כותרת'
                     placeholderDescription='הסבר'
                     vnode={vnode}
@@ -178,12 +179,8 @@ module.exports = {
 }
 
 
-function openModal(whichModal, isShow, vnode) {
-    console.log('open', whichModal, isShow, vnode)
-    switch (whichModal) {
-        case 'addOption':
-            vnode.state.showModal = { which: 'addOption', isShow: isShow };
-    }
+function addQuestion(vnode) {
+    vnode.state.showModal = { which: 'addOption', isShow: true, title: 'הוסף אפשרות' };
 }
 
 

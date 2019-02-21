@@ -44,7 +44,10 @@ module.exports = {
             <div>
                 <div class='card subQuestionCard' onclick={() => toggleSubQuestion(vnode, 182)}>
                     <div class='subQuestionCardCotent'>
-                        <div class='subQuestionCardDesc'>{vnode.attrs.description}</div>
+                        <div>
+                            <div class='subQuestionCardDesc'>{vnode.attrs.title}</div>
+                            <div class='subQuestionCardDesc'>{vnode.attrs.description}</div>
+                        </div>
                         <div class='subQuestionCardVote optionVote'>
                             <img src='img/icons8-facebook-like-32.png' />
                             <div class='voteCount'>{vnode.attrs.support}</div>

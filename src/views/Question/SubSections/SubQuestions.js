@@ -19,6 +19,7 @@ module.exports = {
                         vnode.attrs.subQuestions.map((subQuestion, index) => {
 
                             return <SubQuestion
+                                title={subQuestion.title}
                                 description={subQuestion.description}
                                 author={subQuestion.author}
                                 support={subQuestion.support}
@@ -28,10 +29,11 @@ module.exports = {
                                 subQuestionId={subQuestion.id}
                                 subAnswers={vnode.attrs.subAnswers[subQuestion.id]}
                                 key={index}
+
                             />
                         })
                     }
-                    <div class='buttons questionSectionAddButton' onclick={openNewQuestion()}>הוסף שאלה</div>
+                    <div class='buttons questionSectionAddButton' onclick={() => { openNewQuestion(vnode) }}>הוסף שאלה</div>
 
                 </div>
             </div>
@@ -39,7 +41,11 @@ module.exports = {
     }
 }
 
-function openNewQuestion() {
-
+function openNewQuestion(vnode) {
+    vnode.attrs.questionVnode.state.showModal = {
+        isShow: true,
+        which: 'addSubQuestion',
+        title: 'הוספת תת-שאלה '
+    }
 }
 
