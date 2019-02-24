@@ -4,9 +4,9 @@ import './style.css';
 
 //functions
 import './functions/firebase/config';
-import { onAuth, AnonymousLogin } from './functions/firebase/firebaseAuth';
+import { onAuth } from './functions/firebase/firebaseAuth';
 onAuth();
-AnonymousLogin();
+
 
 //Views
 import Splash from "./views/Splash/Splash";
@@ -24,5 +24,5 @@ m.route(root, "/splash", {
     "/group/:id": GroupPage,
     '/question/:groupId/:id': Question,
     '/optionchat/:groupId/:questionId/:optionId': ChatPage
-    
+
 })

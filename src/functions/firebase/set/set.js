@@ -82,21 +82,44 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
 
 function createSubQuestion(groupId, questionId, creatorId, creatorName, title, description) {
     console.log(groupId, questionId, creatorId, title, description);
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('subQuestions')
-        .add({
-            groupId,
-            questionId,
-            creatorId,
-            title,
-            description,
-            author: creatorName,
-            time: firebase.firestore.FieldValue.serverTimestamp(),
-            consensusPrecentage: 0
-        }).then(newOption => {
+    let subQuestionRef = DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('subQuestions');
 
-        }).catch(function (error) {
-            console.error("Error adding document: ", error);
-        });
+    let addObj = {
+        groupId,
+        questionId,
+        creatorId,
+        title,
+        description,
+        author: creatorName,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        consensusPrecentage: 0,
+        roles: {}
+    };
+    addObj.roles[creatorId] = 'owner';
+
+    subQuestionRef.add(addObj).then(newOption => {
+    }).catch(function (error) {
+        console.error("Error adding document: ", error);
+    });
+}
+
+function updateSubQuestion(groupId, questionId, subQuestionId, title, description) {
+
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId);
+
+    let updateObj = {
+        title,
+        description,
+        time: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+
+    subQuestionRef.update(updateObj).then(newOption => {
+    }).catch(function (error) {
+        console.error("Error updating document: ", error);
+    });
 }
 
 
@@ -121,4 +144,4 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, createSubQuestion, setLike, setMessage, setSubAnswer }
+module.exports = { createGroup, createQuestion, createOption, createSubQuestion, updateSubQuestion, setLike, setMessage, setSubAnswer }

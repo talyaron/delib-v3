@@ -121,21 +121,19 @@ module.exports = {
                     <div class='wrapper groupsWrapper' id='optionsWrapper' >
                         <div class='questionSection'>
                             <div class='questionSectionTitle questions'>הצעות</div>
+                            {
+                                store.options.length == 0 ? <Spinner /> :
 
-
-
-                            {store.options.length == 0 ? <Spinner /> :
-
-                                store.options.map((option, index) => {
-                                    return <Option
-                                        groupId={vnode.attrs.groupId}
-                                        questionId={vnode.attrs.id}
-                                        optionId={option.id}
-                                        title={option.title} description={option.description}
-                                        consensusPrecentage={option.consensusPrecentage}
-                                        key={index}
-                                    />
-                                })
+                                    store.options.map((option, index) => {
+                                        return <Option
+                                            groupId={vnode.attrs.groupId}
+                                            questionId={vnode.attrs.id}
+                                            optionId={option.id}
+                                            title={option.title} description={option.description}
+                                            consensusPrecentage={option.consensusPrecentage}
+                                            key={index}
+                                        />
+                                    })
                             }
                             <div class='questionSectionFooter'>
                                 <div

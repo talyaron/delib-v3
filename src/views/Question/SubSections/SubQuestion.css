@@ -1,7 +1,6 @@
 .subQuestionCard {
     margin: 5px 5px 1px 5px !important;
     background: #427fb1c4;
-    cursor: pointer;
 }
 
 .subQuestionCardCotent {
@@ -72,4 +71,47 @@
     margin-top: 10px;
     background: #fff0d4;
     border-radius: 5px;
+}
+
+.subQuestionCardMore {
+    display: flex;
+    padding-top: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.subQuestionCardMore>div {
+    display: flex;
+    flex: 1;
+}
+
+.iconBackground {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #00000030;
+    padding: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.iconBackground>img {
+    width: 15px;
+}
+
+.subQuestionCardEdit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.editSubQuestion {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.editSubQuestion>textarea {
+    resize: none;
 }

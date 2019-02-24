@@ -1,6 +1,8 @@
 import m from 'mithril';
 import './SubQuestions.css';
 import SubQuestion from './SubQuestion';
+import settings from '../../../data/settings';
+import store from '../../../data/store';
 
 
 
@@ -18,6 +20,19 @@ module.exports = {
                     {
                         vnode.attrs.subQuestions.map((subQuestion, index) => {
 
+                            let userRole = false;
+
+                            if (subQuestion.roles.hasOwnProperty(store.user.uid)) {
+                                userRole = subQuestion.roles[store.user.uid];
+
+                                if (settings.roles.subQuestions.write[userRole]) {
+                                    userRole = true
+                                } else {
+                                    userRole = false
+                                }
+                            }
+
+
                             return <SubQuestion
                                 title={subQuestion.title}
                                 description={subQuestion.description}
@@ -27,6 +42,7 @@ module.exports = {
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
                                 subQuestionId={subQuestion.id}
+                                isEditable={userRole}
                                 subAnswers={vnode.attrs.subAnswers[subQuestion.id]}
                                 key={index}
 
