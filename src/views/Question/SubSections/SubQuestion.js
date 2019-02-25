@@ -3,7 +3,8 @@ import m from 'mithril';
 import SubAnswer from './SubAnswer/SubAnswer';
 import './SubQuestion.css';
 
-import { setSubAnswer, updateSubQuestion } from '../../../functions/firebase/set/set';
+import { setSubAnswer, updateSubQuestion, setLikeToSubQuestion } from '../../../functions/firebase/set/set';
+import { getSubQuestionLikes, getSubQuestionUserLike } from '../../../functions/firebase/get/get';
 
 import store from '../../../data/store';
 
@@ -15,9 +16,27 @@ module.exports = {
         vnode.state = {
             showAnswers: false,
             subAnswers: [],
-            subQuestionEdit: false
+            subQuestionEdit: false,
+            up: false,
+            likes: 0
         }
 
+
+        vnode.state.unsubscribeLikes = getSubQuestionLikes(
+            vnode.attrs.groupId,
+            vnode.attrs.questionId,
+            vnode.attrs.subQuestionId,
+            store.user.uid,
+            vnode
+        )
+
+        vnode.state.usubscruibeUserLike = getSubQuestionUserLike(
+            vnode.attrs.groupId,
+            vnode.attrs.questionId,
+            vnode.attrs.subQuestionId,
+            store.user.uid,
+            vnode
+        )
 
 
 
@@ -43,15 +62,16 @@ module.exports = {
     },
     onremove: vnode => {
 
+        vnode.state.unsubscribeLikes();
+        vnode.state.usubscruibeUserLike();
     },
     view: (vnode) => {
         let showAnswers = vnode.state.showAnswers;
         let numberOfSubAnswers = vnode.state.subAnswers.length;
         return (
-            <div>
+            <div key={vnode.attrs.key}>
                 <div class='card subQuestionCard' >
                     <div class='subQuestionCardCotent'>
-
                         {vnode.state.subQuestionEdit ?
                             <form class='editSubQuestion'>
                                 <input type='text' value={vnode.attrs.title} id={'title' + vnode.attrs.subQuestionId} />
@@ -63,10 +83,12 @@ module.exports = {
                                 <div class='subQuestionCardDesc'>{vnode.attrs.description}</div>
                             </div>
                         }
-
-                        <div class='subQuestionCardVote optionVote'>
-                            <img src='img/icons8-facebook-like-32.png' />
-                            <div class='voteCount'>{vnode.attrs.support}</div>
+                        <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection(vnode) }}>
+                            <img
+                                class={vnode.state.up ? 'voteUp' : ''}
+                                src='img/icons8-facebook-like-32.png'
+                            />
+                            <div>{vnode.state.likes}</div>
                         </div>
                     </div>
                     <div class='subQuestionCardMore'>
@@ -137,12 +159,24 @@ function editSubQuestion(vnode) {
     if (!vnode.state.subQuestionEdit) {
 
         let va = vnode.attrs;
-
         let title = document.getElementById('title' + vnode.attrs.subQuestionId).value;
-        let description = document.getElementById('description' + vnode.attrs.subQuestionId).value
-        console.log('update data base', title, description)
-        updateSubQuestion(va.groupId, va.questionId, va.subQuestionId, title, description)
+        let description = document.getElementById('description' + vnode.attrs.subQuestionId).value;
+        updateSubQuestion(va.groupId, va.questionId, va.subQuestionId, title, description);
     }
 
+}
+
+function setSelection(vnode) {
+    let va = vnode.attrs;
+    if (vnode.state.up) {
+
+        setLikeToSubQuestion(va.groupId, va.questionId, va.subQuestionId, store.user.uid, false);
+
+    } else {
+
+        setLikeToSubQuestion(va.groupId, va.questionId, va.subQuestionId, store.user.uid, true);
+    }
+
+    vnode.state.up = !vnode.state.up
 }
 

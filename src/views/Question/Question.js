@@ -20,12 +20,16 @@ import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functi
 
 module.exports = {
     oninit: vnode => {
+
+        //get user before login to page
         store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
         sessionStorage.setItem('lastPage', store.lastPage);
+        if (store.user.uid == undefined) {
+            m.route.set('/login')
+        }
 
         vnode.state = {
             title: deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה'),
-            questionUnsubscribe: {},
             addOption: false,
             add: {
                 title: '',
@@ -79,10 +83,17 @@ module.exports = {
         vnode.state.title = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה');
         vnode.state.description = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.description`, '');
 
+        let userRole = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.roles.${store.user.uid}`, false);
+        if (!userRole) {
+            // the user is not a member in the question, he/she should login, and ask for membership
+        }
+
     },
     onupdate: vnode => {
-        //get final position
-        setWrapperHeight('questionHeadr', 'questionWrapperAll')
+
+        setWrapperHeight('questionHeadr', 'questionWrapperAll');
+
+
 
 
     },

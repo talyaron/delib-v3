@@ -9,9 +9,7 @@ import store from '../../../data/store';
 
 
 module.exports = {
-    oninit: vnode => {
 
-    },
     view: vnode => {
         return (
             <div class='questionSection'>
@@ -44,7 +42,7 @@ module.exports = {
                                 subQuestionId={subQuestion.id}
                                 isEditable={userRole}
                                 subAnswers={vnode.attrs.subAnswers[subQuestion.id]}
-                                key={index}
+                                key={subQuestion.id}
 
                             />
                         })

@@ -30,4 +30,13 @@ function setWrapperFromFooter(footerId, wrapperId) {
     let footerHeight = document.getElementById(footerId).clientHeight;
     document.getElementById(wrapperId).style.marginBottom = footerHeight + 30 + 'px'
 }
-module.exports = { deep_value, setWrapperHeight, setWrapperFromFooter }
+
+function returnUserRole(rolesObj, userUID) {
+    if (rolesObj.hasOwnProperty(userUID)) {
+        return rolesObj[userUID];
+    } else {
+        return false;
+    }
+}
+
+module.exports = { deep_value, setWrapperHeight, setWrapperFromFooter, returnUserRole }

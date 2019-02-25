@@ -122,6 +122,21 @@ function updateSubQuestion(groupId, questionId, subQuestionId, title, descriptio
     });
 }
 
+function setLikeToSubQuestion(groupId, questionId, subQuestionId, creatorId, isUp) {
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('likes').doc(creatorId);
+
+    if (isUp) {
+        subQuestionRef.set({ like: 1 })
+        console.log('set like to ', subQuestionId)
+    } else {
+        subQuestionRef.set({ like: 0 })
+        console.log('unset like to ', subQuestionId)
+    }
+}
+
 
 function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName, message) {
 
@@ -144,4 +159,4 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, createSubQuestion, updateSubQuestion, setLike, setMessage, setSubAnswer }
+module.exports = { createGroup, createQuestion, createOption, createSubQuestion, updateSubQuestion, setLikeToSubQuestion, setLike, setMessage, setSubAnswer }

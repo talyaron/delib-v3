@@ -211,44 +211,7 @@ function getOptionVote(groupId, questionId, optionId, creatorId) {
 
 }
 
-function getSubQuestions(groupId, questionId, vnode) {
-    let subQuestionsRef = DB.collection('groups').doc(groupId)
-        .collection('questions').doc(questionId)
-        .collection('subQuestions')
 
-
-    unsubscribe = subQuestionsRef.onSnapshot(subQuestionsDB => {
-
-        subQuestionsDB.docChanges().forEach(function (change) {
-
-            if (change.type === "added") {
-                vnode.state.subAnswersUnsb[change.doc.id] = getSubAnswers(groupId, questionId, change.doc.id, vnode) //listen to answers
-            }
-
-            if (change.type === "removed") {
-                //unsubscribe from answers
-            }
-        });
-
-
-
-        let subQuestionsArr = [];
-        subQuestionsDB.forEach(subQuestionDB => {
-
-
-
-            let subQuestionObj = subQuestionDB.data()
-
-            subQuestionObj.id = subQuestionDB.id
-            subQuestionsArr.push(subQuestionObj)
-        })
-
-        vnode.state.subQuestions = subQuestionsArr;
-        m.redraw();
-    });
-    return unsubscribe;
-
-}
 
 function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
     let subAnswersRef = DB.collection('groups').doc(groupId)
@@ -313,6 +276,86 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
     }
 }
 
+
+function getSubQuestions(groupId, questionId, vnode) {
+    let subQuestionsRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions')
+
+
+    unsubscribe = subQuestionsRef.orderBy('totalVotes', 'desc').onSnapshot(subQuestionsDB => {
+
+        subQuestionsDB.docChanges().forEach(function (change) {
+
+            if (change.type === "added") {
+                vnode.state.subAnswersUnsb[change.doc.id] = getSubAnswers(groupId, questionId, change.doc.id, vnode) //listen to answers
+            }
+
+            if (change.type === "removed") {
+                //unsubscribe from answers
+            }
+        });
+
+
+
+        let subQuestionsArr = [];
+        subQuestionsDB.forEach(subQuestionDB => {
+
+
+
+            let subQuestionObj = subQuestionDB.data()
+
+            subQuestionObj.id = subQuestionDB.id
+            subQuestionsArr.push(subQuestionObj)
+        })
+
+        vnode.state.subQuestions = subQuestionsArr;
+        m.redraw();
+    });
+    return unsubscribe;
+
+}
+
+
+function getSubQuestionLikes(groupId, questionId, subQuestionId, creatorId, vnode) {
+
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+
+
+    return subQuestionRef.onSnapshot(likeDB => {
+        if (likeDB.data().totalVotes != undefined) {
+            vnode.state.likes = likeDB.data().totalVotes;
+        } else {
+            vnode.state.likes = 0;
+        }
+
+        m.redraw();
+    })
+}
+
+function getSubQuestionUserLike(groupId, questionId, subQuestionId, creatorId, vnode) {
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('likes').doc(creatorId);
+
+    return subQuestionRef.onSnapshot(likeDB => {
+        if (likeDB.exists) {
+            if (likeDB.data().like == 1) {
+                vnode.state.up = true
+            } else {
+                vnode.state.up = false
+            }
+        } else {
+            vnode.state.up = false
+
+        }
+
+        m.redraw();
+    })
+}
 module.exports = {
     getUserGroups,
     getQuestions,
@@ -321,6 +364,8 @@ module.exports = {
     getOptions,
     getOptionVote,
     getSubQuestions,
+    getSubQuestionLikes,
+    getSubQuestionUserLike,
     getSubAnswers,
     getOptionDetails,
     getMessages
