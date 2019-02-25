@@ -10,12 +10,12 @@ db.settings(settings);
 exports.totalVotes = functions.firestore
     .document('groups/{groupId}/questions/{questionId}/options/{optionId}/likes/{userId}')
     .onUpdate((change, context) => {
-        var newLike = change.after.data().like;   
+        var newLike = change.after.data().like;
         var previousLike = 0;
         if (change.before.data() !== undefined) {
             previousLike = change.before.data().like;
-        } 
-        
+        }
+
         var like = newLike - previousLike
 
         var optionLikesRef = db.collection('groups').doc(context.params.groupId)
@@ -74,14 +74,14 @@ exports.totalVoters = functions.firestore
                 var totalVotes = newLike;
                 if (optionDoc.data().totalVotes !== undefined) {
                     totalVotes = optionDoc.data().totalVotes + newLike;
-                } 
+                }
                 var totalVoters = 1;
                 if (optionDoc.data().totalVoters !== undefined) {
                     totalVoters = optionDoc.data().totalVoters + 1;
-                } 
+                }
 
                 //calaculate consensus precentage: 
-                var consensusPrecentage = totalVotes / totalVoters;  
+                var consensusPrecentage = totalVotes / totalVoters;
 
                 // Update restaurant info
                 return transaction.update(optionLikesRef, {
@@ -94,4 +94,37 @@ exports.totalVoters = functions.firestore
     })
 
 
+exports.totalLikesForSubQuestion = functions.firestore
+    .document('groups/{groupId}/questions/{questionId}/subQuestions/{subQuestionId}/likes/{userId}')
+    .onUpdate((change, context) => {
+        var newLike = change.after.data().like;
+        var previousLike = 0;
+        if (change.before.data() !== undefined) {
+            previousLike = change.before.data().like;
+        }
 
+        var like = newLike - previousLike;
+
+        var subQuestionLikesRef = db.collection('groups').doc(context.params.groupId)
+            .collection('questions').doc(context.params.questionId)
+            .collection('subQuestions').doc(context.params.subQuestionId);
+
+
+        return db.runTransaction(transaction => {
+            return transaction.get(subQuestionLikesRef).then(subQuestionDoc => {
+                // Compute new number of ratings
+                var totalVotes = 0;
+                if (subQuestionDoc.data().totalVotes !== undefined) {
+                    totalVotes = subQuestionDoc.data().totalVotes + like;
+                } else {
+                    totalVotes = like;
+                }
+
+                // Update restaurant info
+                return transaction.update(subQuestionLikesRef, {
+                    totalVotes
+
+                });
+            })
+        })
+    })

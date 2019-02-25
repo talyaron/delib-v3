@@ -1,11 +1,11 @@
 import m from 'mithril';
-import { set } from 'lodash';
+
 import './Option.css';
 import store from '../../../data/store';
 
 import { setLike } from '../../../functions/firebase/set/set';
 import { getOptionVote } from '../../../functions/firebase/get/get';
-import { json } from 'body-parser';
+
 
 module.exports = {
     oninit: vnode => {
@@ -22,9 +22,13 @@ module.exports = {
                 offsetLeft: 0
             }
         }
-        vnode.state.likeUnsubscribe = getOptionVote( vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
-        set(store.optionsDetails, `[${vnode.attrs.optionId}].title`, vnode.attrs.title);
-        set(store.optionsDetails, `[${vnode.attrs.optionId}].description`, vnode.attrs.description);
+        console.log('option:', store.user.uid)
+        vnode.state.likeUnsubscribe = getOptionVote(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
+
+        store.optionsDetails[vnode.attrs.optionId] = {
+            title: vnode.attrs.title,
+            description: vnode.attrs.description
+        }
     },
     onbeforeupdate: vnode => {
 
@@ -67,15 +71,15 @@ module.exports = {
         let elementX = element.offsetLeft;
         let oldElement = { offsetTop: 0, offsetLeft: 0 };
         let toAnimate = false;
-       
+
         if (store.optionsLoc.hasOwnProperty(vnode.attrs.optionId)) {
             oldElement = store.optionsLoc[vnode.attrs.optionId];
-            toAnimate = store.optionsLoc[vnode.attrs.optionId].toAnimate;            
+            toAnimate = store.optionsLoc[vnode.attrs.optionId].toAnimate;
         }
 
         let topMove = elementY - oldElement.offsetTop;
-        let leftMove = elementX - oldElement.offsetLeft;        
-       
+        let leftMove = elementX - oldElement.offsetLeft;
+
         if ((Math.abs(topMove) > 30 || Math.abs(leftMove) > 30) && toAnimate) {
             let elementDOM = document.getElementById(vnode.attrs.optionId);
 
@@ -95,7 +99,7 @@ module.exports = {
         }
     },
     onremove: vnode => {
-        vnode.state.likeUnsubscribe();  
+        vnode.state.likeUnsubscribe();
     },
     view: (vnode) => {
 
@@ -153,4 +157,6 @@ function setSelection(upDown, vnode) {
         }
     }
 }
+
+
 

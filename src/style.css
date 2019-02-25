@@ -8,6 +8,7 @@
     --textHeaderWeight: 600;
     --textSubHeader: rgba(0, 0, 0, 0.68);
     --textHeaderSize: 1.1rem;
+    --textHeaderSubTitleSize: 1rem;
     --textRegular: rgba(0, 0, 0, 0.55);
     --textRegularSize: 1rem;
 }
@@ -44,24 +45,17 @@ header {
     z-index: 3;
 }
 
+.wrapperAll {
+    position: relative;
+    margin: auto;
+    max-width: 550px;
+}
+
 .wrapper {
     max-width: 550px;
-    margin: 70px auto 30px auto;
+    margin: 20px auto 20px auto;
     position: relative;
     z-index: 2;
-}
-
-.groupsWrapper {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    /* display: flex;
-    flex-wrap: wrap; */
-}
-
-@media screen and (max-width: 480px) {
-    .groupsWrapper {
-        grid-template-columns: 100%;
-    }
 }
 
 .card {
@@ -78,6 +72,8 @@ header {
     font-size: var(--textHeaderSize);
     font-weight: var(--textHeaderWeight);
     margin-bottom: 10px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .cardDescription {

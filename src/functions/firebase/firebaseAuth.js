@@ -16,21 +16,32 @@ function onAuth() {
         store.user = user;
 
         if (user) {
+            console.dir(user)
             console.log('User', store.user.uid, 'is signed in.');
             if (!user.isAnonymous) {
                 console.log('user', user.displayName, 'is logged in')
-                DB.collection("users").doc(user.uid).set({
+                let userSimpleObj = {
                     uid: store.user.uid,
                     name: store.user.displayName,
                     email: store.user.email
-                }).then(function () {
-                    console.log("Document successfully written!");
+                }
+
+
+                DB.collection("users").doc(user.uid).set(userSimpleObj).then(function () {
+
                 }).catch(function (error) {
-                    console.error("Error writing document: ", error);
+                    console.error("Error writing User: ", error);
                 });
 
                 let lastPage = sessionStorage.getItem('lastPage') || '/groups'
                 m.route.set(lastPage);
+            } else {
+
+
+                console.log('user is anonymous')
+                // let lastPage = sessionStorage.getItem('lastPage') || '/login'
+                let lastPage = '/login'
+                m.route.set(lastPage)
             }
         } else {
 

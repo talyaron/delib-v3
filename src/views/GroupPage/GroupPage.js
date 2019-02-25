@@ -1,5 +1,7 @@
 import m from 'mithril';
-import { get } from 'lodash';
+
+import { deep_value, setWrapperHeight } from '../../functions/general';
+
 import './GroupPage.css';
 import Group from '../Groups/Group/Group';
 import store from '../../data/store';
@@ -21,16 +23,19 @@ module.exports = {
             addQuestion: false,
             questions: [],
             unsubscribe: {},
-            groupName: get(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה')
+            groupName: deep_value(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה')
         }
 
         getQuestions('on', vnode.attrs.id, vnode);
         getGroupDetails('on', vnode.attrs.id, vnode);
     },
+    oncreate: vnode => {
+        setWrapperHeight('groupHeader', 'groupWrapper');
+    },
     onbeforeupdate: vnode => {
 
         //update name of group
-        vnode.state.groupName = get(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה');
+        vnode.state.groupName = deep_value(store.groups, '[' + vnode.attrs.id + '].title', 'שם הקבוצה');
         document.title = `דליב - ${vnode.state.groupName}`
 
         //update array of questions
@@ -40,6 +45,9 @@ module.exports = {
         }
         vnode.state.questions = questionsArray;
     },
+    onupdate: vnode => {
+        setWrapperHeight('groupHeader', 'groupWrapper');
+    },
     onremove: vnode => {
         getQuestions('off', vnode.attrs.id, vnode);
         getGroupDetails('off', vnode.attrs.id, vnode);
@@ -47,8 +55,8 @@ module.exports = {
     view: vnode => {
         return (
             <div class='page'>
-                <header onclick={()=>{m.route.set('/groups')}}>דליב - {vnode.state.groupName}</header>
-                <div class='wrapper groupsWrapper'>
+                <header onclick={() => { m.route.set('/groups') }} id='groupHeader'>דליב - {vnode.state.groupName}</header>
+                <div class='wrapper groupsWrapper' id='groupWrapper'>
                     {
                         vnode.state.questions.map((question, key) => {
                             return (

@@ -17,7 +17,8 @@ var store = {
     options: [],//options in a given question
     optionsVotes: {},
     optionsLoc: {},
-    optionsDetails:{} //vote on options by user
+    optionsDetails: {}, //vote on options by user
+    messagesShow:{} // history of messages to show
 }
 
 module.exports = store; 

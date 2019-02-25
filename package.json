@@ -1,7 +1,7 @@
 {
   "name": "Delib-v3",
   "version": "0.0.1",
-  "description": "Groupicks main module",
+  "description": "Delib main module",
   "main": "index.js",
   "scripts": {
     "test": "test",
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/talyaron/groupicks.git"
+    "url": ""
   },
   "author": "Tal Yaron",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -29,8 +29,6 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
-    "firebase-admin": "^6.5.1",
-    "firebase-functions": "^2.1.0",
     "mithril": "^1.1.6"
   }
 }

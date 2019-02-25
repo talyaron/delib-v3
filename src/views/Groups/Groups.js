@@ -12,6 +12,7 @@ import Group from './Group/Group';
 import { getUserGroups } from '../../functions/firebase/get/get';
 import { restrictedPage } from '../../functions/logins';
 import { createGroup } from '../../functions/firebase/set/set';
+import { setWrapperHeight } from '../../functions/general';
 
 import store from '../../data/store';
 
@@ -24,6 +25,15 @@ module.exports = {
             getUserGroups('on', store.user.uid);
         }
 
+
+
+
+    },
+    oncreate: vnode => {
+        setWrapperHeight('groupsHeader', 'groupsWrapper');
+    },
+    onupdate: vnode => {
+        setWrapperHeight('groupsHeader', 'groupsWrapper');
     },
     onremove: vnode => {
         getUserGroups('off', store.user.uid);
@@ -31,8 +41,8 @@ module.exports = {
     view: (vnode) => {
         return (
             <div >
-                <header class='groupsHeader'>דליב - קבוצות</header>
-                <div class='wrapper groupsWrapper'>
+                <header class='groupsHeader' id='groupsHeader'>דליב - קבוצות</header>
+                <div class='wrapper groupsWrapper' id='groupsWrapper'>
                     {
                         store.userGroups.map((group, key) => {
 
