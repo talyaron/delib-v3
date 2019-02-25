@@ -13,7 +13,7 @@ import Modal from '../Commons/Modal/Modal';
 
 import store from '../../data/store';
 
-import { getQuestionDetails, getOptions, getSubQuestions } from '../../functions/firebase/get/get';
+import { getQuestionDetails, getOptions, getSubItems } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functions/general';
 
@@ -60,7 +60,7 @@ module.exports = {
 
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeSubQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode)
+        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode)
 
         //scroll detection
 

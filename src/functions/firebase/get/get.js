@@ -277,15 +277,15 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
 }
 
 
-function getSubQuestions(groupId, questionId, vnode) {
-    let subQuestionsRef = DB.collection('groups').doc(groupId)
+function getSubItems(subItemsType, groupId, questionId, vnode) {
+    let subItemsRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions')
+        .collection(subItemsType)
 
 
-    unsubscribe = subQuestionsRef.orderBy('totalVotes', 'desc').onSnapshot(subQuestionsDB => {
+    unsubscribe = subItemsRef.orderBy('totalVotes', 'desc').onSnapshot(SubItemsDB => {
 
-        subQuestionsDB.docChanges().forEach(function (change) {
+        SubItemsDB.docChanges().forEach(function (change) {
 
             if (change.type === "added") {
                 vnode.state.subAnswersUnsb[change.doc.id] = getSubAnswers(groupId, questionId, change.doc.id, vnode) //listen to answers
@@ -298,18 +298,18 @@ function getSubQuestions(groupId, questionId, vnode) {
 
 
 
-        let subQuestionsArr = [];
-        subQuestionsDB.forEach(subQuestionDB => {
+        let subItemArr = [];
+        SubItemsDB.forEach(SubItemDB => {
 
 
 
-            let subQuestionObj = subQuestionDB.data()
+            let subItemObj = SubItemDB.data()
 
-            subQuestionObj.id = subQuestionDB.id
-            subQuestionsArr.push(subQuestionObj)
+            subItemObj.id = SubItemDB.id
+            subItemArr.push(subItemObj)
         })
 
-        vnode.state.subQuestions = subQuestionsArr;
+        vnode.state.subQuestions = subItemArr;
         m.redraw();
     });
     return unsubscribe;
@@ -363,7 +363,7 @@ module.exports = {
     getQuestionDetails,
     getOptions,
     getOptionVote,
-    getSubQuestions,
+    getSubItems,
     getSubItemLikes,
     getSubItemUserLike,
     getSubAnswers,
