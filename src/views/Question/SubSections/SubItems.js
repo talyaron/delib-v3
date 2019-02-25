@@ -13,7 +13,7 @@ module.exports = {
     view: vnode => {
         return (
             <div class='questionSection'>
-                <div class='questionSectionTitle questions'>{vnode.attrs.subItemsTitle}</div>
+                <div class='questionSectionTitle questions' style={`background:${vnode.attrs.titleColor}`}>{vnode.attrs.subItemsTitle}</div>
                 <div class='questionSectionFooter'>
                     {
                         vnode.attrs.subItems.map(subItem => {
@@ -33,6 +33,7 @@ module.exports = {
                             return <SubItem
                                 subItemsType={vnode.attrs.subItemsType}
                                 title={subItem.title}
+                                mainColor={vnode.attrs.mainColor}
                                 description={subItem.description}
                                 author={subItem.author}
                                 support={subItem.support}

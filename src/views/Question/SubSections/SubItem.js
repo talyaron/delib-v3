@@ -72,7 +72,7 @@ module.exports = {
         let numberOfSubAnswers = vnode.state.subAnswers.length;
         return (
             <div key={vnode.attrs.key}>
-                <div class='card subQuestionCard' >
+                <div class='card subQuestionCard' style={`background:${vnode.attrs.mainColor}`}>
                     <div class='subQuestionCardCotent'>
                         {vnode.state.subQuestionEdit ?
                             <form class='editSubQuestion'>
