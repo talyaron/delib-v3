@@ -309,7 +309,7 @@ function getSubItems(subItemsType, groupId, questionId, vnode) {
             subItemArr.push(subItemObj)
         })
 
-        vnode.state.subQuestions = subItemArr;
+        vnode.state[subItemsType] = subItemArr;
         m.redraw();
     });
     return unsubscribe;
