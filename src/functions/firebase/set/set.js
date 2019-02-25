@@ -80,9 +80,11 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
         })
 }
 
-function createSubQuestion(groupId, questionId, creatorId, creatorName, title, description) {
+function createSubItem(subItemsType, groupId, questionId, creatorId, creatorName, title, description) {
     console.log(groupId, questionId, creatorId, title, description);
-    let subQuestionRef = DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('subQuestions');
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection(subItemsType);
 
     let addObj = {
         groupId,
@@ -93,21 +95,22 @@ function createSubQuestion(groupId, questionId, creatorId, creatorName, title, d
         author: creatorName,
         time: firebase.firestore.FieldValue.serverTimestamp(),
         consensusPrecentage: 0,
-        roles: {}
+        roles: {},
+        totalVotes: 0
     };
     addObj.roles[creatorId] = 'owner';
 
-    subQuestionRef.add(addObj).then(newOption => {
+    subQuestionRef.add(addObj).then(newItem => {
     }).catch(function (error) {
         console.error("Error adding document: ", error);
     });
 }
 
-function updateSubQuestion(groupId, questionId, subQuestionId, title, description) {
+function updateSubItem(subItemsType, groupId, questionId, subQuestionId, title, description) {
 
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions').doc(subQuestionId);
+        .collection(subItemsType).doc(subQuestionId);
 
     let updateObj = {
         title,
@@ -159,4 +162,4 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, createSubQuestion, updateSubQuestion, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+module.exports = { createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

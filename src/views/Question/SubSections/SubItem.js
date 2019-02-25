@@ -3,7 +3,7 @@ import m from 'mithril';
 import SubAnswer from './SubAnswer/SubAnswer';
 import './SubItem.css';
 
-import { setSubAnswer, updateSubQuestion, setLikeToSubItem } from '../../../functions/firebase/set/set';
+import { setSubAnswer, updateSubItem, setLikeToSubItem } from '../../../functions/firebase/set/set';
 import { getSubItemLikes, getSubItemUserLike } from '../../../functions/firebase/get/get';
 
 import store from '../../../data/store';
@@ -99,7 +99,7 @@ module.exports = {
                         <div class='subQuestionCardEdit'>
                             {
                                 vnode.attrs.isEditable ?
-                                    <div class='iconBackground' onclick={() => { editSubQuestion(vnode) }}><img src='img/icons8-edit.svg' /></div>
+                                    <div class='iconBackground' onclick={() => { editSubItem(vnode) }}><img src='img/icons8-edit.svg' /></div>
                                     :
                                     <div />
                             }
@@ -154,7 +154,7 @@ function addAnswer(event, vnode) {
     }
 }
 
-function editSubQuestion(vnode) {
+function editSubItem(vnode) {
 
     vnode.state.subQuestionEdit = !vnode.state.subQuestionEdit;
 
@@ -163,7 +163,7 @@ function editSubQuestion(vnode) {
         let va = vnode.attrs;
         let title = document.getElementById('title' + vnode.attrs.subQuestionId).value;
         let description = document.getElementById('description' + vnode.attrs.subQuestionId).value;
-        updateSubQuestion(va.groupId, va.questionId, va.subQuestionId, title, description);
+        updateSubItem(va.subItemsType, va.groupId, va.questionId, va.subQuestionId, title, description);
     }
 
 }

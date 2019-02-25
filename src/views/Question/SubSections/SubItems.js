@@ -47,7 +47,7 @@ module.exports = {
                             />
                         })
                     }
-                    <div class='buttons questionSectionAddButton' onclick={() => { openNewQuestion(vnode) }}>הוסף שאלה</div>
+                    <div class='buttons questionSectionAddButton' onclick={() => { openNewQuestion(vnode) }}>{vnode.attrs.addTitle}</div>
 
                 </div>
             </div>
@@ -58,8 +58,8 @@ module.exports = {
 function openNewQuestion(vnode) {
     vnode.attrs.questionVnode.state.showModal = {
         isShow: true,
-        which: 'addSubQuestion',
-        title: 'הוספת תת-שאלה '
+        which: vnode.attrs.subItemsType,
+        title: vnode.attrs.addTitle
     }
 }
 

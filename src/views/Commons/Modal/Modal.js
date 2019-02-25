@@ -2,7 +2,7 @@
 import m from 'mithril';
 import './Modal.css';
 
-import { createOption, createSubQuestion } from '../../../functions/firebase/set/set';
+import { createOption, createSubItem } from '../../../functions/firebase/set/set';
 
 import store from '../../../data/store';
 
@@ -68,9 +68,15 @@ function setNewInfo(vnp, vnode) {
         case 'addOption':
             createOption(vnp.attrs.groupId, vnp.attrs.id, store.user.uid, vnode.state.add.title, vnode.state.add.description);
             break;
-        case 'addSubQuestion':
+        case 'subQuestions':
             console.log('addSubQuestion');
-            createSubQuestion(vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
+            createSubItem('subQuestions', vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
+            break;
+        case 'goals':
+            createSubItem('goals', vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
+            break;
+        case 'values':
+            createSubItem('values', vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
             break;
         default:
             console.log('couldnt find such case:', vnp.state.showModal.which)

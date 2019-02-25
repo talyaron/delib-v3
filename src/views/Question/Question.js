@@ -39,6 +39,8 @@ module.exports = {
             options: {},
             scrollY: false,
             subQuestions: [],
+            goals: [],
+            values: [],
             subAnswers: {}, //used to set sub answers to each sub question
             subAnswersUnsb: {}, //used to unsubscribe
             showModal: {
@@ -49,7 +51,7 @@ module.exports = {
 
         store.options = [];
 
-        // help show message only one time
+        //  show message only one time
         if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
 
             store.messagesShow[vnode.attrs.id] = false
@@ -60,7 +62,9 @@ module.exports = {
 
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode)
+        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeGoals = getSubItems('goals', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeValues = getSubItems('values', vnode.attrs.groupId, vnode.attrs.id, vnode);
 
         //scroll detection
 
@@ -99,6 +103,8 @@ module.exports = {
         vnode.state.unsubscribeOptions();
         vnode.state.unsubscribeQuestion();
         vnode.state.unsubscribeSubQuestions();
+        vnode.state.unsubscribeGoals();
+        vnode.state.unsubscribeValues();
     },
     view: vnode => {
 
@@ -119,6 +125,7 @@ module.exports = {
                         <SubItems
                             subItemsType='subQuestions'
                             subItemsTitle='שאלות המשך'
+                            addTitle='הוספת תת-שאלה'
                             subItems={vnode.state.subQuestions}
                             subAnswers={vnode.state.subAnswers}
                             groupId={vnode.attrs.groupId}
@@ -126,8 +133,29 @@ module.exports = {
                             questionVnode={vnode}
 
                         />
-                        <Goals />
-                        <Evaluation />
+                        <SubItems
+                            subItemsType='goals'
+                            subItemsTitle='מטרות הקבוצה'
+                            addTitle='הוספת מטרה'
+                            subItems={vnode.state.goals}
+                            subAnswers={vnode.state.subAnswers}
+                            groupId={vnode.attrs.groupId}
+                            questionId={vnode.attrs.id}
+                            questionVnode={vnode}
+
+                        />
+                        <SubItems
+                            subItemsType='values'
+                            subItemsTitle='אילוציי הקבוצה'
+                            addTitle='הוספת אילוץ'
+                            subItems={vnode.state.values}
+                            subAnswers={vnode.state.subAnswers}
+                            groupId={vnode.attrs.groupId}
+                            questionId={vnode.attrs.id}
+                            questionVnode={vnode}
+
+                        />
+
                     </div>
                     <div class='wrapper groupsWrapper' id='optionsWrapper' >
                         <div class='questionSection'>
