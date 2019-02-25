@@ -317,11 +317,11 @@ function getSubQuestions(groupId, questionId, vnode) {
 }
 
 
-function getSubQuestionLikes(groupId, questionId, subQuestionId, creatorId, vnode) {
+function getSubItemLikes(subItemsType, groupId, questionId, subQuestionId, creatorId, vnode) {
 
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions').doc(subQuestionId)
+        .collection(subItemsType).doc(subQuestionId)
 
 
     return subQuestionRef.onSnapshot(likeDB => {
@@ -335,10 +335,10 @@ function getSubQuestionLikes(groupId, questionId, subQuestionId, creatorId, vnod
     })
 }
 
-function getSubQuestionUserLike(groupId, questionId, subQuestionId, creatorId, vnode) {
+function getSubItemUserLike(subItemsType, groupId, questionId, subQuestionId, creatorId, vnode) {
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions').doc(subQuestionId)
+        .collection(subItemsType).doc(subQuestionId)
         .collection('likes').doc(creatorId);
 
     return subQuestionRef.onSnapshot(likeDB => {
@@ -364,8 +364,8 @@ module.exports = {
     getOptions,
     getOptionVote,
     getSubQuestions,
-    getSubQuestionLikes,
-    getSubQuestionUserLike,
+    getSubItemLikes,
+    getSubItemUserLike,
     getSubAnswers,
     getOptionDetails,
     getMessages

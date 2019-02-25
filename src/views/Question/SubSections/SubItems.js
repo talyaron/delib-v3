@@ -1,6 +1,6 @@
 import m from 'mithril';
-import './SubQuestions.css';
-import SubQuestion from './SubQuestion';
+import './SubItems.css';
+import SubItem from './SubItem';
 import settings from '../../../data/settings';
 import store from '../../../data/store';
 
@@ -13,15 +13,15 @@ module.exports = {
     view: vnode => {
         return (
             <div class='questionSection'>
-                <div class='questionSectionTitle questions'> שאלות המשך</div>
+                <div class='questionSectionTitle questions'>{vnode.attrs.subItemsTitle}</div>
                 <div class='questionSectionFooter'>
                     {
-                        vnode.attrs.subQuestions.map((subQuestion, index) => {
+                        vnode.attrs.subItems.map(subItem => {
 
                             let userRole = false;
 
-                            if (subQuestion.roles.hasOwnProperty(store.user.uid)) {
-                                userRole = subQuestion.roles[store.user.uid];
+                            if (subItem.roles.hasOwnProperty(store.user.uid)) {
+                                userRole = subItem.roles[store.user.uid];
 
                                 if (settings.roles.subQuestions.write[userRole]) {
                                     userRole = true
@@ -30,19 +30,19 @@ module.exports = {
                                 }
                             }
 
-
-                            return <SubQuestion
-                                title={subQuestion.title}
-                                description={subQuestion.description}
-                                author={subQuestion.author}
-                                support={subQuestion.support}
-                                questionId={subQuestion.id}
+                            return <SubItem
+                                subItemsType={vnode.attrs.subItemsType}
+                                title={subItem.title}
+                                description={subItem.description}
+                                author={subItem.author}
+                                support={subItem.support}
+                                questionId={subItem.id}
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
-                                subQuestionId={subQuestion.id}
+                                subQuestionId={subItem.id}
                                 isEditable={userRole}
-                                subAnswers={vnode.attrs.subAnswers[subQuestion.id]}
-                                key={subQuestion.id}
+                                subAnswers={vnode.attrs.subAnswers[subItem.id]}
+                                key={subItem.id}
 
                             />
                         })

@@ -5,7 +5,7 @@ import './Question.css';
 import Option from './Option/Option';
 import Message from '../Commons/Message/Message';
 import Spinner from '../Commons/Spinner/Spinner';
-import SubQuestions from './SubSections/SubQuestions';
+import SubItems from './SubSections/SubItems';
 import Description from './SubSections/Description';
 import Goals from './SubSections/Goals';
 import Evaluation from './SubSections/Evaluation';
@@ -46,8 +46,6 @@ module.exports = {
                 which: ''
             }
         }
-
-
 
         store.options = [];
 
@@ -118,8 +116,10 @@ module.exports = {
                             title='הסבר על השאלה:'
                             content={vnode.state.description}
                         />
-                        <SubQuestions
-                            subQuestions={vnode.state.subQuestions}
+                        <SubItems
+                            subItemsType='subQuestions'
+                            subItemsTitle='שאלות המשך'
+                            subItems={vnode.state.subQuestions}
                             subAnswers={vnode.state.subAnswers}
                             groupId={vnode.attrs.groupId}
                             questionId={vnode.attrs.id}

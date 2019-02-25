@@ -1,10 +1,10 @@
 import m from 'mithril';
 
 import SubAnswer from './SubAnswer/SubAnswer';
-import './SubQuestion.css';
+import './SubItem.css';
 
-import { setSubAnswer, updateSubQuestion, setLikeToSubQuestion } from '../../../functions/firebase/set/set';
-import { getSubQuestionLikes, getSubQuestionUserLike } from '../../../functions/firebase/get/get';
+import { setSubAnswer, updateSubQuestion, setLikeToSubItem } from '../../../functions/firebase/set/set';
+import { getSubItemLikes, getSubItemUserLike } from '../../../functions/firebase/get/get';
 
 import store from '../../../data/store';
 
@@ -22,7 +22,8 @@ module.exports = {
         }
 
 
-        vnode.state.unsubscribeLikes = getSubQuestionLikes(
+        vnode.state.unsubscribeLikes = getSubItemLikes(
+            vnode.attrs.subItemsType,
             vnode.attrs.groupId,
             vnode.attrs.questionId,
             vnode.attrs.subQuestionId,
@@ -30,7 +31,8 @@ module.exports = {
             vnode
         )
 
-        vnode.state.usubscruibeUserLike = getSubQuestionUserLike(
+        vnode.state.usubscruibeUserLike = getSubItemUserLike(
+            vnode.attrs.subItemsType,
             vnode.attrs.groupId,
             vnode.attrs.questionId,
             vnode.attrs.subQuestionId,
@@ -170,11 +172,11 @@ function setSelection(vnode) {
     let va = vnode.attrs;
     if (vnode.state.up) {
 
-        setLikeToSubQuestion(va.groupId, va.questionId, va.subQuestionId, store.user.uid, false);
+        setLikeToSubItem(va.subItemsType, va.groupId, va.questionId, va.subQuestionId, store.user.uid, false);
 
     } else {
 
-        setLikeToSubQuestion(va.groupId, va.questionId, va.subQuestionId, store.user.uid, true);
+        setLikeToSubItem(va.subItemsType, va.groupId, va.questionId, va.subQuestionId, store.user.uid, true);
     }
 
     vnode.state.up = !vnode.state.up

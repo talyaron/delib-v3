@@ -122,10 +122,10 @@ function updateSubQuestion(groupId, questionId, subQuestionId, title, descriptio
     });
 }
 
-function setLikeToSubQuestion(groupId, questionId, subQuestionId, creatorId, isUp) {
+function setLikeToSubItem(subItemsType, groupId, questionId, subQuestionId, creatorId, isUp) {
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions').doc(subQuestionId)
+        .collection(subItemsType).doc(subQuestionId)
         .collection('likes').doc(creatorId);
 
     if (isUp) {
@@ -159,4 +159,4 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, createSubQuestion, updateSubQuestion, setLikeToSubQuestion, setLike, setMessage, setSubAnswer }
+module.exports = { createGroup, createQuestion, createOption, createSubQuestion, updateSubQuestion, setLikeToSubItem, setLike, setMessage, setSubAnswer }
