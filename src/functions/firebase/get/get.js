@@ -120,59 +120,58 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
-function getOptions(onOff, groupId, questionId, order) {
+function getOptions(groupId, questionId, order, vnode) {
 
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
 
-    if (onOff === 'on') {
-        let orderBy = 'time'
-        switch (order) {
-            case "new":
-                orderBy = 'time';
-                break;
-            case 'top':
-                orderBy = 'consensusPrecentage';
-                break;
-            default:
-                orderBy = 'time';
-        }
-        let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
 
-            let optionsArray = [];
-            optionsDB.forEach(optionDB => {
-                let optionObj = optionDB.data();
+    let orderBy = 'time'
+    switch (order) {
+        case "new":
+            orderBy = 'time';
+            break;
+        case 'top':
+            orderBy = 'consensusPrecentage';
+            break;
+        default:
+            orderBy = 'time';
+    }
 
+    let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+        let optionsArray = [];
+        optionsDB.forEach(optionDB => {
+            let optionObj = optionDB.data();
+            optionObj.id = optionDB.id;
 
-                //get before position
-                let elm = document.getElementById(optionObj.id)
-                if (elm) {
-                    store.optionsLoc[optionObj.id] = {
-                        offsetTop: elm.offsetTop,
-                        offsetLeft: elm.offsetLeft,
-                        toAnimate: true,
-                        new: false
-                    };
+            //get before position
+            let elm = document.getElementById(optionObj.id)
+            if (elm) {
+                store.optionsLoc[optionObj.id] = {
+                    offsetTop: elm.offsetTop,
+                    offsetLeft: elm.offsetLeft,
+                    toAnimate: true,
+                    new: false
+                };
 
-                } else {
-                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new: true }
-                }
+            } else {
+                store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new: true }
+            }
 
-                optionsArray.push(optionObj)
-            })
-
-
-            store.options = optionsArray;
-
-            m.redraw();
-
+            optionsArray.push(optionObj)
         })
 
-        return unsubscribe;
-    } else {
-        optionRef.onSnapshot(() => { })();
-    }
+
+        // store.options = optionsArray;
+        vnode.state.optionsArr = optionsArray;
+
+        m.redraw();
+
+    })
+
+    return unsubscribe;
+
 }
 
 function getOptionDetails(onOff, groupId, questionId, optionId) {

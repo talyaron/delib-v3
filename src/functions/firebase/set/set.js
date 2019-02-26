@@ -48,8 +48,7 @@ function createOption(groupId, questionId, creatorId, title, description) {
             DB.collection('groups').doc(groupId)
                 .collection('questions').doc(questionId)
                 .collection('options').doc(newOption.id).update({ id: newOption.id })
-            console.log('new option created:', newOption.id);
-            console.dir(newOption)
+
         }).catch(function (error) {
             console.error("Error adding document: ", error);
         });

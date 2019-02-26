@@ -22,7 +22,7 @@ module.exports = {
                 offsetLeft: 0
             }
         }
-        console.log('option:', store.user.uid)
+        console.log('option:', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid)
         vnode.state.likeUnsubscribe = getOptionVote(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
 
         store.optionsDetails[vnode.attrs.optionId] = {
