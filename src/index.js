@@ -6,7 +6,7 @@ import './style.css';
 import './functions/firebase/config';
 import { onAuth } from './functions/firebase/firebaseAuth';
 onAuth();
-
+m.route.prefix('?')
 
 //Views
 import Splash from "./views/Splash/Splash";

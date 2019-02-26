@@ -120,59 +120,58 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
-function getOptions(onOff, groupId, questionId, order) {
+function getOptions(groupId, questionId, order, vnode) {
 
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options');
 
-    if (onOff === 'on') {
-        let orderBy = 'time'
-        switch (order) {
-            case "new":
-                orderBy = 'time';
-                break;
-            case 'top':
-                orderBy = 'consensusPrecentage';
-                break;
-            default:
-                orderBy = 'time';
-        }
-        let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
 
-            let optionsArray = [];
-            optionsDB.forEach(optionDB => {
-                let optionObj = optionDB.data();
+    let orderBy = 'time'
+    switch (order) {
+        case "new":
+            orderBy = 'time';
+            break;
+        case 'top':
+            orderBy = 'consensusPrecentage';
+            break;
+        default:
+            orderBy = 'time';
+    }
 
+    let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+        let optionsArray = [];
+        optionsDB.forEach(optionDB => {
+            let optionObj = optionDB.data();
+            optionObj.id = optionDB.id;
 
-                //get before position
-                let elm = document.getElementById(optionObj.id)
-                if (elm) {
-                    store.optionsLoc[optionObj.id] = {
-                        offsetTop: elm.offsetTop,
-                        offsetLeft: elm.offsetLeft,
-                        toAnimate: true,
-                        new: false
-                    };
+            //get before position
+            let elm = document.getElementById(optionObj.id)
+            if (elm) {
+                store.optionsLoc[optionObj.id] = {
+                    offsetTop: elm.offsetTop,
+                    offsetLeft: elm.offsetLeft,
+                    toAnimate: true,
+                    new: false
+                };
 
-                } else {
-                    store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new: true }
-                }
+            } else {
+                store.optionsLoc[optionObj.id] = { offsetTop: 0, offsetLeft: 0, toAnimate: false, new: true }
+            }
 
-                optionsArray.push(optionObj)
-            })
-
-
-            store.options = optionsArray;
-
-            m.redraw();
-
+            optionsArray.push(optionObj)
         })
 
-        return unsubscribe;
-    } else {
-        optionRef.onSnapshot(() => { })();
-    }
+
+        // store.options = optionsArray;
+        vnode.state.optionsArr = optionsArray;
+
+        m.redraw();
+
+    })
+
+    return unsubscribe;
+
 }
 
 function getOptionDetails(onOff, groupId, questionId, optionId) {
@@ -277,15 +276,15 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
 }
 
 
-function getSubQuestions(groupId, questionId, vnode) {
-    let subQuestionsRef = DB.collection('groups').doc(groupId)
+function getSubItems(subItemsType, groupId, questionId, vnode) {
+    let subItemsRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions')
+        .collection(subItemsType)
 
 
-    unsubscribe = subQuestionsRef.orderBy('totalVotes', 'desc').onSnapshot(subQuestionsDB => {
+    unsubscribe = subItemsRef.orderBy('totalVotes', 'desc').onSnapshot(SubItemsDB => {
 
-        subQuestionsDB.docChanges().forEach(function (change) {
+        SubItemsDB.docChanges().forEach(function (change) {
 
             if (change.type === "added") {
                 vnode.state.subAnswersUnsb[change.doc.id] = getSubAnswers(groupId, questionId, change.doc.id, vnode) //listen to answers
@@ -298,18 +297,18 @@ function getSubQuestions(groupId, questionId, vnode) {
 
 
 
-        let subQuestionsArr = [];
-        subQuestionsDB.forEach(subQuestionDB => {
+        let subItemArr = [];
+        SubItemsDB.forEach(SubItemDB => {
 
 
 
-            let subQuestionObj = subQuestionDB.data()
+            let subItemObj = SubItemDB.data()
 
-            subQuestionObj.id = subQuestionDB.id
-            subQuestionsArr.push(subQuestionObj)
+            subItemObj.id = SubItemDB.id
+            subItemArr.push(subItemObj)
         })
 
-        vnode.state.subQuestions = subQuestionsArr;
+        vnode.state[subItemsType] = subItemArr;
         m.redraw();
     });
     return unsubscribe;
@@ -317,11 +316,11 @@ function getSubQuestions(groupId, questionId, vnode) {
 }
 
 
-function getSubQuestionLikes(groupId, questionId, subQuestionId, creatorId, vnode) {
+function getSubItemLikes(subItemsType, groupId, questionId, subQuestionId, creatorId, vnode) {
 
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions').doc(subQuestionId)
+        .collection(subItemsType).doc(subQuestionId)
 
 
     return subQuestionRef.onSnapshot(likeDB => {
@@ -335,10 +334,10 @@ function getSubQuestionLikes(groupId, questionId, subQuestionId, creatorId, vnod
     })
 }
 
-function getSubQuestionUserLike(groupId, questionId, subQuestionId, creatorId, vnode) {
+function getSubItemUserLike(subItemsType, groupId, questionId, subQuestionId, creatorId, vnode) {
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
-        .collection('subQuestions').doc(subQuestionId)
+        .collection(subItemsType).doc(subQuestionId)
         .collection('likes').doc(creatorId);
 
     return subQuestionRef.onSnapshot(likeDB => {
@@ -363,9 +362,9 @@ module.exports = {
     getQuestionDetails,
     getOptions,
     getOptionVote,
-    getSubQuestions,
-    getSubQuestionLikes,
-    getSubQuestionUserLike,
+    getSubItems,
+    getSubItemLikes,
+    getSubItemUserLike,
     getSubAnswers,
     getOptionDetails,
     getMessages

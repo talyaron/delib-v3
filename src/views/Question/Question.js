@@ -5,7 +5,7 @@ import './Question.css';
 import Option from './Option/Option';
 import Message from '../Commons/Message/Message';
 import Spinner from '../Commons/Spinner/Spinner';
-import SubQuestions from './SubSections/SubQuestions';
+import SubItems from './SubSections/SubItems';
 import Description from './SubSections/Description';
 import Goals from './SubSections/Goals';
 import Evaluation from './SubSections/Evaluation';
@@ -13,7 +13,7 @@ import Modal from '../Commons/Modal/Modal';
 
 import store from '../../data/store';
 
-import { getQuestionDetails, getOptions, getSubQuestions } from '../../functions/firebase/get/get';
+import { getQuestionDetails, getOptions, getSubItems } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functions/general';
 
@@ -39,6 +39,8 @@ module.exports = {
             options: {},
             scrollY: false,
             subQuestions: [],
+            goals: [],
+            values: [],
             subAnswers: {}, //used to set sub answers to each sub question
             subAnswersUnsb: {}, //used to unsubscribe
             showModal: {
@@ -47,11 +49,9 @@ module.exports = {
             }
         }
 
-
-
         store.options = [];
 
-        // help show message only one time
+        //  show message only one time
         if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
 
             store.messagesShow[vnode.attrs.id] = false
@@ -62,7 +62,9 @@ module.exports = {
 
         vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
         vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeSubQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode)
+        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeGoals = getSubItems('goals', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeValues = getSubItems('values', vnode.attrs.groupId, vnode.attrs.id, vnode);
 
         //scroll detection
 
@@ -101,6 +103,8 @@ module.exports = {
         vnode.state.unsubscribeOptions();
         vnode.state.unsubscribeQuestion();
         vnode.state.unsubscribeSubQuestions();
+        vnode.state.unsubscribeGoals();
+        vnode.state.unsubscribeValues();
     },
     view: vnode => {
 
@@ -118,16 +122,46 @@ module.exports = {
                             title='הסבר על השאלה:'
                             content={vnode.state.description}
                         />
-                        <SubQuestions
-                            subQuestions={vnode.state.subQuestions}
+                        <SubItems
+                            subItemsType='subQuestions'
+                            subItemsTitle='שאלות המשך'
+                            addTitle='הוספת תת-שאלה'
+                            titleColor='#5c5cdc'
+                            mainColor='#9292cc'
+                            subItems={vnode.state.subQuestions}
                             subAnswers={vnode.state.subAnswers}
                             groupId={vnode.attrs.groupId}
                             questionId={vnode.attrs.id}
                             questionVnode={vnode}
 
                         />
-                        <Goals />
-                        <Evaluation />
+                        <SubItems
+                            subItemsType='goals'
+                            subItemsTitle='מטרות הקבוצה'
+                            addTitle='הוספת מטרה'
+                            titleColor='#2fde56'
+                            mainColor='#6aea81'
+                            subItems={vnode.state.goals}
+                            subAnswers={vnode.state.subAnswers}
+                            groupId={vnode.attrs.groupId}
+                            questionId={vnode.attrs.id}
+                            questionVnode={vnode}
+
+                        />
+                        <SubItems
+                            subItemsType='values'
+                            subItemsTitle='אילוציי הקבוצה'
+                            addTitle='הוספת אילוץ'
+                            titleColor='#efa211'
+                            mainColor='#ecae39'
+                            subItems={vnode.state.values}
+                            subAnswers={vnode.state.subAnswers}
+                            groupId={vnode.attrs.groupId}
+                            questionId={vnode.attrs.id}
+                            questionVnode={vnode}
+
+                        />
+
                     </div>
                     <div class='wrapper groupsWrapper' id='optionsWrapper' >
                         <div class='questionSection'>
