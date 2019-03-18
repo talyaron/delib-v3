@@ -15,7 +15,7 @@ function googleLogin() {
         // store.user = result.user;
         console.log(`user is logged in with google`)
 
-
+        
 
         m.route.set('/groups')
     }).catch(function (error) {

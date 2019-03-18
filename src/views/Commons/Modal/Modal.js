@@ -8,7 +8,6 @@ import store from '../../../data/store';
 
 module.exports = {
     oninit: vnode => {
-        console.dir(vnode.attrs)
 
         vnode.state = {
             showModal: vnode.attrs.showModal,

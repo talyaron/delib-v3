@@ -1,6 +1,7 @@
 import store from '../../data/store';
 import m from 'mithril';
 import DB from '../firebase/config';
+import { listenToFeeds } from '../firebase/get/get';
 
 function AnonymousLogin() {
     firebase.auth().signInAnonymously().catch(function (error) {
@@ -26,6 +27,7 @@ function onAuth() {
                     email: store.user.email
                 }
 
+                listenToFeeds();
 
                 DB.collection("users").doc(user.uid).set(userSimpleObj).then(function () {
 

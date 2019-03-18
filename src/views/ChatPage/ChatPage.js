@@ -6,7 +6,7 @@ import './ChatPage.css';
 
 import store from '../../data/store';
 import { getQuestionDetails, getOptionDetails, getMessages } from '../../functions/firebase/get/get';
-import { setMessage } from '../../functions/firebase/set/set';
+import { setMessage, addToFeed } from '../../functions/firebase/set/set';
 
 
 module.exports = {
@@ -35,8 +35,8 @@ module.exports = {
 
     },
     onupdate: vnode => {
-        window.scrollTo(0,document.body.scrollHeight );
-       
+        window.scrollTo(0, document.body.scrollHeight);
+
     },
     onremove: vnode => {
         getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode);
@@ -53,6 +53,14 @@ module.exports = {
                     <div class='chatOptionHeader'>
                         אפשרות: {vnode.state.optionTitle}
                     </div>
+                    <div onclick={() => addToFeed(
+                        [
+                            'groups', vnode.attrs.groupId,
+                            'questions', vnode.attrs.questionId,
+                            'options', vnode.attrs.optionId,
+                            'messages'
+                        ],
+                        'collection')}>Add to feed</div>
                 </header>
                 <div class='wrapper'>
                     <div class='chatOptionDescription'>
@@ -84,8 +92,8 @@ module.exports = {
 
 function updateDetials(vnode) {
     //update details
-    
-        // vnode.state.questionTitle = deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה');
+
+    // vnode.state.questionTitle = deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה');
     vnode.state.questionTitle = deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה');
     vnode.state.optionTitle = deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות');
     vnode.state.optionDescription = deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות');
@@ -99,7 +107,7 @@ function sendMessage(e, vnode) {
     if (e.key == "Enter") {
 
         let va = vnode.attrs
-        console.log(va.groupId, va.questionId, va.optionId);
+
         setMessage(va.groupId, va.questionId, va.optionId, store.user.uid, store.user.displayName || 'אנונימי', e.target.value)
         vnode.state.input = ''
     }

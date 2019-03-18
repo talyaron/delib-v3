@@ -246,10 +246,10 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
         .collection('messages');
 
     if (onOff === 'on') {
-        messagesRef.orderBy('time', 'desc').limit(10).onSnapshot(messagesDB => {
+        messagesRef.orderBy('time', 'desc').onSnapshot(messagesDB => {
             let messagesArray = [];
 
-
+            let numberOfMessages = messagesDB.size
             messagesDB.forEach(messageDB => {
                 let tempMessage = messageDB.data();
 
@@ -265,6 +265,7 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
                 vnode.state.messagesIds[messageDB.id] = true;
             })
             vnode.state.messages = messagesArray;
+            // vnode.state.numberOfMessages = numberOfMessages;
 
 
 
@@ -355,6 +356,67 @@ function getSubItemUserLike(subItemsType, groupId, questionId, subQuestionId, cr
         m.redraw();
     })
 }
+
+function listenToFeeds() {
+    if (store.user.hasOwnProperty('uid')) {
+        let feedsRef = DB.collection('users').doc(store.user.uid).collection('feeds');
+        feedsRef.onSnapshot((feedsDB => {
+
+            feedsDB.docChanges().forEach(feedDB => {
+                //listen to changes
+
+
+                let path = feedDB.doc.data().path;
+
+                if (feedDB.type === "added") {
+                    listenToFeed(path);
+                } else if (feedDB.type === "removed") {
+                    listenToFeed(path, 'off');
+
+                }
+            })
+        }))
+    } else {
+        console.error('User is not logged in and I can not subscribe to his/her feeds')
+    }
+
+}
+
+function listenToFeed(path, onOff = 'on') {
+    if (onOff === 'on') {
+        let path1 = path;
+        path = path.replace(/--/g, '/')
+        let feedRef = DB.collection(path)
+
+        //for how long should a message appear in the feed
+        let timeOfActiveMessage = 1 * 24 * 3600 * 1000;
+        let timePassed = new Date().getTime() - timeOfActiveMessage;
+
+
+
+        store.feedsSubscribe[path1] = feedRef
+            .where('timeSeconds', '>', timePassed)
+            .orderBy("timeSeconds", "desc").limit(1).onSnapshot(feedsDB => {
+                feedsDB.forEach(feedDB => {
+                    console.log(feedDB.data().timeSeconds, feedDB.data().message)
+                    if (feedDB.data().time !== null) {
+                        let newFeed = feedDB.data();
+                        console.log(path1)
+                        newFeed.path = path1
+                        store.feed.push(newFeed);
+                    }
+
+                    console.log(store.feed)
+                })
+            })
+
+    } else {
+        //unsubscribe
+        console.log('unsubscribe from ', path)
+        store.feedsSubscribe[path]();
+        delete store.feedsSubscribe[path];
+    }
+}
 module.exports = {
     getUserGroups,
     getQuestions,
@@ -367,5 +429,6 @@ module.exports = {
     getSubItemUserLike,
     getSubAnswers,
     getOptionDetails,
-    getMessages
+    getMessages,
+    listenToFeeds
 }

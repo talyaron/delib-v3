@@ -1,4 +1,5 @@
 import DB from '../config';
+import store from '../../../data/store';
 
 function createGroup(creatorId, title, description) {
 
@@ -70,6 +71,7 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
             creatorId,
             creatorName,
             time: firebase.firestore.FieldValue.serverTimestamp(),
+            timeSeconds: new Date().getTime(),
             message
         }).then(messageDB => {
 
@@ -161,4 +163,31 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+//add a path ([collection1, doc1, collection2, doc2, etc])
+function addToFeed(pathArray, collectionOrDoc) {
+
+    //create ref string:
+    let refString = '';
+
+    if (collectionOrDoc === 'collection') {
+        for (let i = 0; i < pathArray.length; i++) {
+            if (i == 0) {
+                refString += pathArray[i]
+            } else {
+                refString += '--' + pathArray[i]
+            }
+
+        }
+        console.log(refString)
+    }
+
+
+    DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString)
+        .set({
+            path: refString,
+            time: new Date().getTime(),
+            type: collectionOrDoc
+        });
+}
+
+module.exports = { addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

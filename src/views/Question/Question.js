@@ -31,6 +31,7 @@ module.exports = {
         vnode.state = {
             title: deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה'),
             addOption: false,
+            optionsArr: [],
             add: {
                 title: '',
                 description: ''
@@ -49,7 +50,7 @@ module.exports = {
             }
         }
 
-        store.options = [];
+
 
         //  show message only one time
         if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
@@ -60,11 +61,8 @@ module.exports = {
             store.messagesShow[vnode.attrs.id] = true
         }
 
-        vnode.state.unsubscribeOptions = getOptions('on', vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy);
-        vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeGoals = getSubItems('goals', vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeValues = getSubItems('values', vnode.attrs.groupId, vnode.attrs.id, vnode);
+
+
 
         //scroll detection
 
@@ -79,6 +77,12 @@ module.exports = {
     oncreate: vnode => {
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
         setWrapperFromFooter('questionFooter', 'optionsWrapper');
+
+        vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy, vnode);
+        vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeGoals = getSubItems('goals', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeValues = getSubItems('values', vnode.attrs.groupId, vnode.attrs.id, vnode);
     },
     onbeforeupdate: vnode => {
 
@@ -140,7 +144,7 @@ module.exports = {
                             subItemsTitle='מטרות הקבוצה'
                             addTitle='הוספת מטרה'
                             titleColor='#2fde56'
-                            mainColor='#6aea81'
+                            mainColor='#3ee290'
                             subItems={vnode.state.goals}
                             subAnswers={vnode.state.subAnswers}
                             groupId={vnode.attrs.groupId}
@@ -167,9 +171,11 @@ module.exports = {
                         <div class='questionSection'>
                             <div class='questionSectionTitle questions'>הצעות</div>
                             {
-                                store.options.length == 0 ? <Spinner /> :
+                                vnode.state.optionsArr.length == 0 ? <Spinner /> :
 
-                                    store.options.map((option, index) => {
+
+                                    vnode.state.optionsArr.map((option, index) => {
+
                                         return <Option
                                             groupId={vnode.attrs.groupId}
                                             questionId={vnode.attrs.id}
