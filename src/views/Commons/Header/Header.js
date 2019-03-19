@@ -7,24 +7,14 @@ import store from '../../../data/store';
 module.exports = {
     oninit: vnode => {
         vnode.state = {
-            previousCount: 0,
-            jumpCounter: false
+            previousCount: 0
         }
     },
     onupdate: vnode => {
-        console.log(vnode.state.previousCount, store.numberOfNewMessages)
-        if (vnode.state.previousCount != store.numberOfNewMessages) {
-            document.getElementById('newFeedCounter').style.transform = 'translateY(-5px)';
-            vnode.state.jumpCounter = true;
-            console.log('vnode.state.jumpCounter = true')
-            setTimeout(() => {
-                vnode.state.jumpCounter = false;
-                // console.log('vnode.state.jumpCounter = false')
-                // m.redraw();
-                document.getElementById('newFeedCounter').style.transform = 'translateY(0px)';
-            }, 300)
-        }
-        vnode.state.previousCount = store.numberOfNewMessages
+
+        //make counter jump if new message
+        onNewMessageJumpCounter(vnode);
+
     },
     view: (vnode) => {
 
@@ -88,6 +78,17 @@ module.exports = {
     }
 }
 
+
+function onNewMessageJumpCounter(vnode) {
+    if (vnode.state.previousCount != store.numberOfNewMessages) {
+        document.getElementById('newFeedCounter').style.transform = 'translateY(-5px)';
+
+        setTimeout(() => {
+            document.getElementById('newFeedCounter').style.transform = 'translateY(0px)';
+        }, 300)
+    }
+    vnode.state.previousCount = store.numberOfNewMessages
+}
 
 
 
