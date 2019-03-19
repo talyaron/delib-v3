@@ -119,7 +119,7 @@ module.exports = {
                     <Header
                         topic='שאלה'
                         title={vnode.state.title}
-                        upLevelUrl={`/group/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
+                        upLevelUrl={`/group/${vnode.attrs.groupId}`}
                     />
 
                 </div>
