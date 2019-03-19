@@ -398,15 +398,14 @@ function listenToFeed(path, onOff = 'on') {
             .where('timeSeconds', '>', timePassed)
             .orderBy("timeSeconds", "desc").limit(1).onSnapshot(feedsDB => {
                 feedsDB.forEach(feedDB => {
-                    console.log(feedDB.data().timeSeconds, feedDB.data().message)
+
                     if (feedDB.data().time !== null) {
                         let newFeed = feedDB.data();
-                        console.log(path1)
+
                         newFeed.path = path1
                         store.feed.push(newFeed);
+                        m.redraw();
                     }
-
-                    console.log(store.feed)
                 })
             })
 

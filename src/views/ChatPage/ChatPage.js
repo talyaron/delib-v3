@@ -1,13 +1,17 @@
+//core
 import m from 'mithril';
 
-import { deep_value } from '../../functions/general';
+//Components
+import Header from '../Commons/Header/Header';
 
+//css
 import './ChatPage.css';
 
+//controls
 import store from '../../data/store';
 import { getQuestionDetails, getOptionDetails, getMessages } from '../../functions/firebase/get/get';
 import { setMessage, addToFeed } from '../../functions/firebase/set/set';
-
+import { deep_value, setWrapperHeight } from '../../functions/general';
 
 module.exports = {
     oninit: vnode => {
@@ -36,6 +40,7 @@ module.exports = {
     },
     onupdate: vnode => {
         window.scrollTo(0, document.body.scrollHeight);
+        setWrapperHeight('headerContainer', 'chatWrapper')
 
     },
     onremove: vnode => {
@@ -44,25 +49,16 @@ module.exports = {
         getMessages('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode)
     },
     view: vnode => {
+
         return (
             <div class='page'>
-                <header onclick={() => { m.route.set('/question/' + vnode.attrs.groupId + '/' + vnode.attrs.questionId) }}>
-                    <div class='chatOptionQuestion'>
-                        שאלה: {vnode.state.questionTitle}
-                    </div>
-                    <div class='chatOptionHeader'>
-                        אפשרות: {vnode.state.optionTitle}
-                    </div>
-                    <div onclick={() => addToFeed(
-                        [
-                            'groups', vnode.attrs.groupId,
-                            'questions', vnode.attrs.questionId,
-                            'options', vnode.attrs.optionId,
-                            'messages'
-                        ],
-                        'collection')}>Add to feed</div>
-                </header>
-                <div class='wrapper'>
+                <Header
+                    topic='אופציה'
+                    question={vnode.state.questionTitle}
+                    opion={vnode.state.optionTitle}
+                    upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
+                />
+                <div class='wrapper' id='chatWrapper'>
                     <div class='chatOptionDescription'>
                         הסבר: {vnode.state.optionDescription}
                     </div>

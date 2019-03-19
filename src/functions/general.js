@@ -19,6 +19,7 @@ function setWrapperHeight(headerId, wrapperId) {
     let header = document.getElementById(headerId);
     if (header != null) {
         let headerHeight = header.clientHeight;
+
         document.getElementById(wrapperId).style.top = headerHeight + 'px';
 
     } else {

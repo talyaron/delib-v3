@@ -2,6 +2,7 @@ import m from 'mithril';
 
 
 import './Question.css';
+import Header from '../Commons/Header/Header';
 import Option from './Option/Option';
 import Message from '../Commons/Message/Message';
 import Spinner from '../Commons/Spinner/Spinner';
@@ -115,9 +116,12 @@ module.exports = {
         return (
             <div>
                 <div class='questionHeadr' id='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
-                    <div class='mainHeader'>
-                        שאלה: {vnode.state.title}
-                    </div>
+                    <Header
+                        topic='שאלה'
+                        title={vnode.state.title}
+                        upLevelUrl={`/group/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
+                    />
+
                 </div>
                 <div class='wrapperAll' id='questionWrapperAll'>
 

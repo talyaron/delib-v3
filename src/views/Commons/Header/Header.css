@@ -1,0 +1,16 @@
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.headerMessage {
+    padding: 0px 0px 0px 8px;
+}
+
+.headerBack {
+    padding-right: 8px;
+}
+
+.headerEmptyBack {
+    width: 40px;
+}
