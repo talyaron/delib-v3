@@ -6,25 +6,54 @@ import FeedContent from './Sub/FeedContent';
 import store from '../../../data/store';
 
 module.exports = {
+    oninit: vnode => {
+        vnode.state = {
+            orderdFeed: [],
+
+        }
+    },
+    onbeforeupdate: vnode => {
+
+        orderFeed(vnode);        
+
+    },
 
     view: (vnode) => {
-        console.log(store.feed)
+
         return (
-            <div class='feedBox'>
+
+
+            <div
+                class={store.showFeed ? 'feedBox showFeedBox' : 'feedBox hideFeedBox'}
+                onclick={() => { store.showFeed = !store.showFeed }}
+            >
+
                 <div class='feedWrapper'>
                     {
-                        store.feed.map((content, index) => {
+                        vnode.state.orderdFeed.map((content, index) => {
+
                             return <FeedContent
-                                message={content.message}
-                                creatorName={content.creatorName}
-                                path={content.path}
+                                data={content}
                             />
                         })
                     }
                 </div>
+
             </div>
+
         )
     }
+}
+
+function orderFeed(vnode) {
+    vnode.state.orderdFeed = [];
+    for (let i in store.feed) {
+        vnode.state.orderdFeed.push(store.feed[i]);
+    }
+    vnode.state.orderdFeed.sort(function (a, b) {
+        return b.timeSeconds - a.timeSeconds;
+    });
+
 }
 
 

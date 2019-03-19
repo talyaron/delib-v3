@@ -3,13 +3,14 @@ import m from 'mithril';
 
 //Components
 import Header from '../Commons/Header/Header';
+import Feed from '../Commons/Feed/Feed';
 
 //css
 import './ChatPage.css';
 
 //controls
 import store from '../../data/store';
-import { getQuestionDetails, getOptionDetails, getMessages } from '../../functions/firebase/get/get';
+import { getGroupDetails, getQuestionDetails, getOptionDetails, getMessages } from '../../functions/firebase/get/get';
 import { setMessage, addToFeed } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight } from '../../functions/general';
 
@@ -31,24 +32,20 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         //update details from DB
-        getQuestionDetails( vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+        getGroupDetails('on', vnode.attrs.groupId, vnode);
+        getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
         getOptionDetails('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
         getMessages('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
     },
-    onbeforeupdate: vnode => {
-        // updateDetials(vnode);
-        console.log('>>>')
-        // console.dir(store.questions)
-        console.dir(vnode.state)
 
-    },
     onupdate: vnode => {
         window.scrollTo(0, document.body.scrollHeight);
         setWrapperHeight('headerContainer', 'chatWrapper')
 
     },
     onremove: vnode => {
-        getQuestionDetails( vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+        getGroupDetails('off', vnode.attrs.groupId, vnode);
+        getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
         getOptionDetails('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId);
         getMessages('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode)
     },
@@ -85,6 +82,7 @@ module.exports = {
                         onkeyup={(e) => { sendMessage(e, vnode) }}
                         value={vnode.state.input} />
                 </form>
+                <Feed />
             </div>
         )
     }
@@ -115,7 +113,7 @@ function sendMessage(e, vnode) {
             store.user.uid,
             store.user.displayName || 'אנונימי',
             e.target.value,
-            'groupName',
+            vnode.state.groupName,
             vnode.state.questionTitle,
             vnode.state.optionTitle,
         )

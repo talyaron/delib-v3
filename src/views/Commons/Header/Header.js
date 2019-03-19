@@ -2,9 +2,30 @@ import m from 'mithril';
 import './Header.css';
 
 import { addToFeed } from '../../../functions/firebase/set/set';
+import store from '../../../data/store';
 
 module.exports = {
-
+    oninit: vnode => {
+        vnode.state = {
+            previousCount: 0,
+            jumpCounter: false
+        }
+    },
+    onupdate: vnode => {
+        console.log(vnode.state.previousCount, store.numberOfNewMessages)
+        if (vnode.state.previousCount != store.numberOfNewMessages) {
+            document.getElementById('newFeedCounter').style.transform = 'translateY(-5px)';
+            vnode.state.jumpCounter = true;
+            console.log('vnode.state.jumpCounter = true')
+            setTimeout(() => {
+                vnode.state.jumpCounter = false;
+                // console.log('vnode.state.jumpCounter = false')
+                // m.redraw();
+                document.getElementById('newFeedCounter').style.transform = 'translateY(0px)';
+            }, 300)
+        }
+        vnode.state.previousCount = store.numberOfNewMessages
+    },
     view: (vnode) => {
 
         return (
@@ -38,9 +59,20 @@ module.exports = {
                                 'collection')
                         }}><img src='img/icons8-news-feed-32.png' />
                     </div>
-                    <div class='headerMessage'>
+                    <div
+                        class='headerMessage'
+                        onclick={(e) => {
+                            e.stopPropagation();
+                            store.showFeed = !store.showFeed;
+                            store.numberOfNewMessages = 0;
+                        }}
+
+                    >
                         <img src='img/icons8-secured-letter-32.png' />
-                        <div class='headerMesaggeCounter'>42</div>
+                        <div
+                            class='headerMesaggeCounter'
+                            id='newFeedCounter'
+                        > {store.numberOfNewMessages}</div>
                     </div>
                 </div>
                 {!vnode.attrs.option == undefined ?

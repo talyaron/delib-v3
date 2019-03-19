@@ -98,6 +98,8 @@ function getGroupDetails(onOff, groupId, vnode) {
         vnode.state.DetailsUnsubuscribe = DB.collection('groups').doc(groupId).onSnapshot(groupDB => {
 
             store.groups[groupId] = groupDB.data();
+            console.log(groupDB.data())
+            vnode.state.groupName = groupDB.data().description
 
             m.redraw();
         })
@@ -113,10 +115,9 @@ function getQuestionDetails(groupId, questionId, vnode) {
         .onSnapshot(questionDB => {
             // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
             setStore(store.questions, groupId, questionId, questionDB.data());
-            console.log(groupId, questionId)
-            console.log(questionDB.data())
+
             vnode.state.questionTitle = questionDB.data().title;
-            console.log('....', vnode.state.questionTitle)
+
             m.redraw();
         })
 
@@ -185,7 +186,6 @@ function getOptionDetails(onOff, groupId, questionId, optionId, vnode) {
     if (onOff === 'on') {
         optionRef.onSnapshot(optionDB => {
             store.optionsDetails[optionId] = optionDB.data();
-            console.log('llllllll', optionDB.data())
             vnode.state.optionTitle = optionDB.data().title;
             m.redraw();
         })
@@ -368,8 +368,6 @@ function listenToFeeds() {
 
             feedsDB.docChanges().forEach(feedDB => {
                 //listen to changes
-
-
                 let path = feedDB.doc.data().path;
 
                 if (feedDB.type === "added") {
@@ -393,10 +391,10 @@ function listenToFeed(path, onOff = 'on') {
         let feedRef = DB.collection(path)
 
         //for how long should a message appear in the feed
-        let timeOfActiveMessage = 1 * 24 * 3600 * 1000;
+        let dayPassed = 1
+        let hoursPassed = 12
+        let timeOfActiveMessage = (dayPassed + (hoursPassed * 1 / 24)) * 24 * 3600 * 1000;
         let timePassed = new Date().getTime() - timeOfActiveMessage;
-
-
 
         store.feedsSubscribe[path1] = feedRef
             .where('timeSeconds', '>', timePassed)
@@ -407,8 +405,9 @@ function listenToFeed(path, onOff = 'on') {
                         let newFeed = feedDB.data();
 
                         newFeed.path = path1
-                        console.log(newFeed)
-                        store.feed.push(newFeed);
+
+                        store.feed[path] = newFeed;
+                        store.numberOfNewMessages++
                         m.redraw();
                     }
                 })

@@ -12,10 +12,10 @@
 }
 
 .headerMesaggeCounter {
-    
     position: absolute;
     top: 8px;
     left: 14px;
+    transition: 0.3s all;
 }
 
 .headerBack {

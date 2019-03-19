@@ -3,6 +3,7 @@ import m from 'mithril';
 
 import './Question.css';
 import Header from '../Commons/Header/Header';
+import Feed from '../Commons/Feed/Feed';
 import Option from './Option/Option';
 import Message from '../Commons/Message/Message';
 import Spinner from '../Commons/Spinner/Spinner';
@@ -226,6 +227,7 @@ module.exports = {
                     placeholderDescription='הסבר'
                     vnode={vnode}
                 />
+                <Feed />
             </div>
         )
     }

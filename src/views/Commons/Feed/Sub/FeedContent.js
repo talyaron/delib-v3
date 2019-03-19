@@ -1,6 +1,8 @@
 import m from 'mithril';
 import './FeedContent.css';
 
+import { msToTime } from '../../../../functions/general';
+
 
 
 module.exports = {
@@ -11,10 +13,12 @@ module.exports = {
 
         return (
             <div class='feedContent'
-                onclick={() => { m.route.set(convertPathToLink(vnode.attrs.path)) }}
+                onclick={() => { m.route.set(convertPathToLink(vnode.attrs.data.path)) }}
             >
-                <div class='feedContentMessage'>{vnode.attrs.message}</div>
-                <div class='feedContentName'>{vnode.attrs.creatorName}</div>
+                <div class='feedContentMessage'>{vnode.attrs.data.message}</div>
+                <div class='feedContentName'>
+                    {msToTime(vnode.attrs.data.timeSeconds)} {vnode.attrs.data.creatorName} - {vnode.attrs.data.groupName} / {vnode.attrs.data.questionName}  / {vnode.attrs.data.optionName}
+                </div>
             </div>
         )
     }

@@ -7,6 +7,7 @@ import values from 'lodash/values';
 import './Groups.css';
 import Group from './Group/Group';
 import Header from '../Commons/Header/Header';
+import Feed from '../Commons/Feed/Feed';
 
 
 //functions
@@ -60,6 +61,7 @@ module.exports = {
                 <div class='fav' onclick={() => { console.log(store.user.uid); createGroup(store.user.uid, 'some title', 'some description') }} >
                     <div>+</div>
                 </div>
+                <Feed />
             </div >
         )
     }

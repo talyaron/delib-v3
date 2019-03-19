@@ -20,7 +20,9 @@ var store = {
     optionsDetails: {}, //vote on options by user
     messagesShow: {}, // history of messages to show
     feedsSubscribe: {}, // used for feed unsubscribes
-    feed: [] //the feed
+    feed: {}, //the feed
+    showFeed: false,
+    numberOfNewMessages: 0
 }
 
 module.exports = store; 

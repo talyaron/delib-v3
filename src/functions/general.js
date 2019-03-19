@@ -40,4 +40,17 @@ function returnUserRole(rolesObj, userUID) {
     }
 }
 
-module.exports = { deep_value, setWrapperHeight, setWrapperFromFooter, returnUserRole }
+function msToTime(initMilliseconds) {
+    var milliseconds = parseInt((initMilliseconds % 1000) / 100),
+        seconds = Math.floor((initMilliseconds / 1000) % 60),
+        minutes = Math.floor((initMilliseconds / (1000 * 60)) % 60),
+        hours = Math.floor((initMilliseconds / (1000 * 60 * 60)) % 24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes + ":" + seconds;
+}
+
+module.exports = { msToTime, deep_value, setWrapperHeight, setWrapperFromFooter, returnUserRole }
