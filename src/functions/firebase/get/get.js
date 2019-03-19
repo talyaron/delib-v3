@@ -112,8 +112,11 @@ function getQuestionDetails(groupId, questionId, vnode) {
         .collection('questions').doc(questionId)
         .onSnapshot(questionDB => {
             // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
-            setStore(store.questions, groupId, questionId, questionDB.data())
-
+            setStore(store.questions, groupId, questionId, questionDB.data());
+            console.log(groupId, questionId)
+            console.log(questionDB.data())
+            vnode.state.questionTitle = questionDB.data().title;
+            console.log('....', vnode.state.questionTitle)
             m.redraw();
         })
 
@@ -174,7 +177,7 @@ function getOptions(groupId, questionId, order, vnode) {
 
 }
 
-function getOptionDetails(onOff, groupId, questionId, optionId) {
+function getOptionDetails(onOff, groupId, questionId, optionId, vnode) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId);
@@ -182,7 +185,8 @@ function getOptionDetails(onOff, groupId, questionId, optionId) {
     if (onOff === 'on') {
         optionRef.onSnapshot(optionDB => {
             store.optionsDetails[optionId] = optionDB.data();
-
+            console.log('llllllll', optionDB.data())
+            vnode.state.optionTitle = optionDB.data().title;
             m.redraw();
         })
     } else {
@@ -403,6 +407,7 @@ function listenToFeed(path, onOff = 'on') {
                         let newFeed = feedDB.data();
 
                         newFeed.path = path1
+                        console.log(newFeed)
                         store.feed.push(newFeed);
                         m.redraw();
                     }

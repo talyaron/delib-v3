@@ -65,14 +65,18 @@ function setLike(groupId, questionId, optionId, creatorId, like) {
         });
 }
 
-function setMessage(groupId, questionId, optionId, creatorId, creatorName, message) {
+function setMessage(groupId, questionId, optionId, creatorId, creatorName, message, groupName, questionName, optionName) {
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
         .collection('options').doc(optionId).collection('messages').add({
             creatorId,
             creatorName,
             time: firebase.firestore.FieldValue.serverTimestamp(),
             timeSeconds: new Date().getTime(),
-            message
+            message,
+            type: 'messages',
+            groupName,
+            questionName,
+            optionName
         }).then(messageDB => {
 
 
@@ -170,6 +174,8 @@ function addToFeed(pathArray, collectionOrDoc) {
     let refString = '';
 
     if (collectionOrDoc === 'collection') {
+
+        //concatinate a path
         for (let i = 0; i < pathArray.length; i++) {
             if (i == 0) {
                 refString += pathArray[i]
@@ -178,7 +184,7 @@ function addToFeed(pathArray, collectionOrDoc) {
             }
 
         }
-        console.log(refString)
+
     }
 
 

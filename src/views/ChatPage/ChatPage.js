@@ -18,6 +18,7 @@ module.exports = {
 
         //initilize state from store
         vnode.state = {
+            groupTitle: '',
             questionTitle: deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה'),
             optionTitle: deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות'),
             optionDescription: deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות'),
@@ -30,12 +31,15 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         //update details from DB
-        getQuestionDetails('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode);
-        getOptionDetails('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId);
+        getQuestionDetails( vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+        getOptionDetails('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
         getMessages('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
     },
     onbeforeupdate: vnode => {
-        updateDetials(vnode);
+        // updateDetials(vnode);
+        console.log('>>>')
+        // console.dir(store.questions)
+        console.dir(vnode.state)
 
     },
     onupdate: vnode => {
@@ -44,7 +48,7 @@ module.exports = {
 
     },
     onremove: vnode => {
-        getQuestionDetails('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+        getQuestionDetails( vnode.attrs.groupId, vnode.attrs.questionId, vnode);
         getOptionDetails('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId);
         getMessages('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode)
     },
@@ -55,7 +59,7 @@ module.exports = {
                 <Header
                     topic='אופציה'
                     question={vnode.state.questionTitle}
-                    opion={vnode.state.optionTitle}
+                    title={vnode.state.optionTitle}
                     upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
                 />
                 <div class='wrapper' id='chatWrapper'>
@@ -104,7 +108,17 @@ function sendMessage(e, vnode) {
 
         let va = vnode.attrs
 
-        setMessage(va.groupId, va.questionId, va.optionId, store.user.uid, store.user.displayName || 'אנונימי', e.target.value)
+        setMessage(
+            va.groupId,
+            va.questionId,
+            va.optionId,
+            store.user.uid,
+            store.user.displayName || 'אנונימי',
+            e.target.value,
+            'groupName',
+            vnode.state.questionTitle,
+            vnode.state.optionTitle,
+        )
         vnode.state.input = ''
     }
 

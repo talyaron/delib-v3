@@ -6,6 +6,7 @@ import store from '../../data/store';
 import './GroupPage.css';
 import Group from '../Groups/Group/Group';
 import Header from '../Commons/Header/Header';
+import Feed from '../Commons/Feed/Feed';
 
 
 //functions
@@ -109,7 +110,9 @@ module.exports = {
                         :
                         <div />
                 }
+                <Feed />
             </div >
+
         )
     }
 }
