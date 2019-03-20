@@ -12,6 +12,7 @@ module.exports = {
     view: (vnode) => {
 
         return (
+
             <div class='feedContent'
                 onclick={() => { m.route.set(convertPathToLink(vnode.attrs.data.path)) }}
             >
@@ -20,6 +21,7 @@ module.exports = {
                     {msToTime(vnode.attrs.data.timeSeconds)} {vnode.attrs.data.creatorName} - {vnode.attrs.data.groupName} / {vnode.attrs.data.questionName}  / {vnode.attrs.data.optionName}
                 </div>
             </div>
+
         )
     }
 }

@@ -55,7 +55,7 @@ module.exports = {
             }
         }
 
-
+        vnode.state.unsubscribeQuestionDetails = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
 
         //  show message only one time
         if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
@@ -109,6 +109,7 @@ module.exports = {
 
     },
     onremove: vnode => {
+        vnode.state.unsubscribeQuestionDetails();
         vnode.state.unsubscribeOptions();
         vnode.state.unsubscribeQuestion();
         vnode.state.unsubscribeSubQuestions();

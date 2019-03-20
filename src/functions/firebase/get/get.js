@@ -93,19 +93,15 @@ function setStore(obj, groupId, questionId, data) {
 
 }
 
-function getGroupDetails(onOff, groupId, vnode) {
-    if (onOff == 'on') {
-        vnode.state.DetailsUnsubuscribe = DB.collection('groups').doc(groupId).onSnapshot(groupDB => {
+function getGroupDetails(groupId, vnode) {
 
-            store.groups[groupId] = groupDB.data();
+    return DB.collection('groups').doc(groupId).onSnapshot(groupDB => {
 
-            vnode.state.groupName = groupDB.data().description
+        store.groups[groupId] = groupDB.data();
+        vnode.state.groupName = groupDB.data().description
+        m.redraw();
+    })
 
-            m.redraw();
-        })
-    } else {
-        vnode.state.DetailsUnsubuscribe();
-    }
 }
 
 function getQuestionDetails(groupId, questionId, vnode) {
@@ -115,8 +111,9 @@ function getQuestionDetails(groupId, questionId, vnode) {
         .onSnapshot(questionDB => {
             // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
             setStore(store.questions, groupId, questionId, questionDB.data());
-
-            vnode.state.questionTitle = questionDB.data().title;
+            console.log(questionDB.data())
+            vnode.state.title = questionDB.data().title;
+            vnode.state.description = questionDB.data().description;
 
             m.redraw();
         })
@@ -179,20 +176,19 @@ function getOptions(groupId, questionId, type, order, vnode) {
 
 }
 
-function getOptionDetails(onOff, groupId, questionId, optionId, vnode) {
+function getOptionDetails(groupId, questionId, optionId, vnode) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId);
 
-    if (onOff === 'on') {
-        optionRef.onSnapshot(optionDB => {
-            store.optionsDetails[optionId] = optionDB.data();
-            vnode.state.optionTitle = optionDB.data().title;
-            m.redraw();
-        })
-    } else {
-        optionRef.onSnapshot(() => { })();
-    }
+
+    return optionRef.onSnapshot(optionDB => {
+        store.optionsDetails[optionId] = optionDB.data();
+        vnode.state.optionTitle = optionDB.data().title;
+        console.log(vnode.state.optionTitle)
+        m.redraw();
+    })
+
 }
 
 function getOptionVote(groupId, questionId, optionId, creatorId) {
@@ -245,41 +241,39 @@ function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
 
 }
 
-function getMessages(onOff, groupId, questionId, optionId, vnode) {
+function getMessages(groupId, questionId, optionId, vnode) {
     let messagesRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId)
         .collection('messages');
 
-    if (onOff === 'on') {
-        messagesRef.orderBy('time', 'desc').limit(40).onSnapshot(messagesDB => {
-            let messagesArray = [];
 
-            let numberOfMessages = messagesDB.size
-            messagesDB.forEach(messageDB => {
-                let tempMessage = messageDB.data();
+    return messagesRef.orderBy('time', 'desc').limit(40).onSnapshot(messagesDB => {
+        let messagesArray = [];
 
-                //check if message is new
-                if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
+        let numberOfMessages = messagesDB.size
+        messagesDB.forEach(messageDB => {
+            let tempMessage = messageDB.data();
 
-                    tempMessage.isNew = true;
-                } else {
-                    tempMessage.isNew = false;
-                }
+            //check if message is new
+            if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
 
-                messagesArray.unshift(tempMessage);
-                vnode.state.messagesIds[messageDB.id] = true;
-            })
-            vnode.state.messages = messagesArray;
-            // vnode.state.numberOfMessages = numberOfMessages;
+                tempMessage.isNew = true;
+            } else {
+                tempMessage.isNew = false;
+            }
 
-
-
-            m.redraw();
+            messagesArray.unshift(tempMessage);
+            vnode.state.messagesIds[messageDB.id] = true;
         })
-    } else {
-        messagesRef.onSnapshot(() => { })();
-    }
+        vnode.state.messages = messagesArray;
+        // vnode.state.numberOfMessages = numberOfMessages;
+
+
+
+        m.redraw();
+    })
+
 }
 
 

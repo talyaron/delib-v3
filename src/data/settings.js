@@ -37,7 +37,7 @@ var settings = {
             colors: {
                 color: 'white',
                 background: 'lime',
-                backgroundItem: 'lime'
+                backgroundItem: '#91ff91'
             }
         }
     },

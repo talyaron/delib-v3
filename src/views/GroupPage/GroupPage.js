@@ -30,7 +30,7 @@ module.exports = {
         }
 
         getQuestions('on', vnode.attrs.id, vnode);
-        getGroupDetails('on', vnode.attrs.id, vnode);
+        vnode.state.undbGroupDetails = getGroupDetails(vnode.attrs.id, vnode);
     },
     oncreate: vnode => {
         setWrapperHeight('headerContainer', 'groupWrapper');
@@ -53,7 +53,7 @@ module.exports = {
     },
     onremove: vnode => {
         getQuestions('off', vnode.attrs.id, vnode);
-        getGroupDetails('off', vnode.attrs.id, vnode);
+        vnode.state.undbGroupDetails();
     },
     view: vnode => {
         return (

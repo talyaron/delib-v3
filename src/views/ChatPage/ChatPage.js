@@ -10,19 +10,21 @@ import './ChatPage.css';
 
 //controls
 import store from '../../data/store';
-import { getGroupDetails, getQuestionDetails, getOptionDetails, getMessages } from '../../functions/firebase/get/get';
+import { getQuestionDetails, getOptionDetails, getMessages } from '../../functions/firebase/get/get';
 import { setMessage, addToFeed } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight } from '../../functions/general';
+
+//Data
+import DB from '../../functions/firebase/config';
 
 module.exports = {
     oninit: vnode => {
 
-        //initilize state from store
         vnode.state = {
             groupTitle: '',
-            questionTitle: deep_value(store.questions, `[${vnode.attrs.groupId}][${vnode.attrs.questionId}].title`, 'כותרת השאלה'),
-            optionTitle: deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].title`, 'כותרת האפשרות'),
-            optionDescription: deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות'),
+            questionTitle: '',
+            optionTitle: '',
+            optionDescription: '',
             messages: [],
             messagesIds: {} // used to check if message is new
         }
@@ -32,28 +34,47 @@ module.exports = {
         sessionStorage.setItem('lastPage', store.lastPage);
 
         //update details from DB
-        getGroupDetails('on', vnode.attrs.groupId, vnode);
-        getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
-        getOptionDetails('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
-        getMessages('on', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+        getNamesOfQuestionAndGroup(vnode);
+        vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+        vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+
+
     },
 
     onupdate: vnode => {
+
+
         window.scrollTo(0, document.body.scrollHeight);
         setWrapperHeight('headerContainer', 'chatWrapper')
 
+        //check if chat was changed (usualy by feed)
+        if (vnode.attrs.optionId != vnode.state.previuos) {
+
+            vnode.state.unsbOptionDetails();
+            vnode.state.unsbGetMessages();
+
+            getNamesOfQuestionAndGroup(vnode);
+            vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+            vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+
+        }
+        vnode.state.previuos = vnode.attrs.optionId
+
     },
     onremove: vnode => {
-        getGroupDetails('off', vnode.attrs.groupId, vnode);
-        getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
-        getOptionDetails('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId);
-        getMessages('off', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode)
+
+        // getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+
+
     },
     view: vnode => {
 
         return (
             <div class='page'>
                 <Header
+                    groupId={vnode.attrs.groupId}
+                    questionId={vnode.attrs.questionId}
+                    optionId={vnode.attrs.optionId}
                     topic='אופציה'
                     question={vnode.state.questionTitle}
                     title={vnode.state.optionTitle}
@@ -105,6 +126,7 @@ function sendMessage(e, vnode) {
 
         let va = vnode.attrs
 
+
         setMessage(
             va.groupId,
             va.questionId,
@@ -112,12 +134,25 @@ function sendMessage(e, vnode) {
             store.user.uid,
             store.user.displayName || 'אנונימי',
             e.target.value,
-            vnode.state.groupName,
+            vnode.state.groupTitle,
             vnode.state.questionTitle,
             vnode.state.optionTitle,
         )
         vnode.state.input = ''
     }
+
+}
+
+function getNamesOfQuestionAndGroup(vnode) {
+    DB.collection('groups').doc(vnode.attrs.groupId)
+        .collection('questions').doc(vnode.attrs.questionId).get().then(questionDB => {
+            vnode.state.questionTitle = questionDB.data().title
+        })
+
+    DB
+        .collection('groups').doc(vnode.attrs.groupId).get().then(groupDB => {
+            vnode.state.groupTitle = groupDB.data().title
+        })
 
 }
 
