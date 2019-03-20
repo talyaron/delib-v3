@@ -59,7 +59,7 @@ module.exports = {
                     title={vnode.state.optionTitle}
                     upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
                 />
-                <div class='wrapper' id='chatWrapper'>
+                <div class='chatWrapper' id='chatWrapper'>
                     <div class='chatOptionDescription'>
                         הסבר: {vnode.state.optionDescription}
                     </div>
@@ -73,7 +73,6 @@ module.exports = {
                         })
                     }
                 </div>
-
                 <form class='chatBox'>
                     <img src='img/icons8-paper-plane-32.png'></img>
                     <textarea

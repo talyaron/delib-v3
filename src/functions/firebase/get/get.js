@@ -250,7 +250,7 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
         .collection('messages');
 
     if (onOff === 'on') {
-        messagesRef.orderBy('time', 'desc').onSnapshot(messagesDB => {
+        messagesRef.orderBy('time', 'desc').limit(40).onSnapshot(messagesDB => {
             let messagesArray = [];
 
             let numberOfMessages = messagesDB.size
@@ -300,12 +300,8 @@ function getSubItems(subItemsType, groupId, questionId, vnode) {
             }
         });
 
-
-
         let subItemArr = [];
         SubItemsDB.forEach(SubItemDB => {
-
-
 
             let subItemObj = SubItemDB.data()
 
