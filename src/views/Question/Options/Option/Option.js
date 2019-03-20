@@ -1,10 +1,10 @@
 import m from 'mithril';
 
 import './Option.css';
-import store from '../../../data/store';
+import store from '../../../../data/store';
 
-import { setLike } from '../../../functions/firebase/set/set';
-import { getOptionVote } from '../../../functions/firebase/get/get';
+import { setLike } from '../../../../functions/firebase/set/set';
+import { getOptionVote } from '../../../../functions/firebase/get/get';
 
 
 module.exports = {
@@ -104,7 +104,7 @@ module.exports = {
     view: (vnode) => {
 
         return (
-            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key}>
+            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key} style={`background:${vnode.attrs.background}`}>
                 <div class='optionMain'>
                     <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img

@@ -1,4 +1,46 @@
 var settings = {
+    subItems: {
+        options: {
+            name: 'אפשרויות לפתרון',
+            type: 'option',
+            add: 'הוספת פתרון',
+            colors: {
+                color: 'white',
+                background: 'green',
+                backgroundItem: 'lightgreen'
+            }
+        },
+        subQuestions: {
+            name: "שאלות המשך",
+            type: 'subQuestion',
+            add: 'הוספת תת-שאלה',
+            colors: {
+                color: 'white',
+                background: 'blue',
+                backgroundItem: 'lightblue'
+            }
+        },
+        goals: {
+            name: "מטרות",
+            type: 'goal',
+            add: 'הוספת מטרה קבוצתית',
+            colors: {
+                color: 'white',
+                background: 'red',
+                backgroundItem: 'rgb(250, 148, 148)'
+            }
+        },
+        values: {
+            name: "ערכים",
+            type: 'value',
+            add: 'הוספת  ערך',
+            colors: {
+                color: 'white',
+                background: 'lime',
+                backgroundItem: 'lime'
+            }
+        }
+    },
     roles: {
         groups: {
             read: {

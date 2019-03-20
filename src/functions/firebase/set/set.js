@@ -35,7 +35,7 @@ function createQuestion(groupId, creatorId, title, description) {
 }
 
 function createOption(groupId, questionId, type, creatorId, title, description) {
-    console.log(groupId, questionId, creatorId, title, description);
+
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('options')
         .add({
             groupId,

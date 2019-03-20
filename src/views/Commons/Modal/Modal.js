@@ -62,25 +62,32 @@ module.exports = {
 }
 
 
-function setNewInfo(vnp, vnode, type) {
-    switch (vnp.state.showModal.which) {
-        case 'addOption':
-            createOption(vnp.attrs.groupId, vnp.attrs.id, type, store.user.uid, vnode.state.add.title, vnode.state.add.description);
-            break;
-        case 'subQuestions':
-            console.log('addSubQuestion');
-            createSubItem('subQuestions', vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
-            break;
-        case 'goals':
-            createSubItem('goals', vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
-            break;
-        case 'values':
-            createSubItem('values', vnp.attrs.groupId, vnp.attrs.id, store.user.uid, store.user.displayName || 'אנונמי/ת', vnode.state.add.title, vnode.state.add.description)
-            break;
-        default:
-            console.log('couldnt find such case:', vnp.state.showModal.which)
-    }
+function setNewInfo(vnp, vnode) {
+    // let type = false;
+    // switch (vnp.state.showModal.which) {
+    //     case 'addOption':
+    //         type = 'option'
+    //         break;
+    //     case 'subQuestions':
+    //         type = 'subQuestion';
+    //         break;
+    //     case 'goals':
+    //         type = 'goal'
+    //         break;
+    //     case 'values':
+    //         type = 'value'
+    //         break;
+    //     default:
+    //         type = false;
+    //         console.log('couldnt find such case:', vnp.state.showModal.which)
+    // }
+
+    // if (type !== false) {
+
+    createOption(vnp.attrs.groupId, vnp.attrs.id, vnp.state.showModal.which, store.user.uid, vnode.state.add.title, vnode.state.add.description);
+    // }
     vnp.state.showModal.isShow = false;
+
 }
 
 function toggleShowModal(onOff, vnode) {

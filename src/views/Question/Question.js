@@ -4,7 +4,7 @@ import m from 'mithril';
 import './Question.css';
 import Header from '../Commons/Header/Header';
 import Feed from '../Commons/Feed/Feed';
-import Option from './Option/Option';
+import Options from './Options/Options';
 import Message from '../Commons/Message/Message';
 import Spinner from '../Commons/Spinner/Spinner';
 import SubItems from './SubSections/SubItems';
@@ -14,6 +14,7 @@ import Evaluation from './SubSections/Evaluation';
 import Modal from '../Commons/Modal/Modal';
 
 import store from '../../data/store';
+import settings from '../../data/settings';
 
 import { getQuestionDetails, getOptions, getSubItems } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
@@ -33,7 +34,12 @@ module.exports = {
         vnode.state = {
             title: deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה'),
             addOption: false,
-            optionsArr: [],
+            subItems: {
+                options: [],
+                subQuestions: [],
+                goals: [],
+                values: []
+            },
             add: {
                 title: '',
                 description: ''
@@ -41,9 +47,6 @@ module.exports = {
             orderBy: 'top',
             options: {},
             scrollY: false,
-            subQuestions: [],
-            goals: [],
-            values: [],
             subAnswers: {}, //used to set sub answers to each sub question
             subAnswersUnsb: {}, //used to unsubscribe
             showModal: {
@@ -80,11 +83,11 @@ module.exports = {
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
         setWrapperFromFooter('questionFooter', 'optionsWrapper');
 
-        vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, vnode.state.orderBy, vnode);
-        vnode.state.unsubscribeQuestion = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeSubQuestions = getSubItems('subQuestions', vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeGoals = getSubItems('goals', vnode.attrs.groupId, vnode.attrs.id, vnode);
-        vnode.state.unsubscribeValues = getSubItems('values', vnode.attrs.groupId, vnode.attrs.id, vnode);
+        vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
+        vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
+        vnode.state.unsubscribeSubQuestions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
+        vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
+        vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
     },
     onbeforeupdate: vnode => {
 
@@ -131,75 +134,36 @@ module.exports = {
                             title='הסבר על השאלה:'
                             content={vnode.state.description}
                         />
-                        <SubItems
-                            subItemsType='subQuestions'
-                            subItemsTitle='שאלות המשך'
-                            addTitle='הוספת תת-שאלה'
-                            titleColor='#5c5cdc'
-                            mainColor='#9292cc'
-                            subItems={vnode.state.subQuestions}
-                            subAnswers={vnode.state.subAnswers}
-                            groupId={vnode.attrs.groupId}
-                            questionId={vnode.attrs.id}
-                            questionVnode={vnode}
-
-                        />
-                        <SubItems
-                            subItemsType='goals'
-                            subItemsTitle='מטרות הקבוצה'
-                            addTitle='הוספת מטרה'
-                            titleColor='#2fde56'
-                            mainColor='#3ee290'
-                            subItems={vnode.state.goals}
-                            subAnswers={vnode.state.subAnswers}
-                            groupId={vnode.attrs.groupId}
-                            questionId={vnode.attrs.id}
-                            questionVnode={vnode}
-
-                        />
-                        <SubItems
-                            subItemsType='values'
-                            subItemsTitle='אילוציי הקבוצה'
-                            addTitle='הוספת אילוץ'
-                            titleColor='#efa211'
-                            mainColor='#ecae39'
-                            subItems={vnode.state.values}
-                            subAnswers={vnode.state.subAnswers}
-                            groupId={vnode.attrs.groupId}
-                            questionId={vnode.attrs.id}
-                            questionVnode={vnode}
-
-                        />
-
                     </div>
-                    <div class='wrapper groupsWrapper' id='optionsWrapper' >
-                        <div class='questionSection'>
-                            <div class='questionSectionTitle questions'>הצעות</div>
-                            {
-                                vnode.state.optionsArr.length == 0 ? <Spinner /> :
+                    <Options
+                        groupId={vnode.attrs.groupId}
+                        questionId={vnode.attrs.id}
+                        subItems={vnode.state.subItems.subQuestions}
+                        parentVnode={vnode}
+                        info={settings.subItems.subQuestions}
+                    />
+                    <Options
+                        groupId={vnode.attrs.groupId}
+                        questionId={vnode.attrs.id}
+                        subItems={vnode.state.subItems.values}
+                        parentVnode={vnode}
+                        info={settings.subItems.values}
+                    />
+                    <Options
+                        groupId={vnode.attrs.groupId}
+                        questionId={vnode.attrs.id}
+                        subItems={vnode.state.subItems.goals}
+                        parentVnode={vnode}
+                        info={settings.subItems.goals}
+                    />
+                    <Options
+                        groupId={vnode.attrs.groupId}
+                        questionId={vnode.attrs.id}
+                        subItems={vnode.state.subItems.options}
+                        parentVnode={vnode}
+                        info={settings.subItems.options}
+                    />
 
-
-                                    vnode.state.optionsArr.map((option, index) => {
-
-                                        return <Option
-                                            groupId={vnode.attrs.groupId}
-                                            questionId={vnode.attrs.id}
-                                            optionId={option.id}
-                                            title={option.title} description={option.description}
-                                            consensusPrecentage={option.consensusPrecentage}
-                                            key={index}
-                                        />
-                                    })
-                            }
-                            <div class='questionSectionFooter'>
-                                <div
-                                    class='buttons questionSectionAddButton'
-                                    onclick={() => { addQuestion(vnode) }}
-                                >הוסף הצעה</div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
 
                 <div class='footer' id='questionFooter'>
@@ -234,9 +198,7 @@ module.exports = {
 }
 
 
-function addQuestion(vnode) {
-    vnode.state.showModal = { which: 'addOption', isShow: true, title: 'הוסף אפשרות' };
-}
+
 
 
 function orderBy(order, vnode) {

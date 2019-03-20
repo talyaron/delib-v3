@@ -98,7 +98,7 @@ function getGroupDetails(onOff, groupId, vnode) {
         vnode.state.DetailsUnsubuscribe = DB.collection('groups').doc(groupId).onSnapshot(groupDB => {
 
             store.groups[groupId] = groupDB.data();
-            console.log(groupDB.data())
+
             vnode.state.groupName = groupDB.data().description
 
             m.redraw();
@@ -124,7 +124,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
-function getOptions(groupId, questionId, order, vnode) {
+function getOptions(groupId, questionId, type, order, vnode) {
 
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
@@ -143,7 +143,7 @@ function getOptions(groupId, questionId, order, vnode) {
             orderBy = 'time';
     }
 
-    let unsubscribe = optionRef.where("type", "==", "options").orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+    let unsubscribe = optionRef.where("type", "==", type).orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
             let optionObj = optionDB.data();
@@ -167,8 +167,9 @@ function getOptions(groupId, questionId, order, vnode) {
         })
 
 
-        // store.options = optionsArray;
-        vnode.state.optionsArr = optionsArray;
+
+        vnode.state.subItems[type + 's'] = optionsArray;
+
 
         m.redraw();
 
