@@ -62,10 +62,10 @@ module.exports = {
 }
 
 
-function setNewInfo(vnp, vnode) {
+function setNewInfo(vnp, vnode, type) {
     switch (vnp.state.showModal.which) {
         case 'addOption':
-            createOption(vnp.attrs.groupId, vnp.attrs.id, store.user.uid, vnode.state.add.title, vnode.state.add.description);
+            createOption(vnp.attrs.groupId, vnp.attrs.id, type, store.user.uid, vnode.state.add.title, vnode.state.add.description);
             break;
         case 'subQuestions':
             console.log('addSubQuestion');

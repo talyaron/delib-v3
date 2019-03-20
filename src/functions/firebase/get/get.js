@@ -143,7 +143,7 @@ function getOptions(groupId, questionId, order, vnode) {
             orderBy = 'time';
     }
 
-    let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+    let unsubscribe = optionRef.where("type", "==", "options").orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
             let optionObj = optionDB.data();
@@ -217,7 +217,8 @@ function getOptionVote(groupId, questionId, optionId, creatorId) {
 
 
 function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
-    let subAnswersRef = DB.collection('groups').doc(groupId)
+    let subAnswersRef = DB
+        .collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId)
         .collection('subAnswers')
@@ -282,7 +283,8 @@ function getMessages(onOff, groupId, questionId, optionId, vnode) {
 
 
 function getSubItems(subItemsType, groupId, questionId, vnode) {
-    let subItemsRef = DB.collection('groups').doc(groupId)
+    let subItemsRef = DB
+        .collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection(subItemsType)
 
