@@ -66,9 +66,6 @@ module.exports = {
             store.messagesShow[vnode.attrs.id] = true
         }
 
-
-
-
         //scroll detection
 
         window.onscroll = function (e) {
@@ -83,6 +80,7 @@ module.exports = {
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
         setWrapperFromFooter('questionFooter', 'optionsWrapper');
 
+        //subscribe to subItems
         vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
         vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
         vnode.state.unsubscribeSubQuestions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
@@ -102,10 +100,7 @@ module.exports = {
     },
     onupdate: vnode => {
 
-        setWrapperHeight('questionHeadr', 'questionWrapperAll');
-
-
-
+        setWrapperHeight('headerContainer', 'questionWrapperAll');
 
     },
     onremove: vnode => {
@@ -117,10 +112,10 @@ module.exports = {
         vnode.state.unsubscribeValues();
     },
     view: vnode => {
-
+        console.log(vnode.state.title)
         return (
             <div>
-                <div class='questionHeadr' id='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
+                <div class='headerContainer' id='questionHeadr' onclick={() => { m.route.set('/group/' + vnode.attrs.groupId) }}>
                     <Header
                         topic='שאלה'
                         title={vnode.state.title}
@@ -184,6 +179,12 @@ module.exports = {
                     >Top</div>
                     <div class='footerButton'>שיחות</div>
                 </div>
+                {
+                    vnode.state.title === 'כותרת השאלה' ?
+                        <Spinner />
+                        :
+                        <div />
+                }
                 <Modal
                     showModal={vnode.state.showModal.isShow}
                     whichModal={vnode.state.showModal.which}

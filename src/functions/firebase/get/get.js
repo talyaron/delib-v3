@@ -404,9 +404,8 @@ function listenToFeed(path, onOff = 'on') {
 
                     if (feedDB.data().time !== null) {
                         let newFeed = feedDB.data();
-
                         newFeed.path = path1
-
+                        //add feed-inputs to feed
                         store.feed[path] = newFeed;
 
                         store.numberOfNewMessages++;
@@ -422,8 +421,8 @@ function listenToFeed(path, onOff = 'on') {
         if (store.feedsUnsubscribe.hasOwnProperty(path1)) {
             store.feedsUnsubscribe[path1]();
         }
-        // delete store.feedsSubscribe[path];
-        delete store.subscribed[path1];
+
+        delete store.subscribed[path1]; //delete indciation that this feed is regigsterd
 
         m.redraw();
     }

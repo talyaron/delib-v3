@@ -12,9 +12,18 @@ module.exports = {
 
         }
     },
+    oncreate: vnode => {
+        if (store.showFeed == false) {
+            document.getElementById('feedBox').style = 'display:none';
+            setTimeout(() => {
+                document.getElementById('feedBox').style = 'display:block';
+            }, 2000)
+
+        }
+    },
     onbeforeupdate: vnode => {
 
-        orderFeed(vnode);        
+        orderFeed(vnode);
 
     },
 
@@ -24,6 +33,7 @@ module.exports = {
 
 
             <div
+                id='feedBox'
                 class={store.showFeed ? 'feedBox showFeedBox' : 'feedBox hideFeedBox'}
                 onclick={() => { store.showFeed = !store.showFeed }}
             >

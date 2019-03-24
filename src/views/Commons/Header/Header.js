@@ -19,12 +19,14 @@ module.exports = {
             ],
             refString: ''
         }
+        //set refernce string
         let reference = new Reference(vnode.state.refArray, 'array', 'collection');
         vnode.state.refString = reference.fromArrayToSring();
 
     },
     onbeforeupdate: vnode => {
 
+        //does this feed is subscribed?
         if (store.subscribed.hasOwnProperty(vnode.state.refString)) {
             vnode.state.subscribed = true;
 
