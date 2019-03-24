@@ -3,14 +3,39 @@ import './Header.css';
 
 import { addToFeed } from '../../../functions/firebase/set/set';
 import store from '../../../data/store';
+import { Reference } from '../../../functions/general';
 
 module.exports = {
     oninit: vnode => {
+
         vnode.state = {
-            previousCount: 0
+            previousCount: 0,
+            subscribed: false,
+            refArray: [
+                'groups', vnode.attrs.groupId,
+                'questions', vnode.attrs.questionId,
+                'options', vnode.attrs.optionId,
+                'messages'
+            ],
+            refString: ''
+        }
+        let reference = new Reference(vnode.state.refArray, 'array', 'collection');
+        vnode.state.refString = reference.fromArrayToSring();
+
+    },
+    onbeforeupdate: vnode => {
+
+        if (store.subscribed.hasOwnProperty(vnode.state.refString)) {
+            vnode.state.subscribed = true;
+
+        } else {
+            vnode.state.subscribed = false;
+
         }
     },
     onupdate: vnode => {
+
+
 
         //make counter jump if new message
         onNewMessageJumpCounter(vnode);
@@ -39,15 +64,8 @@ module.exports = {
                         class='headerSetFeed'
                         onclick={(e) => {
                             e.stopPropagation();
-                            addToFeed(
-                                [
-                                    'groups', vnode.attrs.groupId,
-                                    'questions', vnode.attrs.questionId,
-                                    'options', vnode.attrs.optionId,
-                                    'messages'
-                                ],
-                                'collection')
-                        }}><img src='img/icons8-news-feed-32.png' />
+                            subscribeToFeed(vnode);
+                        }}><img src={vnode.state.subscribed ? 'img/icons8-rss-32-white.png' : 'img/icons8-rss-32-gray.png'} />
                     </div>
                     <div
                         class='headerMessage'
@@ -88,6 +106,25 @@ function onNewMessageJumpCounter(vnode) {
         }, 300)
     }
     vnode.state.previousCount = store.numberOfNewMessages
+}
+
+function subscribeToFeed(vnode) {
+
+    if (!vnode.state.subscribed) {
+        addToFeed('add',
+            vnode.state.refArray,
+            vnode.state.refString,
+            'collection');
+
+        vnode.state.subscribed = true;
+    } else {
+        addToFeed('remove',
+            vnode.state.refArray,
+            vnode.state.refString,
+            'collection');
+
+        vnode.state.subscribed = false;
+    }
 }
 
 

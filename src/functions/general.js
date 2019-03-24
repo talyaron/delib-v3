@@ -53,4 +53,55 @@ function msToTime(initMilliseconds) {
     return hours + ":" + minutes + ":" + seconds;
 }
 
-module.exports = { msToTime, deep_value, setWrapperHeight, setWrapperFromFooter, returnUserRole }
+class Reference {
+    constructor(path, type, collectionOrDoc) {
+        //type can be 'array', 'string--', 'string/'
+        let types = [
+            'array', 'stringDash', 'stringSlash'
+        ];
+
+
+        this.path = path;
+        this.type = type;
+        this.collectionOrDoc = collectionOrDoc;
+        if (!types.includes(this.type)) {
+            console.error(`Type ${this.type}, is not recognized by class Reference`)
+            return
+        }
+
+        if (!(this.collectionOrDoc == 'collection' || this.collectionOrDoc == 'doc')) {
+            console.error(`Please specify if 'collection' or 'doc'.  ${collectionOrDoc} was set in class Reference`);
+            return;
+        }
+    }
+
+    fromArrayToSring() {
+        let refString = '';
+
+        if (this.collectionOrDoc === 'collection') {
+
+            //concatinate a path
+            for (let i = 0; i < this.path.length; i++) {
+                if (i == 0) {
+                    refString += this.path[i]
+                } else {
+                    refString += '--' + this.path[i]
+                }
+
+            }
+            return refString;
+
+        } else {
+            console.log('didnt created doc convertor yet');
+            return false;
+        }
+    }
+}
+
+function createRefString(refArray, collectionOrDoc) {
+    //conver array that represnet a Reference to sting Reference
+
+
+}
+
+module.exports = { Reference, createRefString, msToTime, deep_value, setWrapperHeight, setWrapperFromFooter, returnUserRole }

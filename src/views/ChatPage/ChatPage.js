@@ -44,6 +44,8 @@ module.exports = {
     onupdate: vnode => {
 
 
+
+
         window.scrollTo(0, document.body.scrollHeight);
         setWrapperHeight('headerContainer', 'chatWrapper')
 
@@ -79,6 +81,7 @@ module.exports = {
                     question={vnode.state.questionTitle}
                     title={vnode.state.optionTitle}
                     upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
+                    entityId={vnode.attrs.optionId}
                 />
                 <div class='chatWrapper' id='chatWrapper'>
                     <div class='chatOptionDescription'>

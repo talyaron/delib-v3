@@ -30,7 +30,7 @@ module.exports = {
 function convertPathToLink(path) {
     let parsedPath = path.split('--');
 
-    console.log(parsedPath);
+    //build path acording to group, question, option, messages
     if (parsedPath[parsedPath.length - 1] == 'messages') {
         return `/optionchat/${parsedPath[1]}/${parsedPath[3]}/${parsedPath[5]}`;
     } else if (parsedPath[parsedPath.length - 1] == 'questions') {

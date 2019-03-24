@@ -111,7 +111,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
         .onSnapshot(questionDB => {
             // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
             setStore(store.questions, groupId, questionId, questionDB.data());
-            console.log(questionDB.data())
+
             vnode.state.title = questionDB.data().title;
             vnode.state.description = questionDB.data().description;
 
@@ -185,7 +185,7 @@ function getOptionDetails(groupId, questionId, optionId, vnode) {
     return optionRef.onSnapshot(optionDB => {
         store.optionsDetails[optionId] = optionDB.data();
         vnode.state.optionTitle = optionDB.data().title;
-        console.log(vnode.state.optionTitle)
+
         m.redraw();
     })
 
@@ -355,6 +355,7 @@ function getSubItemUserLike(subItemsType, groupId, questionId, subQuestionId, cr
 }
 
 function listenToFeeds() {
+
     if (store.user.hasOwnProperty('uid')) {
         let feedsRef = DB.collection('users').doc(store.user.uid).collection('feeds');
         feedsRef.onSnapshot((feedsDB => {
@@ -365,6 +366,10 @@ function listenToFeeds() {
 
                 if (feedDB.type === "added") {
                     listenToFeed(path);
+
+                    store.subscribed[path] = true;
+
+                    m.redraw();
                 } else if (feedDB.type === "removed") {
                     listenToFeed(path, 'off');
 
@@ -378,9 +383,12 @@ function listenToFeeds() {
 }
 
 function listenToFeed(path, onOff = 'on') {
+
+    let path1 = path;
+    path = path.replace(/--/g, '/')
+
     if (onOff === 'on') {
-        let path1 = path;
-        path = path.replace(/--/g, '/')
+
         let feedRef = DB.collection(path)
 
         //for how long should a message appear in the feed
@@ -389,7 +397,7 @@ function listenToFeed(path, onOff = 'on') {
         let timeOfActiveMessage = (dayPassed + (hoursPassed * 1 / 24)) * 24 * 3600 * 1000;
         let timePassed = new Date().getTime() - timeOfActiveMessage;
 
-        store.feedsSubscribe[path1] = feedRef
+        store.feedsUnsubscribe[path1] = feedRef
             .where('timeSeconds', '>', timePassed)
             .orderBy("timeSeconds", "desc").limit(1).onSnapshot(feedsDB => {
                 feedsDB.forEach(feedDB => {
@@ -400,7 +408,9 @@ function listenToFeed(path, onOff = 'on') {
                         newFeed.path = path1
 
                         store.feed[path] = newFeed;
-                        store.numberOfNewMessages++
+
+                        store.numberOfNewMessages++;
+
                         m.redraw();
                     }
                 })
@@ -408,11 +418,18 @@ function listenToFeed(path, onOff = 'on') {
 
     } else {
         //unsubscribe
-        console.log('unsubscribe from ', path)
-        store.feedsSubscribe[path]();
-        delete store.feedsSubscribe[path];
+
+        if (store.feedsUnsubscribe.hasOwnProperty(path1)) {
+            store.feedsUnsubscribe[path1]();
+        }
+        // delete store.feedsSubscribe[path];
+        delete store.subscribed[path1];
+
+        m.redraw();
     }
 }
+
+
 module.exports = {
     getUserGroups,
     getQuestions,

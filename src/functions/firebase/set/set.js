@@ -1,5 +1,7 @@
+import m from 'mithril';
 import DB from '../config';
 import store from '../../../data/store';
+import { Reference } from '../../general';
 
 function createGroup(creatorId, title, description) {
 
@@ -169,32 +171,37 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
 }
 
 //add a path ([collection1, doc1, collection2, doc2, etc])
-function addToFeed(pathArray, collectionOrDoc) {
+function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
 
-    //create ref string:
-    let refString = '';
+    // let reference = new Reference(pathArray, 'array', collectionOrDoc);
 
-    if (collectionOrDoc === 'collection') {
 
-        //concatinate a path
-        for (let i = 0; i < pathArray.length; i++) {
-            if (i == 0) {
-                refString += pathArray[i]
-            } else {
-                refString += '--' + pathArray[i]
-            }
 
-        }
+    if (addRemove == 'add') {
+        DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString)
+            .set({
+                path: refString,
+                time: new Date().getTime(),
+                type: collectionOrDoc,
+                refString
+            }).then(() => {
+                console.log('added entety to DB', refString);
+                store.subscribed[refString] = true;
+            }).catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+
+
+    } else {
+        DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString).delete()
+            .then(function () {
+                delete store.subscribed[refString];
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+
 
     }
-
-
-    DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString)
-        .set({
-            path: refString,
-            time: new Date().getTime(),
-            type: collectionOrDoc
-        });
 }
 
 module.exports = { addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
