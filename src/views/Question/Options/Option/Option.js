@@ -128,7 +128,7 @@ module.exports = {
                         הסכמה: {vnode.state.consensusPrecentage}
                     </div>
                     <div class='optionChat'>
-                        שיחות: 45
+                        שיחות: {!isNaN(vnode.attrs.messagesCounter) ? vnode.attrs.messagesCounter : 0}
                     </div>
                 </div>
             </div>

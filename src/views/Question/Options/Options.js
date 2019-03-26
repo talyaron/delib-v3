@@ -29,6 +29,7 @@ module.exports = {
                                 title={option.title} description={option.description}
                                 consensusPrecentage={option.consensusPrecentage}
                                 background={vnode.attrs.info.colors.backgroundItem}
+                                messagesCounter={option.numberOfMessages}
                                 key={index}
                             />
                         })

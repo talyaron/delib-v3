@@ -199,3 +199,41 @@ exports.totalLikesForQuestionsValues = functions.firestore
             })
         })
     })
+
+
+exports.countNumbeOfMessages =
+    functions.firestore.document('groups/{groupId}/questions/{questionId}/options/{optionId}/messages/{messageId}')
+        .onWrite((change, context) => {
+
+            let docRef = db.collection('groups').doc(context.params.groupId)
+                .collection('questions').doc(context.params.questionId)
+                .collection('options').doc(context.params.optionId);
+
+            if (!change.before.exists) {
+                // New document Created : add one to count
+                docRef.get().then(snap => {
+
+                    //check if new 
+                    let numberOfMessages = 0;
+                    if (isNaN(snap.data().numberOfMessages)) {
+                        numberOfMessages = 1
+                    } else {
+                        numberOfMessages = snap.data().numberOfMessages + 1;
+                    }
+                    docRef.update({ numberOfMessages });
+                    return true;
+                }).catch(err => { console.log(err) });
+
+            } else if (change.before.exists && change.after.exists) {
+                // Updating existing document : Do nothing
+                return true;
+
+            } else if (!change.after.exists) {
+                // Deleting document : subtract one from count
+                docRef.get().then(snap => {
+                    docRef.update({ numberOfMessages: snap.data().numberOfMessages - 1 });
+                    return true;
+                }).catch(err => { console.log(err) });
+            }
+
+        });
