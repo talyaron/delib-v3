@@ -7,6 +7,10 @@ header {
     user-select: none;
 }
 
+.chatWrapper {
+    margin: 20px auto 100px auto;
+}
+
 .chatOptionDescription {
     background: rgb(236, 236, 236);
     padding: 20px;
@@ -62,6 +66,7 @@ header {
     font-size: .8rem;
     color: gray;
 }
+
 .newMessage {
     animation-name: newMessage;
     animation-duration: 0.5s;

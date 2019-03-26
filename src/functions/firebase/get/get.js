@@ -93,17 +93,15 @@ function setStore(obj, groupId, questionId, data) {
 
 }
 
-function getGroupDetails(onOff, groupId, vnode) {
-    if (onOff == 'on') {
-        vnode.state.DetailsUnsubuscribe = DB.collection('groups').doc(groupId).onSnapshot(groupDB => {
+function getGroupDetails(groupId, vnode) {
 
-            store.groups[groupId] = groupDB.data();
+    return DB.collection('groups').doc(groupId).onSnapshot(groupDB => {
 
-            m.redraw();
-        })
-    } else {
-        vnode.state.DetailsUnsubuscribe();
-    }
+        store.groups[groupId] = groupDB.data();
+        vnode.state.groupName = groupDB.data().description
+        m.redraw();
+    })
+
 }
 
 function getQuestionDetails(groupId, questionId, vnode) {
@@ -112,7 +110,10 @@ function getQuestionDetails(groupId, questionId, vnode) {
         .collection('questions').doc(questionId)
         .onSnapshot(questionDB => {
             // set(store.questions, `[${groupId}][${questionId}]`, questionDB.data());
-            setStore(store.questions, groupId, questionId, questionDB.data())
+            setStore(store.questions, groupId, questionId, questionDB.data());
+
+            vnode.state.title = questionDB.data().title;
+            vnode.state.description = questionDB.data().description;
 
             m.redraw();
         })
@@ -120,7 +121,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
-function getOptions(groupId, questionId, order, vnode) {
+function getOptions(groupId, questionId, type, order, vnode) {
 
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
@@ -139,7 +140,7 @@ function getOptions(groupId, questionId, order, vnode) {
             orderBy = 'time';
     }
 
-    let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+    let unsubscribe = optionRef.where("type", "==", type).orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
             let optionObj = optionDB.data();
@@ -163,8 +164,9 @@ function getOptions(groupId, questionId, order, vnode) {
         })
 
 
-        // store.options = optionsArray;
-        vnode.state.optionsArr = optionsArray;
+
+        vnode.state.subItems[type + 's'] = optionsArray;
+
 
         m.redraw();
 
@@ -174,20 +176,19 @@ function getOptions(groupId, questionId, order, vnode) {
 
 }
 
-function getOptionDetails(onOff, groupId, questionId, optionId) {
+function getOptionDetails(groupId, questionId, optionId, vnode) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId);
 
-    if (onOff === 'on') {
-        optionRef.onSnapshot(optionDB => {
-            store.optionsDetails[optionId] = optionDB.data();
 
-            m.redraw();
-        })
-    } else {
-        optionRef.onSnapshot(() => { })();
-    }
+    return optionRef.onSnapshot(optionDB => {
+        store.optionsDetails[optionId] = optionDB.data();
+        vnode.state.optionTitle = optionDB.data().title;
+
+        m.redraw();
+    })
+
 }
 
 function getOptionVote(groupId, questionId, optionId, creatorId) {
@@ -213,7 +214,8 @@ function getOptionVote(groupId, questionId, optionId, creatorId) {
 
 
 function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
-    let subAnswersRef = DB.collection('groups').doc(groupId)
+    let subAnswersRef = DB
+        .collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId)
         .collection('subAnswers')
@@ -239,45 +241,45 @@ function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
 
 }
 
-function getMessages(onOff, groupId, questionId, optionId, vnode) {
+function getMessages(groupId, questionId, optionId, vnode) {
     let messagesRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('options').doc(optionId)
         .collection('messages');
 
-    if (onOff === 'on') {
-        messagesRef.orderBy('time', 'desc').limit(10).onSnapshot(messagesDB => {
-            let messagesArray = [];
 
+    return messagesRef.orderBy('time', 'desc').limit(40).onSnapshot(messagesDB => {
+        let messagesArray = [];
 
-            messagesDB.forEach(messageDB => {
-                let tempMessage = messageDB.data();
+        let numberOfMessages = messagesDB.size
+        messagesDB.forEach(messageDB => {
+            let tempMessage = messageDB.data();
 
-                //check if message is new
-                if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
+            //check if message is new
+            if (!vnode.state.messagesIds.hasOwnProperty(messageDB.id)) {
 
-                    tempMessage.isNew = true;
-                } else {
-                    tempMessage.isNew = false;
-                }
+                tempMessage.isNew = true;
+            } else {
+                tempMessage.isNew = false;
+            }
 
-                messagesArray.unshift(tempMessage);
-                vnode.state.messagesIds[messageDB.id] = true;
-            })
-            vnode.state.messages = messagesArray;
-
-
-
-            m.redraw();
+            messagesArray.unshift(tempMessage);
+            vnode.state.messagesIds[messageDB.id] = true;
         })
-    } else {
-        messagesRef.onSnapshot(() => { })();
-    }
+        vnode.state.messages = messagesArray;
+        // vnode.state.numberOfMessages = numberOfMessages;
+
+
+
+        m.redraw();
+    })
+
 }
 
 
 function getSubItems(subItemsType, groupId, questionId, vnode) {
-    let subItemsRef = DB.collection('groups').doc(groupId)
+    let subItemsRef = DB
+        .collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection(subItemsType)
 
@@ -295,12 +297,8 @@ function getSubItems(subItemsType, groupId, questionId, vnode) {
             }
         });
 
-
-
         let subItemArr = [];
         SubItemsDB.forEach(SubItemDB => {
-
-
 
             let subItemObj = SubItemDB.data()
 
@@ -355,6 +353,82 @@ function getSubItemUserLike(subItemsType, groupId, questionId, subQuestionId, cr
         m.redraw();
     })
 }
+
+function listenToFeeds() {
+
+    if (store.user.hasOwnProperty('uid')) {
+        let feedsRef = DB.collection('users').doc(store.user.uid).collection('feeds');
+        feedsRef.onSnapshot((feedsDB => {
+
+            feedsDB.docChanges().forEach(feedDB => {
+                //listen to changes
+                let path = feedDB.doc.data().path;
+
+                if (feedDB.type === "added") {
+                    listenToFeed(path);
+
+                    store.subscribed[path] = true;
+
+                    m.redraw();
+                } else if (feedDB.type === "removed") {
+                    listenToFeed(path, 'off');
+
+                }
+            })
+        }))
+    } else {
+        console.error('User is not logged in and I can not subscribe to his/her feeds')
+    }
+
+}
+
+function listenToFeed(path, onOff = 'on') {
+
+    let path1 = path;
+    path = path.replace(/--/g, '/')
+
+    if (onOff === 'on') {
+
+        let feedRef = DB.collection(path)
+
+        //for how long should a message appear in the feed
+        let dayPassed = 1
+        let hoursPassed = 12
+        let timeOfActiveMessage = (dayPassed + (hoursPassed * 1 / 24)) * 24 * 3600 * 1000;
+        let timePassed = new Date().getTime() - timeOfActiveMessage;
+
+        store.feedsUnsubscribe[path1] = feedRef
+            .where('timeSeconds', '>', timePassed)
+            .orderBy("timeSeconds", "desc").limit(1).onSnapshot(feedsDB => {
+                feedsDB.forEach(feedDB => {
+
+                    if (feedDB.data().time !== null) {
+                        let newFeed = feedDB.data();
+                        newFeed.path = path1
+                        //add feed-inputs to feed
+                        store.feed[path] = newFeed;
+
+                        store.numberOfNewMessages++;
+
+                        m.redraw();
+                    }
+                })
+            })
+
+    } else {
+        //unsubscribe
+
+        if (store.feedsUnsubscribe.hasOwnProperty(path1)) {
+            store.feedsUnsubscribe[path1]();
+        }
+
+        delete store.subscribed[path1]; //delete indciation that this feed is regigsterd
+
+        m.redraw();
+    }
+}
+
+
 module.exports = {
     getUserGroups,
     getQuestions,
@@ -367,5 +441,6 @@ module.exports = {
     getSubItemUserLike,
     getSubAnswers,
     getOptionDetails,
-    getMessages
+    getMessages,
+    listenToFeeds
 }

@@ -6,6 +6,8 @@ import values from 'lodash/values';
 
 import './Groups.css';
 import Group from './Group/Group';
+import Header from '../Commons/Header/Header';
+import Feed from '../Commons/Feed/Feed';
 
 
 //functions
@@ -30,10 +32,10 @@ module.exports = {
 
     },
     oncreate: vnode => {
-        setWrapperHeight('groupsHeader', 'groupsWrapper');
+        setWrapperHeight('headerContainer', 'groupsWrapper');
     },
     onupdate: vnode => {
-        setWrapperHeight('groupsHeader', 'groupsWrapper');
+        setWrapperHeight('headerContainer', 'groupsWrapper');
     },
     onremove: vnode => {
         getUserGroups('off', store.user.uid);
@@ -41,7 +43,8 @@ module.exports = {
     view: (vnode) => {
         return (
             <div >
-                <header class='groupsHeader' id='groupsHeader'>דליב - קבוצות</header>
+                <Header title='הקבוצות שלי' topic='דליב' upLevelUrl={false} />
+
                 <div class='wrapper groupsWrapper' id='groupsWrapper'>
                     {
                         store.userGroups.map((group, key) => {
@@ -58,7 +61,8 @@ module.exports = {
                 <div class='fav' onclick={() => { console.log(store.user.uid); createGroup(store.user.uid, 'some title', 'some description') }} >
                     <div>+</div>
                 </div>
-            </div>
+                <Feed />
+            </div >
         )
     }
 }

@@ -1,4 +1,7 @@
+import m from 'mithril';
 import DB from '../config';
+import store from '../../../data/store';
+import { Reference } from '../../general';
 
 function createGroup(creatorId, title, description) {
 
@@ -33,13 +36,14 @@ function createQuestion(groupId, creatorId, title, description) {
 
 }
 
-function createOption(groupId, questionId, creatorId, title, description) {
-    console.log(groupId, questionId, creatorId, title, description);
+function createOption(groupId, questionId, type, creatorId, title, description) {
+
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('options')
         .add({
             groupId,
             questionId,
             creatorId,
+            type,
             title,
             description,
             time: firebase.firestore.FieldValue.serverTimestamp(),
@@ -64,13 +68,18 @@ function setLike(groupId, questionId, optionId, creatorId, like) {
         });
 }
 
-function setMessage(groupId, questionId, optionId, creatorId, creatorName, message) {
+function setMessage(groupId, questionId, optionId, creatorId, creatorName, message, groupName, questionName, optionName) {
     DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
         .collection('options').doc(optionId).collection('messages').add({
             creatorId,
             creatorName,
             time: firebase.firestore.FieldValue.serverTimestamp(),
-            message
+            timeSeconds: new Date().getTime(),
+            message,
+            type: 'messages',
+            groupName,
+            questionName,
+            optionName
         }).then(messageDB => {
 
 
@@ -161,4 +170,38 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
         });
 }
 
-module.exports = { createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+//add a path ([collection1, doc1, collection2, doc2, etc])
+function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
+
+    // let reference = new Reference(pathArray, 'array', collectionOrDoc);
+
+
+
+    if (addRemove == 'add') {
+        DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString)
+            .set({
+                path: refString,
+                time: new Date().getTime(),
+                type: collectionOrDoc,
+                refString
+            }).then(() => {
+                console.log('added entety to DB', refString);
+                store.subscribed[refString] = true;
+            }).catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+
+
+    } else {
+        DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString).delete()
+            .then(function () {
+                delete store.subscribed[refString];
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+
+
+    }
+}
+
+module.exports = { addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

@@ -1,10 +1,10 @@
 import m from 'mithril';
 
 import './Option.css';
-import store from '../../../data/store';
+import store from '../../../../data/store';
 
-import { setLike } from '../../../functions/firebase/set/set';
-import { getOptionVote } from '../../../functions/firebase/get/get';
+import { setLike } from '../../../../functions/firebase/set/set';
+import { getOptionVote } from '../../../../functions/firebase/get/get';
 
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
                 offsetLeft: 0
             }
         }
-        console.log('option:', vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid)
+
         vnode.state.likeUnsubscribe = getOptionVote(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
 
         store.optionsDetails[vnode.attrs.optionId] = {
@@ -104,7 +104,7 @@ module.exports = {
     view: (vnode) => {
 
         return (
-            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key}>
+            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key} style={`background:${vnode.attrs.background}`}>
                 <div class='optionMain'>
                     <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img
@@ -128,7 +128,7 @@ module.exports = {
                         הסכמה: {vnode.state.consensusPrecentage}
                     </div>
                     <div class='optionChat'>
-                        שיחות: 45
+                        שיחות: {!isNaN(vnode.attrs.messagesCounter) ? vnode.attrs.messagesCounter : 0}
                     </div>
                 </div>
             </div>

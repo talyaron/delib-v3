@@ -18,7 +18,12 @@ var store = {
     optionsVotes: {},
     optionsLoc: {},
     optionsDetails: {}, //vote on options by user
-    messagesShow:{} // history of messages to show
+    messagesShow: {}, // history of messages to show
+    feedsUnsubscribe: {}, // used for feed unsubscribes
+    feed: {}, //the feed
+    showFeed: false,
+    numberOfNewMessages: 0,
+    subscribed: {} //subscribed entityes
 }
 
 module.exports = store; 
