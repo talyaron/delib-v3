@@ -248,7 +248,7 @@ function getMessages(groupId, questionId, optionId, vnode) {
         .collection('messages');
 
 
-    return messagesRef.orderBy('time', 'desc').limit(40).onSnapshot(messagesDB => {
+    return messagesRef.orderBy('time', 'desc').limit(20).onSnapshot(messagesDB => {
         let messagesArray = [];
 
         let numberOfMessages = messagesDB.size
