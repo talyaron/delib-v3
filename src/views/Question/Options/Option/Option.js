@@ -3,7 +3,7 @@ import m from 'mithril';
 import './Option.css';
 import store from '../../../../data/store';
 
-import { setLike } from '../../../../functions/firebase/set/set';
+import { setLike, updateOption } from '../../../../functions/firebase/set/set';
 import { getOptionVote } from '../../../../functions/firebase/get/get';
 
 
@@ -11,6 +11,8 @@ module.exports = {
     oninit: vnode => {
 
         vnode.state = {
+            title: '',
+            description: '',
             up: false,
             down: false,
             consensusPrecentage: '',
@@ -20,8 +22,12 @@ module.exports = {
             oldElement: {
                 offsetTop: 0,
                 offsetLeft: 0
-            }
+            },
+            isEdit: false
         }
+
+        vnode.state.title = vnode.attrs.title;
+        vnode.state.description = vnode.attrs.description;
 
         vnode.state.likeUnsubscribe = getOptionVote(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
 
@@ -112,10 +118,31 @@ module.exports = {
                             src='img/icons8-facebook-like-32.png'
                         />
                     </div>
-                    <div class='optionContent'
-                        onclick={() => { m.route.set('/optionchat/' + vnode.attrs.groupId + '/' + vnode.attrs.questionId + '/' + vnode.attrs.optionId) }}>
-                        <div class='cardTitle'>{vnode.attrs.title}</div>
-                        <div class='cardDescription'>{vnode.attrs.description}</div>
+                    <div class='optionContent'>
+                        <div class='cardTitle'>
+                            {(!vnode.state.isEdit) ?
+                                <span>{vnode.state.title}</span>
+                                :
+                                <input type='text'
+                                    value={vnode.state.title}
+                                    onkeyup={(e) => {
+                                        vnode.state.title = e.target.value;
+                                    }}
+                                />
+                            }
+                        </div>
+                        <div class='cardDescription'>
+                            {(!vnode.state.isEdit) ?
+                                <span>{vnode.state.description}</span>
+                                :
+                                <textarea
+                                    value={vnode.state.description}
+                                    onkeyup={(e) => {
+                                        vnode.state.description = e.target.value;
+                                    }} />
+                            }
+
+                        </div>
                     </div>
                     <div class={vnode.state.down ? 'optionVote optionSelcetDown' : 'optionVote'} onclick={() => { setSelection('down', vnode) }}>
                         <img
@@ -125,10 +152,32 @@ module.exports = {
                 </div>
                 <div class='optionInfo'>
                     <div class={vnode.state.isConNegative ? 'optionLikes negative' : 'optionLikes'}>
-                        הסכמה: {vnode.state.consensusPrecentage}
+                        <img src='img/icons8-thumbs-up-down-24.png' />
+                        {vnode.state.consensusPrecentage}
                     </div>
-                    <div class='optionChat'>
-                        שיחות: {!isNaN(vnode.attrs.messagesCounter) ? vnode.attrs.messagesCounter : 0}
+                    <div class='optionChat'
+                        onclick={() => { m.route.set('/optionchat/' + vnode.attrs.groupId + '/' + vnode.attrs.questionId + '/' + vnode.attrs.optionId) }}
+                    >
+                        <img src='img/icons8-chat-room-24.png' />
+                        {!isNaN(vnode.attrs.messagesCounter) ? vnode.attrs.messagesCounter : 0}
+                    </div>
+                    <div class='optionChat'
+                        onclick={() => { vnode.state.isEdit = !vnode.state.isEdit }}
+                    >
+                        {(vnode.attrs.creatorId == store.user.uid) ?
+                            <div>
+                                {(!vnode.state.isEdit) ?
+                                    <img src='img/icons8-pencil-24.png' />
+                                    :
+                                    <div
+                                        class='buttons editOptionBtn'
+                                        onclick={() => { updateOption(vnode) }}
+                                    >אישור</div>
+                                }
+                            </div>
+                            :
+                            <div />
+                        }
                     </div>
                 </div>
             </div>

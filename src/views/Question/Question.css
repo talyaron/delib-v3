@@ -70,6 +70,7 @@
 }
 
 .questionSectionAddButton {
+    width: max-content;
     background: white;
     border: 1px solid #bfbff9;
     padding: 2px 9px;

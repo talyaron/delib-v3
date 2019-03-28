@@ -9,17 +9,14 @@ onAuth();
 m.route.prefix('?')
 
 //Views
-import Splash from "./views/Splash/Splash";
+import Login from "./views/Login/Login";
 import Groups from "./views/Groups/Groups";
 import GroupPage from './views/GroupPage/GroupPage';
 import Question from './views/Question/Question';
 import ChatPage from './views/ChatPage/ChatPage';
 
-
-
-
 m.route(root, "/splash", {
-    "/splash": Splash,
+    "/splash": Login,
     "/groups": Groups,
     "/group/:id": GroupPage,
     '/question/:groupId/:id': Question,
