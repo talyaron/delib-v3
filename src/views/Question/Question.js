@@ -55,6 +55,7 @@ module.exports = {
             }
         }
 
+
         vnode.state.unsubscribeQuestionDetails = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
 
         //  show message only one time
@@ -127,6 +128,9 @@ module.exports = {
                         <Description
                             title='הסבר על השאלה:'
                             content={vnode.state.description}
+                            groupId={vnode.attrs.groupId}
+                            questionId={vnode.attrs.id}
+                            creatorId={vnode.state.creatorId}
                         />
                     </div>
                     <Options

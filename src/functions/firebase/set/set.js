@@ -25,7 +25,8 @@ function createQuestion(groupId, creatorId, title, description) {
     DB.collection('groups').doc(groupId).collection('questions').add({
         title: title,
         description: description,
-        time: new Date().getTime()
+        time: new Date().getTime(),
+        creatorId
     }).then(something => {
         DB.collection('groups').doc(groupId).collection('questions').doc(something.id).update({ id: something.id })
         console.log(something.id)
@@ -34,6 +35,14 @@ function createQuestion(groupId, creatorId, title, description) {
         console.error("Error adding document: ", error);
     });
 
+}
+
+function updateQuestion(groupId, questionId, title, description) {
+    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
+        .update({
+            title,
+            description
+        })
 }
 
 function createOption(groupId, questionId, type, creatorId, title, description) {
@@ -215,4 +224,4 @@ function updateOption(vnode) {
         })
 }
 
-module.exports = { updateOption, addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

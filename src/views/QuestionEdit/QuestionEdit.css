@@ -1,0 +1,22 @@
+.questionIntro {
+    margin: 20px 0px;
+}
+
+.questionIntro>div {
+    background: wheat;
+    margin: 10px 0px;
+    padding: 10px;
+    font-size: 1.3rem;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.questionIntroTitle {
+    font-size: 1.6rem;
+    width: 100%;
+}
+
+.questionIntroButton {
+    margin: 0px 10px !important;
+    color: white;
+}
