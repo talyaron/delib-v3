@@ -26,6 +26,7 @@ module.exports = {
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
                                 optionId={option.id}
+                                creatorId={option.creatorId}
                                 title={option.title} description={option.description}
                                 consensusPrecentage={option.consensusPrecentage}
                                 background={vnode.attrs.info.colors.backgroundItem}

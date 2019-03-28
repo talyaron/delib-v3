@@ -1,5 +1,5 @@
 import m from 'mithril';
-import './Splash.css';
+import './Login.css';
 
 //functions
 import googleLogin from '../../functions/firebase/googleLogin';

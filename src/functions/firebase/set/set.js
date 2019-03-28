@@ -204,4 +204,15 @@ function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
     }
 }
 
-module.exports = { addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+function updateOption(vnode) {
+
+    DB.collection('groups').doc(vnode.attrs.groupId)
+        .collection('questions').doc(vnode.attrs.questionId)
+        .collection('options').doc(vnode.attrs.optionId)
+        .update({
+            title: vnode.state.title,
+            description: vnode.state.description
+        })
+}
+
+module.exports = { updateOption, addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

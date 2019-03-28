@@ -141,6 +141,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
     }
 
     let unsubscribe = optionRef.where("type", "==", type).orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
             let optionObj = optionDB.data();
@@ -163,11 +164,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
             optionsArray.push(optionObj)
         })
 
-
-
         vnode.state.subItems[type + 's'] = optionsArray;
-
-
         m.redraw();
 
     })
@@ -248,7 +245,7 @@ function getMessages(groupId, questionId, optionId, vnode) {
         .collection('messages');
 
 
-    return messagesRef.orderBy('time', 'desc').limit(40).onSnapshot(messagesDB => {
+    return messagesRef.orderBy('time', 'desc').limit(20).onSnapshot(messagesDB => {
         let messagesArray = [];
 
         let numberOfMessages = messagesDB.size
