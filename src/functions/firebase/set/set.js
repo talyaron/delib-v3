@@ -205,8 +205,6 @@ function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
 }
 
 function updateOption(vnode) {
-    console.dir(vnode.attrs);
-    console.dir(vnode.state);
 
     DB.collection('groups').doc(vnode.attrs.groupId)
         .collection('questions').doc(vnode.attrs.questionId)
