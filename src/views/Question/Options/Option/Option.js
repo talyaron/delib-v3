@@ -38,6 +38,8 @@ module.exports = {
     },
     onbeforeupdate: vnode => {
 
+
+
         let optionVote = store.optionsVotes[vnode.attrs.optionId]
 
         //set conesnsus level to string
@@ -70,6 +72,8 @@ module.exports = {
     },
     onupdate: vnode => {
 
+        // vnode.state.title = vnode.attrs.title;
+        // vnode.state.description = vnode.attrs.description;
 
         //animation 
         let element = vnode.dom
@@ -121,7 +125,7 @@ module.exports = {
                     <div class='optionContent'>
                         <div class='cardTitle'>
                             {(!vnode.state.isEdit) ?
-                                <span>{vnode.state.title}</span>
+                                <span>{vnode.attrs.title}</span>
                                 :
                                 <input type='text'
                                     value={vnode.state.title}
@@ -133,7 +137,7 @@ module.exports = {
                         </div>
                         <div class='cardDescription'>
                             {(!vnode.state.isEdit) ?
-                                <span>{vnode.state.description}</span>
+                                <span>{vnode.attrs.description}</span>
                                 :
                                 <textarea
                                     value={vnode.state.description}

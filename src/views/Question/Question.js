@@ -83,7 +83,6 @@ module.exports = {
         //subscribe to subItems
         vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
         vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
-        vnode.state.unsubscribeSubQuestions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
         vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
         vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
     },
@@ -107,7 +106,6 @@ module.exports = {
         vnode.state.unsubscribeQuestionDetails();
         vnode.state.unsubscribeOptions();
         vnode.state.unsubscribeQuestion();
-        vnode.state.unsubscribeSubQuestions();
         vnode.state.unsubscribeGoals();
         vnode.state.unsubscribeValues();
     },

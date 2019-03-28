@@ -141,6 +141,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
     }
 
     let unsubscribe = optionRef.where("type", "==", type).orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
             let optionObj = optionDB.data();
@@ -163,11 +164,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
             optionsArray.push(optionObj)
         })
 
-
-
         vnode.state.subItems[type + 's'] = optionsArray;
-
-
         m.redraw();
 
     })
