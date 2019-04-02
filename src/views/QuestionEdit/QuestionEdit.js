@@ -1,8 +1,9 @@
 import m from 'mithril';
+import Sortable from 'sortablejs';
 
 import store from '../../data/store';
-import { getQuestionDetails } from '../../functions/firebase/get/get';
-import { updateQuestion } from '../../functions/firebase/set/set';
+import { getQuestionDetails, getSubQuestions } from '../../functions/firebase/get/get';
+import { updateQuestion, setSubQuestionsOrder, createSubQuestion } from '../../functions/firebase/set/set';
 import { setWrapperHeight } from '../../functions/general';
 
 import './QuestionEdit.css';
@@ -23,31 +24,61 @@ module.exports = {
             title: 'כותרת שאלה',
             description: 'תאור שאלה',
             unsbscribe: {
-                details: {}
+                details: {},
+                subQuestions: {}
             },
             editabels: {
                 title: false,
                 description: false
-            }
+            },
+            subQuestions: [],
+            subQuestionsArray: [],
+            addSubQuestin: false,
+            newSubQuestion: ''
         }
 
 
         vnode.state.unsbscribe.details = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
-
+        getSubQuestions(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
 
 
     },
     oncreate: vnode => {
         setWrapperHeight('headerContainer', 'questionEditWrapperAll');
+
+        let sortOptions = document.getElementById('sortOptions');
+
+        let sortOptionsObj = Sortable.create(sortOptions, {
+            animation: 150,
+            onEnd: evt => {
+
+                //set order to DB
+                let elements = evt.target.children;
+                for (let i = 0; i < elements.length; i++) {
+                    setSubQuestionsOrder(vnode.attrs.groupId, vnode.attrs.questionId, elements[i].id, i);
+                }
+
+
+            }
+        })
+    },
+    onbeforeupdate: vnode => {
+        // let counter = 0;
+        // for (let i in vnode.state.subQuestions) {
+        //     vnode.state.subQuestionsArray[counter] = vnode.state.subQuestions[i];
+        //     counter++;
+        // }
+        // console.dir(vnode.state.subQuestionsArray)
     },
     onupdate: vnode => {
         setWrapperHeight('headerContainer', 'questionEditWrapperAll')
     },
     onremove: vnode => {
         vnode.state.unsbscribe.details();
+        // vnode.state.unsbscribe.subQuestions();
     },
     view: vnode => {
-        console.log(vnode.state.editabels.description);
+
         return (
             <div>
                 <Header
@@ -57,6 +88,7 @@ module.exports = {
                     upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
                 />
                 <div class='wrapperAll' id='questionEditWrapperAll'>
+                    <div class='moduleTitle'>מידע כללי</div>
                     <div class='questionIntro'>
                         {!vnode.state.editabels.title ?
                             <div
@@ -114,7 +146,71 @@ module.exports = {
                             </div>
                         }
                     </div>
-                    <SubQuestion />
+                    <div class='moduleTitle'>תת-שאלות ומטרות</div>
+                    <ul id='sortOptions'>
+                        {
+                            vnode.state.subQuestions.map((subQuestion, index) => {
+                                return <SubQuestion
+                                    number={index}
+                                    title={subQuestion.title}
+                                    id={subQuestion.id}
+                                />
+                            })
+                        }
+
+                    </ul>
+                    {
+                        vnode.state.addSubQuestin ?
+                            <div>
+                                <input
+                                    type='text'
+                                    placeholder='תת שאלה חדשה או תת מטרה חדשה'
+                                    class='inputNewSubQuestion'
+                                    value={vnode.state.newSubQuestion}
+                                    onkeyup={(e) => { vnode.state.newSubQuestion = e.target.value; }}
+                                />
+                            </div>
+                            :
+                            <div />
+                    }
+                    {!vnode.state.addSubQuestin ?
+                        <div
+                            class='buttons addSubQuestin'
+                            onclick={() => { vnode.state.addSubQuestin = true }}
+                        >הוספת תת-שאלה או מטרה</div>
+                        :
+                        <div class='buttonsWrapper'>
+                            <div class
+                                class='buttons addSubQuestin'
+                                onclick={(e) => {
+                                    e.stopPropagation();
+                                    vnode.state.addSubQuestin = false;
+                                    createSubQuestion(
+                                        vnode.attrs.groupId,
+                                        vnode.attrs.questionId,
+                                        vnode.state.newSubQuestion,
+                                        vnode.state.subQuestions.length)
+
+                                    vnode.state.subQuestions.push({
+                                        creator: store.user.uid,
+                                        title: vnode.state.newSubQuestion,
+                                        order: vnode.state.subQuestions.length,
+                                        id: 'tempIdBeforeUpdate'
+                                    })
+                                    getSubQuestions(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+                                    vnode.state.newSubQuestion = '';
+                                }}
+                            >הוספה</div>
+                            <div
+                                class='buttons addSubQuestin cancel'
+                                onclick={(e) => {
+                                    e.stopPropagation();
+                                    vnode.state.addSubQuestin = false;
+                                    vnode.state.newSubQuestion = ''
+                                }}
+                            >ביטול</div>
+                        </div>
+                    }
                 </div>
             </div>
         )

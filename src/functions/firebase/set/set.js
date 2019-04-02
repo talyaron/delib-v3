@@ -52,6 +52,51 @@ function updateQuestion(groupId, questionId, title, description) {
 
 }
 
+function createSubQuestion(groupId, questionId, title, order) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').add({
+            title,
+            order,
+            creator: store.user.uid
+        }).then(function (docRef) {
+            console.log('dow wrirten succesfully')
+        })
+        .catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+
+}
+
+function updateSubQuestionsOrder(groupId, questionId, newOrderArray) {
+
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .update({
+            subQuestions: {
+
+                order: newOrderArray
+            }
+        }).then(something => {
+            console.log('writen succesufuly')
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+function setSubQuestionsOrder(groupId, questionId, subQuestionId, order) {
+    console.log(groupId, questionId, subQuestionId, order)
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId).update({
+            order
+        }).then(something => {
+            console.log(`writen to ${subQuestionId} succesufuly`)
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
 
 
 function createOption(groupId, questionId, type, creatorId, title, description) {
@@ -233,4 +278,4 @@ function updateOption(vnode) {
         })
 }
 
-module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

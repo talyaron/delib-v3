@@ -122,6 +122,30 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
+function getSubQuestions(groupId, questionId, vnode) {
+
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions');
+
+    return subQuestionRef.orderBy('order', 'asc').get().then(subQuestionsDB => {
+        let subQuestionsArray = [];
+
+        subQuestionsDB.forEach(subQuestionDB => {
+            let subQuestionObj = subQuestionDB.data();
+            subQuestionObj.id = subQuestionDB.id;
+
+            subQuestionsArray.push(subQuestionObj);
+        })
+
+        console.dir(subQuestionsArray)
+        vnode.state.subQuestions = subQuestionsArray;
+
+        m.redraw()
+    })
+
+}
+
 function getOptions(groupId, questionId, type, order, vnode) {
 
     let optionRef = DB.collection('groups').doc(groupId)
@@ -432,6 +456,7 @@ module.exports = {
     getQuestions,
     getGroupDetails,
     getQuestionDetails,
+    getSubQuestions,
     getOptions,
     getOptionVote,
     getSubItems,

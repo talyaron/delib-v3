@@ -42,3 +42,18 @@
     font-weight: 700;
     margin-left: 15px;
 }
+
+.addSubQuestin {
+    color: white;
+    float: left;
+}
+
+.inputNewSubQuestion {
+    width: 100%;
+}
+
+.buttonsWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
