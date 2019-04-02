@@ -8,6 +8,7 @@ import { setWrapperHeight } from '../../functions/general';
 import './QuestionEdit.css';
 
 import Header from '../Commons/Header/Header';
+import SubQuestion from './SubQuestion/SubQuestion';
 
 module.exports = {
     oninit: vnode => {
@@ -113,6 +114,7 @@ module.exports = {
                             </div>
                         }
                     </div>
+                    <SubQuestion />
                 </div>
             </div>
         )
