@@ -46,7 +46,7 @@ module.exports = {
         vnode.state.unsbscribe.details();
     },
     view: vnode => {
-
+        console.log(vnode.state.editabels.description);
         return (
             <div>
                 <Header
@@ -62,7 +62,7 @@ module.exports = {
                                 class='questionIntroTitle'
                                 onclick={(e) => { e.stopPropagation(); vnode.state.editabels.title = true }}
                             >
-                                {vnode.state.title}
+                                <div class='subTitleEdit'>כותרת:</div><div> {vnode.state.title}</div>
                             </div>
                             :
                             <div>
@@ -84,9 +84,34 @@ module.exports = {
                                  </div>
                             </div>
                         }
-                        <div class='questionIntroDescription'>
-                            {vnode.state.description}
-                        </div>
+                        {vnode.state.editabels.description ?
+
+                            <div>
+                                <textarea
+                                    value={vnode.state.description}
+                                    class='questionIntroDescription_texterae'
+                                    onkeyup={(e) => { updateField('description', e.target.value, vnode) }}
+                                />
+                                <div
+                                    class='buttons questionIntroButton'
+                                    onclick={(e) => {
+                                        e.stopPropagation();
+                                        vnode.state.editabels.description = false
+                                        updateQuestion(vnode.attrs.groupId, vnode.attrs.questionId, vnode.state.title, vnode.state.description)
+                                    }}
+                                >
+                                    שמירה
+                                 </div>
+                            </div>
+                            :
+                            <div
+                                class='questionIntroDescription'
+                                onclick={(e) => { e.stopPropagation(); vnode.state.editabels.description = true }}
+                            >
+                                <div class='subTitleEdit'>הסבר: </div>
+                                <div>  {vnode.state.description}</div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -96,6 +121,7 @@ module.exports = {
 
 function updateField(field, value, vnode) {
     vnode.state[field] = value;
+
 
 }
 

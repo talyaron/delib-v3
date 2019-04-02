@@ -38,12 +38,21 @@ function createQuestion(groupId, creatorId, title, description) {
 }
 
 function updateQuestion(groupId, questionId, title, description) {
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
+
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
         .update({
             title,
             description
-        })
+        }).then(something => {
+            console.log('writen succesufuly')
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+
 }
+
+
 
 function createOption(groupId, questionId, type, creatorId, title, description) {
 

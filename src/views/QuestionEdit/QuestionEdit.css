@@ -14,9 +14,31 @@
 .questionIntroTitle {
     font-size: 1.6rem;
     width: 100%;
+    cursor: pointer;
+    user-select: none;
 }
 
 .questionIntroButton {
     margin: 0px 10px !important;
     color: white;
+    height: fit-content;
+}
+
+.questionIntroDescription {
+    font-size: 1.6rem;
+    width: 100%;
+    height: fit-content;
+    cursor: pointer;
+    user-select: none;
+}
+
+.questionIntroDescription_texterae {
+    font-size: 1.3rem;
+    width: 100%;
+    height: 5rem;
+}
+
+.subTitleEdit {
+    font-weight: 700;
+    margin-left: 15px;
 }
