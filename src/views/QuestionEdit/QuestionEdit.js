@@ -191,12 +191,7 @@ module.exports = {
                                         vnode.state.newSubQuestion,
                                         vnode.state.subQuestions.length)
 
-                                    vnode.state.subQuestions.push({
-                                        creator: store.user.uid,
-                                        title: vnode.state.newSubQuestion,
-                                        order: vnode.state.subQuestions.length,
-                                        id: 'tempIdBeforeUpdate'
-                                    })
+
                                     getSubQuestions(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
                                     vnode.state.newSubQuestion = '';
                                 }}

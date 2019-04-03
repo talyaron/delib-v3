@@ -138,7 +138,7 @@ function getSubQuestions(groupId, questionId, vnode) {
             subQuestionsArray.push(subQuestionObj);
         })
 
-        console.dir(subQuestionsArray)
+
         vnode.state.subQuestions = subQuestionsArray;
 
         m.redraw()

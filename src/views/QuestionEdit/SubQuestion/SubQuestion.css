@@ -1,6 +1,11 @@
 .optionEditBox {
     display: flex;
     width: 100%;
+    cursor: grab;
+}
+
+.optionEditBox:active {
+    cursor: grabbing;
 }
 
 .optionEditDragable {

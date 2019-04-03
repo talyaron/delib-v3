@@ -60,7 +60,7 @@ function createSubQuestion(groupId, questionId, title, order) {
             order,
             creator: store.user.uid
         }).then(function (docRef) {
-            console.log('dow wrirten succesfully')
+            console.log('doc wrirten succesfully')
         })
         .catch(function (error) {
             console.error("Error adding document: ", error);
@@ -152,7 +152,7 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
 }
 
 function createSubItem(subItemsType, groupId, questionId, creatorId, creatorName, title, description) {
-    console.log(groupId, questionId, creatorId, title, description);
+
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection(subItemsType);
