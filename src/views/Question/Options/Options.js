@@ -11,7 +11,6 @@ import store from '../../../data/store';
 
 module.exports = {
     oninit: vnode => {
-        console.log(`init`)
 
         vnode.state = {
             options: []

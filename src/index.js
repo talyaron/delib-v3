@@ -22,7 +22,7 @@ m.route(root, "/splash", {
     "/group/:id": GroupPage,
     '/question/:groupId/:id': Question,
     "/questionEdit/:groupId/:questionId": QuestionEdit,
-    '/optionchat/:groupId/:questionId/:optionId': ChatPage
+    '/optionchat/:groupId/:questionId/:subQuestionId/:optionId': ChatPage
 
 })
 

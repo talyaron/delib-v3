@@ -142,18 +142,14 @@ function getSubQuestions(groupId, questionId, vnode, getSubOptions = false) {
 
 
         vnode.state.subQuestions = subQuestionsArray;
-        console.log(vnode.state.subQuestions);
-        m.redraw()
 
-
-
-
+        m.redraw();
     })
 
 }
 
 function getOptions(groupId, questionId, subQuestionId, order, vnode) {
-    console.log('get options', groupId, questionId, subQuestionId)
+
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId)
@@ -205,15 +201,16 @@ function getOptions(groupId, questionId, subQuestionId, order, vnode) {
 
 }
 
-function getOptionDetails(groupId, questionId, optionId, vnode) {
+function getOptionDetails(groupId, questionId, subQuestionId, optionId, vnode) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options').doc(optionId);
 
 
     return optionRef.onSnapshot(optionDB => {
         store.optionsDetails[optionId] = optionDB.data();
-        vnode.state.optionTitle = optionDB.data().title;
+        vnode.state.option.title = optionDB.data().title;
 
         m.redraw();
     })
@@ -270,9 +267,12 @@ function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
 
 }
 
-function getMessages(groupId, questionId, optionId, vnode) {
+function getMessages(groupId, questionId, subQuestionId, optionId, vnode) {
+
+
     let messagesRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options').doc(optionId)
         .collection('messages');
 
@@ -393,6 +393,7 @@ function listenToFeeds() {
                 //listen to changes
                 let path = feedDB.doc.data().path;
 
+
                 if (feedDB.type === "added") {
                     listenToFeed(path);
 
@@ -416,6 +417,7 @@ function listenToFeed(path, onOff = 'on') {
     let path1 = path;
     path = path.replace(/--/g, '/')
 
+
     if (onOff === 'on') {
 
         let feedRef = DB.collection(path)
@@ -429,10 +431,12 @@ function listenToFeed(path, onOff = 'on') {
         store.feedsUnsubscribe[path1] = feedRef
             .where('timeSeconds', '>', timePassed)
             .orderBy("timeSeconds", "desc").limit(1).onSnapshot(feedsDB => {
+
                 feedsDB.forEach(feedDB => {
 
                     if (feedDB.data().time !== null) {
                         let newFeed = feedDB.data();
+
                         newFeed.path = path1
                         //add feed-inputs to feed
                         store.feed[path] = newFeed;

@@ -133,9 +133,12 @@ function setLike(groupId, questionId, optionId, creatorId, like) {
         });
 }
 
-function setMessage(groupId, questionId, optionId, creatorId, creatorName, message, groupName, questionName, optionName) {
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
-        .collection('options').doc(optionId).collection('messages').add({
+function setMessage(groupId, questionId, subQuestionId, optionId, creatorId, creatorName, message, groupName, questionName, optionName) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('options').doc(optionId)
+        .collection('messages').add({
             creatorId,
             creatorName,
             time: firebase.firestore.FieldValue.serverTimestamp(),
@@ -240,7 +243,7 @@ function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
 
     // let reference = new Reference(pathArray, 'array', collectionOrDoc);
 
-
+    console.log('addToFeed', addRemove)
 
     if (addRemove == 'add') {
         DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString)
@@ -252,6 +255,7 @@ function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
             }).then(() => {
                 console.log('added entety to DB', refString);
                 store.subscribed[refString] = true;
+                console.dir(store.subscribed)
             }).catch((error) => {
                 console.error("Error writing document: ", error);
             });

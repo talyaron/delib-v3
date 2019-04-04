@@ -160,7 +160,7 @@ module.exports = {
                         {vnode.state.consensusPrecentage}
                     </div>
                     <div class='optionChat'
-                        onclick={() => { m.route.set('/optionchat/' + vnode.attrs.groupId + '/' + vnode.attrs.questionId + '/' + vnode.attrs.optionId) }}
+                        onclick={() => { m.route.set(`/optionchat/${vnode.attrs.groupId}/${vnode.attrs.questionId}/${vnode.attrs.subQuestionId}/${vnode.attrs.optionId}`) }}
                     >
                         <img src='img/icons8-chat-room-24.png' />
                         {!isNaN(vnode.attrs.messagesCounter) ? vnode.attrs.messagesCounter : 0}
