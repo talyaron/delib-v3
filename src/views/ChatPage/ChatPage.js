@@ -104,11 +104,11 @@ module.exports = {
                     }
                 </div>
                 <form class='chatBox'>
-                    <img src='img/icons8-paper-plane-32.png'></img>
+                    <img src='img/icons8-paper-plane-32.png' onclick={(e) => { sendMessageBtn(e, vnode) }}></img>
                     <textarea
                         class='chatInput'
                         autofocus
-                        onkeyup={(e) => { sendMessage(e, vnode) }}
+                        onkeyup={(e) => { sendMessageEnter(e, vnode) }}
                         value={vnode.state.input} />
                 </form>
                 <Feed />
@@ -126,15 +126,28 @@ function updateDetials(vnode) {
     vnode.state.optionDescription = deep_value(store.optionsDetails, `[${vnode.attrs.optionId}].description`, 'תאור האפשרות');
 }
 
-function sendMessage(e, vnode) {
+function sendMessageEnter(e, vnode) {
     e.preventDefault();
     vnode.state.input = e.target.value;
     //get input
 
     if (e.key == "Enter") {
+        sendMessage(vnode)
 
-        let va = vnode.attrs
+    }
 
+}
+
+function sendMessageBtn(e, vnode) {
+    e.stopPropagation();
+    sendMessage(vnode);
+
+}
+
+function sendMessage(vnode) {
+
+    let va = vnode.attrs;
+    if (vnode.state.input.length > 0) {
 
         setMessage(
             va.groupId,
@@ -143,14 +156,13 @@ function sendMessage(e, vnode) {
             va.optionId,
             store.user.uid,
             store.user.displayName || 'אנונימי',
-            e.target.value,
+            vnode.state.input,
             vnode.state.groupTitle,
             vnode.state.questionTitle,
             vnode.state.option.title,
         )
         vnode.state.input = ''
     }
-
 }
 
 function getNamesOfQuestionAndGroup(vnode) {

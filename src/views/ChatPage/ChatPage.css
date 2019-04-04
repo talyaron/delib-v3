@@ -52,6 +52,18 @@ header {
     height: 32px;
     width: 32px;
     margin-right: 20px;
+    padding: 13px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.chatBox>img:active {
+    background: #a74a4a;
+    transform: scale(0.92);
+}
+
+.chatBox>img:hover {
+    background: #c75858;
 }
 
 .message {
@@ -70,13 +82,18 @@ header {
 .newMessage {
     animation-name: newMessage;
     animation-duration: 0.5s;
+    position: relative;
 }
 
 @keyframes newMessage {
     from {
         transform: scale(0, 0);
+        height: 0px;
+        right: -50%;
     }
     to {
         transform: scaleY(1, 1);
+        height: auto;
+        right: 0%;
     }
 }
