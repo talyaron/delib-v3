@@ -122,7 +122,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
-function getSubQuestions(groupId, questionId, vnode) {
+function getSubQuestions(groupId, questionId, vnode, getSubOptions = false) {
 
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
@@ -130,18 +130,32 @@ function getSubQuestions(groupId, questionId, vnode) {
 
     return subQuestionRef.orderBy('order', 'asc').get().then(subQuestionsDB => {
         let subQuestionsArray = [];
+        let subQuestionsObj = {};
 
         subQuestionsDB.forEach(subQuestionDB => {
             let subQuestionObj = subQuestionDB.data();
             subQuestionObj.id = subQuestionDB.id;
 
             subQuestionsArray.push(subQuestionObj);
+            subQuestionsObj[subQuestionObj.id] = {};
         })
 
+        if (!getSubOptions) {
+            vnode.state.subQuestions = subQuestionsArray;
+            console.log(vnode.state.subQuestions);
+            m.redraw()
+        } else {
+            //sign to options
+            console.dir(subQuestionsObj);
 
-        vnode.state.subQuestions = subQuestionsArray;
+            for (let subQuestionId in subQuestionsObj) {
+                subQuestionRef.doc(subQuestionId).collection('options')
+            }
 
-        m.redraw()
+        }
+
+
+
     })
 
 }

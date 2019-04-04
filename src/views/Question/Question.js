@@ -16,7 +16,7 @@ import Modal from '../Commons/Modal/Modal';
 import store from '../../data/store';
 import settings from '../../data/settings';
 
-import { getQuestionDetails, getOptions, getSubItems } from '../../functions/firebase/get/get';
+import { getQuestionDetails, getOptions, getSubItems, getSubQuestions } from '../../functions/firebase/get/get';
 import { createOption } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functions/general';
 
@@ -27,13 +27,12 @@ module.exports = {
         //get user before login to page
         store.lastPage = '/question/' + vnode.attrs.groupId + '/' + vnode.attrs.id;
         sessionStorage.setItem('lastPage', store.lastPage);
-        if (store.user.uid == undefined) {
-            m.route.set('/login')
-        }
+
 
         vnode.state = {
             title: deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה'),
             addOption: false,
+            callDB: true,
             subItems: {
                 options: [],
                 subQuestions: [],
@@ -52,7 +51,18 @@ module.exports = {
             showModal: {
                 isShow: false,
                 which: ''
+            },
+            unsbscribe: {
+                subQuestions: {}
             }
+        }
+
+        //check to see if user logged in
+        if (store.user.uid == undefined) {
+            m.route.set('/login');
+            vnode.state.callDB = false;
+        } else {
+            vnode.state.callDB = true;
         }
 
 
@@ -80,12 +90,14 @@ module.exports = {
     oncreate: vnode => {
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
         setWrapperFromFooter('questionFooter', 'optionsWrapper');
-
-        //subscribe to subItems
-        vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
-        vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
-        vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
-        vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
+        if (vnode.state.callDB) {
+            //subscribe to subItems
+            vnode.state.unsbscribe.subQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode, true);
+            vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
+            vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
+            vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
+            vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
+        }
     },
     onbeforeupdate: vnode => {
 
@@ -104,11 +116,15 @@ module.exports = {
 
     },
     onremove: vnode => {
-        vnode.state.unsubscribeQuestionDetails();
-        vnode.state.unsubscribeOptions();
-        vnode.state.unsubscribeQuestion();
-        vnode.state.unsubscribeGoals();
-        vnode.state.unsubscribeValues();
+        if (typeof vnode.state.unsbscribe.subQuestions === 'function') {
+            vnode.state.unsbscribe.subQuestions();
+        }
+
+        // vnode.state.unsubscribeQuestionDetails();
+        // vnode.state.unsubscribeOptions();
+        // vnode.state.unsubscribeQuestion();
+        // vnode.state.unsubscribeGoals();
+        // vnode.state.unsubscribeValues();
     },
     view: vnode => {
 
