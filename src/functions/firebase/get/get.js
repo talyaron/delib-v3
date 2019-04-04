@@ -422,6 +422,7 @@ function listenToFeed(path, onOff = 'on') {
 
         let feedRef = DB.collection(path)
 
+
         //for how long should a message appear in the feed
         let dayPassed = 1
         let hoursPassed = 12

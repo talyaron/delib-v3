@@ -56,6 +56,7 @@ module.exports = {
             vnode.state.unsbOptionDetails();
             vnode.state.unsbGetMessages();
 
+            getNamesOfQuestionAndGroup(vnode);
 
             vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, vnode);
             vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, vnode);
@@ -80,6 +81,9 @@ module.exports = {
                     questionId={vnode.attrs.questionId}
                     subQuestionId={vnode.attrs.subQuestionId}
                     optionId={vnode.attrs.optionId}
+                    groupTitle={vnode.state.groupTitle}
+                    questionTitle={vnode.state.questionTitle}
+                    optionTitle={vnode.state.option.title}
                     topic='אופציה'
                     title={vnode.state.option.title}
                     upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
@@ -142,10 +146,23 @@ function sendMessage(e, vnode) {
             e.target.value,
             vnode.state.groupTitle,
             vnode.state.questionTitle,
-            vnode.state.optionTitle,
+            vnode.state.option.title,
         )
         vnode.state.input = ''
     }
+
+}
+
+function getNamesOfQuestionAndGroup(vnode) {
+    DB.collection('groups').doc(vnode.attrs.groupId)
+        .collection('questions').doc(vnode.attrs.questionId).get().then(questionDB => {
+            vnode.state.questionTitle = questionDB.data().title
+        })
+
+    DB
+        .collection('groups').doc(vnode.attrs.groupId).get().then(groupDB => {
+            vnode.state.groupTitle = groupDB.data().title
+        })
 
 }
 

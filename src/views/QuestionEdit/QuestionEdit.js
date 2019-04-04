@@ -147,10 +147,13 @@ module.exports = {
                         }
                     </div>
                     <div class='moduleTitle'>תת-שאלות ומטרות</div>
-                    <ul id='sortOptions'>
+                    <div id='sortOptions'>
                         {
                             vnode.state.subQuestions.map((subQuestion, index) => {
                                 return <SubQuestion
+                                    groupId={vnode.attrs.groupId}
+                                    questionId={vnode.attrs.questionId}
+                                    subQuestionId={subQuestion.id}
                                     number={index}
                                     title={subQuestion.title}
                                     id={subQuestion.id}
@@ -158,7 +161,7 @@ module.exports = {
                             })
                         }
 
-                    </ul>
+                    </div>
                     {
                         vnode.state.addSubQuestin ?
                             <div>

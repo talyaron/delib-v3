@@ -37,11 +37,9 @@ module.exports = {
                 class={store.showFeed ? 'feedBox showFeedBox' : 'feedBox hideFeedBox'}
                 onclick={() => { store.showFeed = !store.showFeed }}
             >
-
                 <div class='feedWrapper'>
                     {
                         vnode.state.orderdFeed.map((content, index) => {
-
                             return <FeedContent
                                 data={content}
                             />
@@ -57,6 +55,7 @@ module.exports = {
 
 function orderFeed(vnode) {
     vnode.state.orderdFeed = [];
+
     for (let i in store.feed) {
         vnode.state.orderdFeed.push(store.feed[i]);
     }

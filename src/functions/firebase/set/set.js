@@ -68,6 +68,13 @@ function createSubQuestion(groupId, questionId, title, order) {
 
 }
 
+function updateSubQuestion(groupId, questionId, subQuestionId, title) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .update({ title })
+}
+
 function updateSubQuestionsOrder(groupId, questionId, newOrderArray) {
 
     DB.collection('groups').doc(groupId)
@@ -241,8 +248,6 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
 //add a path ([collection1, doc1, collection2, doc2, etc])
 function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
 
-    // let reference = new Reference(pathArray, 'array', collectionOrDoc);
-
     console.log('addToFeed', addRemove)
 
     if (addRemove == 'add') {
@@ -285,4 +290,4 @@ function updateOption(vnode) {
         })
 }
 
-module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, updateSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

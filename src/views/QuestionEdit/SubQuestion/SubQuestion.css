@@ -17,13 +17,29 @@
 
 .optionEditContent {
     width: 100%;
-    background: rgb(89, 89, 194);
+    background: wheat;
     margin: 4px;
 }
 
-.optionEditContentText {}
+.optionEditContentText {
+    margin-bottom: 6px;
+}
+
+.optionEditContentText>div {
+    padding: 3px 0px;
+}
+
+.optionEditContentText>input {
+    width: 100%;
+    box-sizing: border-box;
+}
 
 .optionEditContentSettings {}
+
+.optionEditButton {
+    color: white;
+    padding: 5px 20px;
+}
 
 .optionEditType {}
 

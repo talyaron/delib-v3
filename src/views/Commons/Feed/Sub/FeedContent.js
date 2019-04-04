@@ -6,9 +6,7 @@ import { msToTime } from '../../../../functions/general';
 
 
 module.exports = {
-    oninit: vnode => {
 
-    },
     view: (vnode) => {
 
         return (
@@ -32,7 +30,7 @@ function convertPathToLink(path) {
 
     //build path acording to group, question, option, messages
     if (parsedPath[parsedPath.length - 1] == 'messages') {
-        return `/optionchat/${parsedPath[1]}/${parsedPath[3]}/${parsedPath[5]}`;
+        return `/optionchat/${parsedPath[1]}/${parsedPath[3]}/${parsedPath[5]}/${parsedPath[7]}`;
     } else if (parsedPath[parsedPath.length - 1] == 'questions') {
         return `/question/${parsedPath[1]}/${parsedPath[3]}`;
     } else if (parsedPath[parsedPath.length - 1] == 'groups') {
