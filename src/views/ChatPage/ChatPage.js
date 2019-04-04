@@ -23,6 +23,7 @@ module.exports = {
         vnode.state = {
             groupTitle: '',
             questionTitle: '',
+            option: { title: '' },
             optionTitle: '',
             optionDescription: '',
             messages: [],
@@ -30,13 +31,13 @@ module.exports = {
         }
 
         //set last page for login screen
-        store.lastPage = '/optionchat/' + vnode.attrs.groupId + '/' + vnode.attrs.questionId + '/' + vnode.attrs.optionId;
+        store.lastPage = `/optionchat/${vnode.attrs.groupId}/${vnode.attrs.questionId}/${vnode.attrs.subQuestionId}/${vnode.attrs.optionId}`;
         sessionStorage.setItem('lastPage', store.lastPage);
 
         //update details from DB
-        getNamesOfQuestionAndGroup(vnode);
-        vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
-        vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+
+        vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, vnode);
+        vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, vnode);
 
 
     },
@@ -56,8 +57,9 @@ module.exports = {
             vnode.state.unsbGetMessages();
 
             getNamesOfQuestionAndGroup(vnode);
-            vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
-            vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, vnode);
+
+            vnode.state.unsbOptionDetails = getOptionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, vnode);
+            vnode.state.unsbGetMessages = getMessages(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, vnode);
 
         }
         vnode.state.previuos = vnode.attrs.optionId
@@ -66,6 +68,7 @@ module.exports = {
     onremove: vnode => {
 
         // getQuestionDetails(vnode.attrs.groupId, vnode.attrs.questionId, vnode);
+        vnode.state.unsbGetMessages();
 
 
     },
@@ -76,10 +79,13 @@ module.exports = {
                 <Header
                     groupId={vnode.attrs.groupId}
                     questionId={vnode.attrs.questionId}
+                    subQuestionId={vnode.attrs.subQuestionId}
                     optionId={vnode.attrs.optionId}
+                    groupTitle={vnode.state.groupTitle}
+                    questionTitle={vnode.state.questionTitle}
+                    optionTitle={vnode.state.option.title}
                     topic='אופציה'
-                    question={vnode.state.questionTitle}
-                    title={vnode.state.optionTitle}
+                    title={vnode.state.option.title}
                     upLevelUrl={`/question/${vnode.attrs.groupId}/${vnode.attrs.questionId}`}
                     entityId={vnode.attrs.optionId}
                 />
@@ -133,13 +139,14 @@ function sendMessage(e, vnode) {
         setMessage(
             va.groupId,
             va.questionId,
+            va.subQuestionId,
             va.optionId,
             store.user.uid,
             store.user.displayName || 'אנונימי',
             e.target.value,
             vnode.state.groupTitle,
             vnode.state.questionTitle,
-            vnode.state.optionTitle,
+            vnode.state.option.title,
         )
         vnode.state.input = ''
     }

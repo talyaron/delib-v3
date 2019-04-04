@@ -25,7 +25,8 @@ function createQuestion(groupId, creatorId, title, description) {
     DB.collection('groups').doc(groupId).collection('questions').add({
         title: title,
         description: description,
-        time: new Date().getTime()
+        time: new Date().getTime(),
+        creatorId
     }).then(something => {
         DB.collection('groups').doc(groupId).collection('questions').doc(something.id).update({ id: something.id })
         console.log(something.id)
@@ -36,26 +37,97 @@ function createQuestion(groupId, creatorId, title, description) {
 
 }
 
-function createOption(groupId, questionId, type, creatorId, title, description) {
+function updateQuestion(groupId, questionId, title, description) {
 
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('options')
-        .add({
-            groupId,
-            questionId,
-            creatorId,
-            type,
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .update({
             title,
-            description,
-            time: firebase.firestore.FieldValue.serverTimestamp(),
-            consensusPrecentage: 0
-        }).then(newOption => {
-            DB.collection('groups').doc(groupId)
-                .collection('questions').doc(questionId)
-                .collection('options').doc(newOption.id).update({ id: newOption.id })
-
+            description
+        }).then(something => {
+            console.log('writen succesufuly')
         }).catch(function (error) {
             console.error("Error adding document: ", error);
         });
+
+}
+
+function createSubQuestion(groupId, questionId, title, order) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').add({
+            title,
+            order,
+            creator: store.user.uid
+        }).then(function (docRef) {
+            console.log('doc wrirten succesfully')
+        })
+        .catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+
+}
+
+function updateSubQuestion(groupId, questionId, subQuestionId, title) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .update({ title })
+}
+
+function updateSubQuestionsOrder(groupId, questionId, newOrderArray) {
+
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .update({
+            subQuestions: {
+
+                order: newOrderArray
+            }
+        }).then(something => {
+            console.log('writen succesufuly')
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+function setSubQuestionsOrder(groupId, questionId, subQuestionId, order) {
+
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId).update({
+            order
+        }).then(something => {
+            console.log(`writen to ${subQuestionId} succesufuly`)
+        }).catch(function (error) {
+            console.error("Error adding document: ", error);
+        });
+}
+
+
+
+function createOption(groupId, questionId, subQuestionId, type, creatorId, title, description) {
+    let optionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('options')
+
+    optionRef.add({
+        groupId,
+        questionId,
+        creatorId,
+        type,
+        title,
+        description,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        consensusPrecentage: 0
+    }).then(newOption => {
+        optionRef.doc(newOption.id)
+            .update({ id: newOption.id })
+
+    }).catch(function (error) {
+        console.error("Error adding document: ", error);
+    });
 }
 
 function setLike(groupId, questionId, optionId, creatorId, like) {
@@ -68,9 +140,12 @@ function setLike(groupId, questionId, optionId, creatorId, like) {
         });
 }
 
-function setMessage(groupId, questionId, optionId, creatorId, creatorName, message, groupName, questionName, optionName) {
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
-        .collection('options').doc(optionId).collection('messages').add({
+function setMessage(groupId, questionId, subQuestionId, optionId, creatorId, creatorName, message, groupName, questionName, optionName) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('options').doc(optionId)
+        .collection('messages').add({
             creatorId,
             creatorName,
             time: firebase.firestore.FieldValue.serverTimestamp(),
@@ -89,7 +164,7 @@ function setMessage(groupId, questionId, optionId, creatorId, creatorName, messa
 }
 
 function createSubItem(subItemsType, groupId, questionId, creatorId, creatorName, title, description) {
-    console.log(groupId, questionId, creatorId, title, description);
+
     let subQuestionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection(subItemsType);
@@ -173,9 +248,7 @@ function setSubAnswer(groupId, questionId, subQuestionId, creatorId, creatorName
 //add a path ([collection1, doc1, collection2, doc2, etc])
 function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
 
-    // let reference = new Reference(pathArray, 'array', collectionOrDoc);
-
-
+    console.log('addToFeed', addRemove)
 
     if (addRemove == 'add') {
         DB.collection('users').doc(store.user.uid).collection('feeds').doc(refString)
@@ -187,6 +260,7 @@ function addToFeed(addRemove, pathArray, refString, collectionOrDoc) {
             }).then(() => {
                 console.log('added entety to DB', refString);
                 store.subscribed[refString] = true;
+                console.dir(store.subscribed)
             }).catch((error) => {
                 console.error("Error writing document: ", error);
             });
@@ -208,6 +282,7 @@ function updateOption(vnode) {
 
     DB.collection('groups').doc(vnode.attrs.groupId)
         .collection('questions').doc(vnode.attrs.questionId)
+        .collection('subQuestions').doc(vnode.attrs.subQuestionId)
         .collection('options').doc(vnode.attrs.optionId)
         .update({
             title: vnode.state.title,
@@ -215,4 +290,4 @@ function updateOption(vnode) {
         })
 }
 
-module.exports = { updateOption, addToFeed, createGroup, createQuestion, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, updateSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

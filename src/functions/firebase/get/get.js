@@ -114,6 +114,7 @@ function getQuestionDetails(groupId, questionId, vnode) {
 
             vnode.state.title = questionDB.data().title;
             vnode.state.description = questionDB.data().description;
+            vnode.state.creatorId = questionDB.data().creatorId;
 
             m.redraw();
         })
@@ -121,10 +122,37 @@ function getQuestionDetails(groupId, questionId, vnode) {
     return unsubscribe;
 }
 
-function getOptions(groupId, questionId, type, order, vnode) {
+function getSubQuestions(groupId, questionId, vnode, getSubOptions = false) {
+
+    let subQuestionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions');
+
+    return subQuestionRef.orderBy('order', 'asc').get().then(subQuestionsDB => {
+        let subQuestionsArray = [];
+        let subQuestionsObj = {};
+
+        subQuestionsDB.forEach(subQuestionDB => {
+            let subQuestionObj = subQuestionDB.data();
+            subQuestionObj.id = subQuestionDB.id;
+
+            subQuestionsArray.push(subQuestionObj);
+            subQuestionsObj[subQuestionObj.id] = {};
+        })
+
+
+        vnode.state.subQuestions = subQuestionsArray;
+
+        m.redraw();
+    })
+
+}
+
+function getOptions(groupId, questionId, subQuestionId, order, vnode) {
 
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options');
 
 
@@ -140,7 +168,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
             orderBy = 'time';
     }
 
-    let unsubscribe = optionRef.where("type", "==", type).orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+    let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
 
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
@@ -164,7 +192,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
             optionsArray.push(optionObj)
         })
 
-        vnode.state.subItems[type + 's'] = optionsArray;
+        vnode.state.options = optionsArray;
         m.redraw();
 
     })
@@ -173,15 +201,16 @@ function getOptions(groupId, questionId, type, order, vnode) {
 
 }
 
-function getOptionDetails(groupId, questionId, optionId, vnode) {
+function getOptionDetails(groupId, questionId, subQuestionId, optionId, vnode) {
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options').doc(optionId);
 
 
     return optionRef.onSnapshot(optionDB => {
         store.optionsDetails[optionId] = optionDB.data();
-        vnode.state.optionTitle = optionDB.data().title;
+        vnode.state.option.title = optionDB.data().title;
 
         m.redraw();
     })
@@ -238,9 +267,12 @@ function getSubAnswers(groupId, questionId, subQuestionId, vnode) {
 
 }
 
-function getMessages(groupId, questionId, optionId, vnode) {
+function getMessages(groupId, questionId, subQuestionId, optionId, vnode) {
+
+
     let messagesRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options').doc(optionId)
         .collection('messages');
 
@@ -361,6 +393,7 @@ function listenToFeeds() {
                 //listen to changes
                 let path = feedDB.doc.data().path;
 
+
                 if (feedDB.type === "added") {
                     listenToFeed(path);
 
@@ -384,9 +417,11 @@ function listenToFeed(path, onOff = 'on') {
     let path1 = path;
     path = path.replace(/--/g, '/')
 
+
     if (onOff === 'on') {
 
         let feedRef = DB.collection(path)
+
 
         //for how long should a message appear in the feed
         let dayPassed = 1
@@ -397,10 +432,12 @@ function listenToFeed(path, onOff = 'on') {
         store.feedsUnsubscribe[path1] = feedRef
             .where('timeSeconds', '>', timePassed)
             .orderBy("timeSeconds", "desc").limit(1).onSnapshot(feedsDB => {
+
                 feedsDB.forEach(feedDB => {
 
                     if (feedDB.data().time !== null) {
                         let newFeed = feedDB.data();
+
                         newFeed.path = path1
                         //add feed-inputs to feed
                         store.feed[path] = newFeed;
@@ -431,6 +468,7 @@ module.exports = {
     getQuestions,
     getGroupDetails,
     getQuestionDetails,
+    getSubQuestions,
     getOptions,
     getOptionVote,
     getSubItems,

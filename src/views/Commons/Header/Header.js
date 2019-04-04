@@ -14,6 +14,7 @@ module.exports = {
             refArray: [
                 'groups', vnode.attrs.groupId,
                 'questions', vnode.attrs.questionId,
+                'subQuestions', vnode.attrs.subQuestionId,
                 'options', vnode.attrs.optionId,
                 'messages'
             ],
@@ -22,6 +23,7 @@ module.exports = {
         //set refernce string
         let reference = new Reference(vnode.state.refArray, 'array', 'collection');
         vnode.state.refString = reference.fromArrayToSring();
+
 
     },
     onbeforeupdate: vnode => {
@@ -36,8 +38,6 @@ module.exports = {
         }
     },
     onupdate: vnode => {
-
-
 
         //make counter jump if new message
         onNewMessageJumpCounter(vnode);

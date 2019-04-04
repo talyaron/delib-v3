@@ -13,6 +13,7 @@ import Login from "./views/Login/Login";
 import Groups from "./views/Groups/Groups";
 import GroupPage from './views/GroupPage/GroupPage';
 import Question from './views/Question/Question';
+import QuestionEdit from './views/QuestionEdit/QuestionEdit';
 import ChatPage from './views/ChatPage/ChatPage';
 
 m.route(root, "/splash", {
@@ -20,7 +21,8 @@ m.route(root, "/splash", {
     "/groups": Groups,
     "/group/:id": GroupPage,
     '/question/:groupId/:id': Question,
-    '/optionchat/:groupId/:questionId/:optionId': ChatPage
+    "/questionEdit/:groupId/:questionId": QuestionEdit,
+    '/optionchat/:groupId/:questionId/:subQuestionId/:optionId': ChatPage
 
 })
 

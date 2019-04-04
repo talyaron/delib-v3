@@ -3,12 +3,22 @@ import './Options.css';
 
 import Option from './Option/Option';
 
+import { getOptions } from '../../../functions/firebase/get/get';
+
 import store from '../../../data/store';
 //functions
 
 
 module.exports = {
+    oninit: vnode => {
 
+        vnode.state = {
+            options: []
+        }
+
+        let va = vnode.attrs;
+        getOptions(va.groupId, va.questionId, va.subQuestionId, va.orderBy, vnode);
+    },
     view: (vnode) => {
 
         return (
@@ -17,14 +27,15 @@ module.exports = {
                     <div
                         class='questionSectionTitle questions'
                         style={`color:${vnode.attrs.info.colors.color}; background:${vnode.attrs.info.colors.background}`}
-                    >{vnode.attrs.info.name}</div>
+                    >{vnode.attrs.title}</div>
                     {
 
-                        vnode.attrs.subItems.map((option, index) => {
+                        vnode.state.options.map((option, index) => {
 
                             return <Option
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
+                                subQuestionId={vnode.attrs.subQuestionId}
                                 optionId={option.id}
                                 creatorId={option.creatorId}
                                 title={option.title} description={option.description}
@@ -50,5 +61,5 @@ module.exports = {
 
 function addQuestion(vnode, type) {
     console.log(type)
-    vnode.attrs.parentVnode.state.showModal = { which: type, isShow: true, title: 'הוסף אפשרות' };
+    vnode.attrs.parentVnode.state.showModal = { subQuestionId: vnode.attrs.subQuestionId, which: type, isShow: true, title: 'הוסף אפשרות' };
 }
