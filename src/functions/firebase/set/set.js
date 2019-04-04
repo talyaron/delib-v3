@@ -273,6 +273,7 @@ function updateOption(vnode) {
 
     DB.collection('groups').doc(vnode.attrs.groupId)
         .collection('questions').doc(vnode.attrs.questionId)
+        .collection('subQuestions').doc(vnode.attrs.subQuestionId)
         .collection('options').doc(vnode.attrs.optionId)
         .update({
             title: vnode.state.title,

@@ -36,6 +36,7 @@ module.exports = {
                             return <Option
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
+                                subQuestionId={vnode.attrs.subQuestionId}
                                 optionId={option.id}
                                 creatorId={option.creatorId}
                                 title={option.title} description={option.description}
