@@ -3,6 +3,8 @@ import './Options.css';
 
 import Option from './Option/Option';
 
+import { getOptions } from '../../../functions/firebase/get/get';
+
 import store from '../../../data/store';
 //functions
 
@@ -10,6 +12,13 @@ import store from '../../../data/store';
 module.exports = {
     oninit: vnode => {
         console.log(`init`)
+
+        vnode.state = {
+            options: []
+        }
+
+        let va = vnode.attrs;
+        getOptions(va.groupId, va.questionId, va.subQuestionId, va.orderBy, vnode);
     },
     view: (vnode) => {
 
@@ -19,10 +28,10 @@ module.exports = {
                     <div
                         class='questionSectionTitle questions'
                         style={`color:${vnode.attrs.info.colors.color}; background:${vnode.attrs.info.colors.background}`}
-                    >{vnode.attrs.info.name}</div>
+                    >{vnode.attrs.title}</div>
                     {
 
-                        vnode.attrs.subItems.map((option, index) => {
+                        vnode.state.options.map((option, index) => {
 
                             return <Option
                                 groupId={vnode.attrs.groupId}
@@ -52,5 +61,5 @@ module.exports = {
 
 function addQuestion(vnode, type) {
     console.log(type)
-    vnode.attrs.parentVnode.state.showModal = { which: type, isShow: true, title: 'הוסף אפשרות' };
+    vnode.attrs.parentVnode.state.showModal = { subQuestionId: vnode.attrs.subQuestionId, which: type, isShow: true, title: 'הוסף אפשרות' };
 }

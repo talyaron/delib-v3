@@ -65,7 +65,14 @@ module.exports = {
 function setNewInfo(vnp, vnode) {
 
 
-    createOption(vnp.attrs.groupId, vnp.attrs.id, vnp.state.showModal.which, store.user.uid, vnode.state.add.title, vnode.state.add.description);
+    createOption(
+        vnp.attrs.groupId,
+        vnp.attrs.id,
+        vnp.state.showModal.subQuestionId,
+        vnp.state.showModal.which,
+        store.user.uid,
+        vnode.state.add.title,
+        vnode.state.add.description);
 
     vnp.state.showModal.isShow = false;
 

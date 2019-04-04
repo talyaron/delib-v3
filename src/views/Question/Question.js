@@ -39,6 +39,7 @@ module.exports = {
                 goals: [],
                 values: []
             },
+            subQuestions: [],
             add: {
                 title: '',
                 description: ''
@@ -89,14 +90,14 @@ module.exports = {
     },
     oncreate: vnode => {
         setWrapperHeight('questionHeadr', 'questionWrapperAll')
-        setWrapperFromFooter('questionFooter', 'optionsWrapper');
+        setWrapperFromFooter('questionFooter', 'questionWrapperAll');
         if (vnode.state.callDB) {
             //subscribe to subItems
             vnode.state.unsbscribe.subQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode, true);
-            vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
-            vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
-            vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
-            vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
+            // vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
+            // vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
+            // vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
+            // vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
         }
     },
     onbeforeupdate: vnode => {
@@ -149,34 +150,22 @@ module.exports = {
                             creatorId={vnode.state.creatorId}
                         />
                     </div>
-                    <Options
-                        groupId={vnode.attrs.groupId}
-                        questionId={vnode.attrs.id}
-                        subItems={vnode.state.subItems.subQuestions}
-                        parentVnode={vnode}
-                        info={settings.subItems.subQuestions}
-                    />
-                    <Options
-                        groupId={vnode.attrs.groupId}
-                        questionId={vnode.attrs.id}
-                        subItems={vnode.state.subItems.values}
-                        parentVnode={vnode}
-                        info={settings.subItems.values}
-                    />
-                    <Options
-                        groupId={vnode.attrs.groupId}
-                        questionId={vnode.attrs.id}
-                        subItems={vnode.state.subItems.goals}
-                        parentVnode={vnode}
-                        info={settings.subItems.goals}
-                    />
-                    <Options
-                        groupId={vnode.attrs.groupId}
-                        questionId={vnode.attrs.id}
-                        subItems={vnode.state.subItems.options}
-                        parentVnode={vnode}
-                        info={settings.subItems.options}
-                    />
+                    {
+                        vnode.state.subQuestions.map((subQuestion, index) => {
+                            return (
+                                <Options
+                                    groupId={vnode.attrs.groupId}
+                                    questionId={vnode.attrs.id}
+                                    subQuestionId={subQuestion.id}
+                                    orderBy={vnode.state.orderBy}
+                                    title={subQuestion.title}
+                                    subItems={vnode.state.subItems.options}
+                                    parentVnode={vnode}
+                                    info={settings.subItems.options}
+                                />
+                            )
+                        })
+                    }
 
                 </div>
 

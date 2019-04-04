@@ -140,19 +140,11 @@ function getSubQuestions(groupId, questionId, vnode, getSubOptions = false) {
             subQuestionsObj[subQuestionObj.id] = {};
         })
 
-        if (!getSubOptions) {
-            vnode.state.subQuestions = subQuestionsArray;
-            console.log(vnode.state.subQuestions);
-            m.redraw()
-        } else {
-            //sign to options
-            console.dir(subQuestionsObj);
 
-            for (let subQuestionId in subQuestionsObj) {
-                subQuestionRef.doc(subQuestionId).collection('options')
-            }
+        vnode.state.subQuestions = subQuestionsArray;
+        console.log(vnode.state.subQuestions);
+        m.redraw()
 
-        }
 
 
 
@@ -160,10 +152,11 @@ function getSubQuestions(groupId, questionId, vnode, getSubOptions = false) {
 
 }
 
-function getOptions(groupId, questionId, type, order, vnode) {
-
+function getOptions(groupId, questionId, subQuestionId, order, vnode) {
+    console.log('get options', groupId, questionId, subQuestionId)
     let optionRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options');
 
 
@@ -179,7 +172,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
             orderBy = 'time';
     }
 
-    let unsubscribe = optionRef.where("type", "==", type).orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
+    let unsubscribe = optionRef.orderBy(orderBy, 'desc').limit(20).onSnapshot(optionsDB => {
 
         let optionsArray = [];
         optionsDB.forEach(optionDB => {
@@ -203,7 +196,7 @@ function getOptions(groupId, questionId, type, order, vnode) {
             optionsArray.push(optionObj)
         })
 
-        vnode.state.subItems[type + 's'] = optionsArray;
+        vnode.state.options = optionsArray;
         m.redraw();
 
     })

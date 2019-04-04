@@ -85,7 +85,7 @@ function updateSubQuestionsOrder(groupId, questionId, newOrderArray) {
 }
 
 function setSubQuestionsOrder(groupId, questionId, subQuestionId, order) {
-    console.log(groupId, questionId, subQuestionId, order)
+
     DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId).update({
@@ -99,26 +99,28 @@ function setSubQuestionsOrder(groupId, questionId, subQuestionId, order) {
 
 
 
-function createOption(groupId, questionId, type, creatorId, title, description) {
+function createOption(groupId, questionId, subQuestionId, type, creatorId, title, description) {
+    let optionRef = DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('options')
 
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId).collection('options')
-        .add({
-            groupId,
-            questionId,
-            creatorId,
-            type,
-            title,
-            description,
-            time: firebase.firestore.FieldValue.serverTimestamp(),
-            consensusPrecentage: 0
-        }).then(newOption => {
-            DB.collection('groups').doc(groupId)
-                .collection('questions').doc(questionId)
-                .collection('options').doc(newOption.id).update({ id: newOption.id })
+    optionRef.add({
+        groupId,
+        questionId,
+        creatorId,
+        type,
+        title,
+        description,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        consensusPrecentage: 0
+    }).then(newOption => {
+        optionRef.doc(newOption.id)
+            .update({ id: newOption.id })
 
-        }).catch(function (error) {
-            console.error("Error adding document: ", error);
-        });
+    }).catch(function (error) {
+        console.error("Error adding document: ", error);
+    });
 }
 
 function setLike(groupId, questionId, optionId, creatorId, like) {
