@@ -22,7 +22,7 @@ header {
     position: fixed;
     bottom: 0px;
     left: 0px;
-    width: 100%;
+    width: 100% !important;
     background: var(--subBackground);
     display: flex;
     z-index: 3;
