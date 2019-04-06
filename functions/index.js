@@ -8,7 +8,7 @@ db.settings(settings);
 
 
 exports.totalVotes = functions.firestore
-    .document('groups/{groupId}/questions/{questionId}/options/{optionId}/likes/{userId}')
+    .document('groups/{groupId}/questions/{questionId}/subQuestions/{subQuestionId}/options/{optionId}/likes/{userId}')
     .onUpdate((change, context) => {
         var newLike = change.after.data().like;
         var previousLike = 0;
@@ -20,13 +20,10 @@ exports.totalVotes = functions.firestore
 
         var optionLikesRef = db.collection('groups').doc(context.params.groupId)
             .collection('questions').doc(context.params.questionId)
+            .collection('subQuestions').doc(context.params.subQuestionId)
             .collection('options').doc(context.params.optionId);
 
 
-
-        // return optionLikesRef.child('totalVotes').transaction(totalVotes=> {
-        //     return totalVotes + newLike;
-        // });
 
         return db.runTransaction(transaction => {
             return transaction.get(optionLikesRef).then(optionDoc => {
@@ -59,12 +56,13 @@ exports.totalVotes = functions.firestore
     })
 
 exports.totalVoters = functions.firestore
-    .document('groups/{groupId}/questions/{questionId}/options/{optionId}/likes/{userId}')
+    .document('groups/{groupId}/questions/{questionId}/subQuestions/{subQuestionId}/options/{optionId}/likes/{userId}')
     .onCreate((change, context) => {
         var newLike = change.data().like;
 
         var optionLikesRef = db.collection('groups').doc(context.params.groupId)
             .collection('questions').doc(context.params.questionId)
+            .collection('subQuestions').doc(context.params.subQuestionId)
             .collection('options').doc(context.params.optionId);
 
 
@@ -129,76 +127,76 @@ exports.totalLikesForSubQuestion = functions.firestore
         })
     })
 
-exports.totalLikesForQuestionsGoals = functions.firestore
-    .document('groups/{groupId}/questions/{questionId}/goals/{subGoalId}/likes/{userId}')
-    .onUpdate((change, context) => {
-        var newLike = change.after.data().like;
-        var previousLike = 0;
-        if (change.before.data() !== undefined) {
-            previousLike = change.before.data().like;
-        }
+// exports.totalLikesForQuestionsGoals = functions.firestore
+//     .document('groups/{groupId}/questions/{questionId}/goals/{subGoalId}/likes/{userId}')
+//     .onUpdate((change, context) => {
+//         var newLike = change.after.data().like;
+//         var previousLike = 0;
+//         if (change.before.data() !== undefined) {
+//             previousLike = change.before.data().like;
+//         }
 
-        var like = newLike - previousLike;
+//         var like = newLike - previousLike;
 
-        var subGoalLikesRef = db.collection('groups').doc(context.params.groupId)
-            .collection('questions').doc(context.params.questionId)
-            .collection('goals').doc(context.params.subGoalId);
-
-
-        return db.runTransaction(transaction => {
-            return transaction.get(subGoalLikesRef).then(subGoalDoc => {
-                // Compute new number of ratings
-                var totalVotes = 0;
-                if (subGoalDoc.data().totalVotes !== undefined) {
-                    totalVotes = subGoalDoc.data().totalVotes + like;
-                } else {
-                    totalVotes = like;
-                }
-
-                // Update restaurant info
-                return transaction.update(subGoalLikesRef, {
-                    totalVotes
-
-                });
-            })
-        })
-    })
+//         var subGoalLikesRef = db.collection('groups').doc(context.params.groupId)
+//             .collection('questions').doc(context.params.questionId)
+//             .collection('goals').doc(context.params.subGoalId);
 
 
-exports.totalLikesForQuestionsValues = functions.firestore
-    .document('groups/{groupId}/questions/{questionId}/values/{subValueId}/likes/{userId}')
-    .onUpdate((change, context) => {
-        var newLike = change.after.data().like;
-        var previousLike = 0;
-        if (change.before.data() !== undefined) {
-            previousLike = change.before.data().like;
-        }
+//         return db.runTransaction(transaction => {
+//             return transaction.get(subGoalLikesRef).then(subGoalDoc => {
+//                 // Compute new number of ratings
+//                 var totalVotes = 0;
+//                 if (subGoalDoc.data().totalVotes !== undefined) {
+//                     totalVotes = subGoalDoc.data().totalVotes + like;
+//                 } else {
+//                     totalVotes = like;
+//                 }
 
-        var like = newLike - previousLike;
+//                 // Update restaurant info
+//                 return transaction.update(subGoalLikesRef, {
+//                     totalVotes
 
-        var subValueLikesRef = db.collection('groups').doc(context.params.groupId)
-            .collection('questions').doc(context.params.questionId)
-            .collection('values').doc(context.params.subValueId);
+//                 });
+//             })
+//         })
+//     })
 
 
-        return db.runTransaction(transaction => {
-            return transaction.get(subValueLikesRef).then(subGoalDoc => {
-                // Compute new number of ratings
-                var totalVotes = 0;
-                if (subGoalDoc.data().totalVotes !== undefined) {
-                    totalVotes = subGoalDoc.data().totalVotes + like;
-                } else {
-                    totalVotes = like;
-                }
+// exports.totalLikesForQuestionsValues = functions.firestore
+//     .document('groups/{groupId}/questions/{questionId}/values/{subValueId}/likes/{userId}')
+//     .onUpdate((change, context) => {
+//         var newLike = change.after.data().like;
+//         var previousLike = 0;
+//         if (change.before.data() !== undefined) {
+//             previousLike = change.before.data().like;
+//         }
 
-                // Update restaurant info
-                return transaction.update(subValueLikesRef, {
-                    totalVotes
+//         var like = newLike - previousLike;
 
-                });
-            })
-        })
-    })
+//         var subValueLikesRef = db.collection('groups').doc(context.params.groupId)
+//             .collection('questions').doc(context.params.questionId)
+//             .collection('values').doc(context.params.subValueId);
+
+
+//         return db.runTransaction(transaction => {
+//             return transaction.get(subValueLikesRef).then(subGoalDoc => {
+//                 // Compute new number of ratings
+//                 var totalVotes = 0;
+//                 if (subGoalDoc.data().totalVotes !== undefined) {
+//                     totalVotes = subGoalDoc.data().totalVotes + like;
+//                 } else {
+//                     totalVotes = like;
+//                 }
+
+//                 // Update restaurant info
+//                 return transaction.update(subValueLikesRef, {
+//                     totalVotes
+
+//                 });
+//             })
+//         })
+//     })
 
 
 exports.countNumbeOfMessages =

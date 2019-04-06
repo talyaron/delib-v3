@@ -130,9 +130,12 @@ function createOption(groupId, questionId, subQuestionId, type, creatorId, title
     });
 }
 
-function setLike(groupId, questionId, optionId, creatorId, like) {
-    DB.collection('groups').doc(groupId).collection('questions').doc(questionId)
-        .collection('options').doc(optionId).collection('likes').doc(creatorId).set({ like })
+function setLike(groupId, questionId, subQuestionId, optionId, creatorId, like) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .collection('options').doc(optionId)
+        .collection('likes').doc(creatorId).set({ like })
         .then(newLike => {
 
         }).catch(function (error) {

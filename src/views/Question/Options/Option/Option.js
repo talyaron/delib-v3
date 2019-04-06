@@ -29,7 +29,7 @@ module.exports = {
         vnode.state.title = vnode.attrs.title;
         vnode.state.description = vnode.attrs.description;
 
-        vnode.state.likeUnsubscribe = getOptionVote(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid);
+        vnode.state.likeUnsubscribe = getOptionVote(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, store.user.uid);
 
         store.optionsDetails[vnode.attrs.optionId] = {
             title: vnode.attrs.title,
@@ -196,17 +196,17 @@ function setSelection(upDown, vnode) {
         vnode.state.down = false;
 
         if (vnode.state.up) {
-            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid, 1)
+            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, store.user.uid, 1)
         } else {
-            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid, 0)
+            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, store.user.uid, 0)
         }
     } else {
         vnode.state.down = !vnode.state.down;
         vnode.state.up = false;
         if (vnode.state.down) {
-            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid, -1)
+            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, store.user.uid, -1)
         } else {
-            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.optionId, store.user.uid, 0)
+            setLike(vnode.attrs.groupId, vnode.attrs.questionId, vnode.attrs.subQuestionId, vnode.attrs.optionId, store.user.uid, 0)
         }
     }
 }

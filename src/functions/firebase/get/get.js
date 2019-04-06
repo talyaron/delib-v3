@@ -217,9 +217,10 @@ function getOptionDetails(groupId, questionId, subQuestionId, optionId, vnode) {
 
 }
 
-function getOptionVote(groupId, questionId, optionId, creatorId) {
+function getOptionVote(groupId, questionId, subQuestionId, optionId, creatorId) {
     let voteRef = DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
         .collection('options').doc(optionId)
         .collection('likes').doc(creatorId);
 
