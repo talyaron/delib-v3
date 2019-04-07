@@ -31,7 +31,7 @@ module.exports = {
                     {
 
                         vnode.state.options.map((option, index) => {
-
+                            console.log(option)
                             return <Option
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
@@ -39,6 +39,7 @@ module.exports = {
                                 optionId={option.id}
                                 creatorId={option.creatorId}
                                 title={option.title} description={option.description}
+                                totalVoters={option.totalVoters}
                                 consensusPrecentage={option.consensusPrecentage}
                                 background={vnode.attrs.info.colors.backgroundItem}
                                 messagesCounter={option.numberOfMessages}

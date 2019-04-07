@@ -200,11 +200,11 @@ exports.totalLikesForSubQuestion = functions.firestore
 
 
 exports.countNumbeOfMessages =
-    functions.firestore.document('groups/{groupId}/questions/{questionId}/options/{optionId}/messages/{messageId}')
+    functions.firestore.document('groups/{groupId}/questions/{questionId}/subQuestions/{subQuestionId}/options/{optionId}/messages/{messageId}')
         .onWrite((change, context) => {
-
             let docRef = db.collection('groups').doc(context.params.groupId)
                 .collection('questions').doc(context.params.questionId)
+                .collection('subQuestions').doc(context.params.subQuestionId)
                 .collection('options').doc(context.params.optionId);
 
             if (!change.before.exists) {

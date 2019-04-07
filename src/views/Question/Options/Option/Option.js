@@ -155,6 +155,10 @@ module.exports = {
                     </div>
                 </div>
                 <div class='optionInfo'>
+                    <div class='optionLikes'>
+                        <img src='img/icons8-user-groups-24.png' />
+                        {vnode.attrs.totalVoters}
+                    </div>
                     <div class={vnode.state.isConNegative ? 'optionLikes negative' : 'optionLikes'}>
                         <img src='img/icons8-thumbs-up-down-24.png' />
                         {vnode.state.consensusPrecentage}
