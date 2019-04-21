@@ -18,6 +18,21 @@
 
 
   <style>
+    :root {
+      --bckgPrimaryDark: #c67100;
+      --bckgPrimary: #ffa000;
+      --bckgPrimaytLight: #ffd149;
+      --accent: #448aff;
+      --textHeader: rgba(0, 0, 0, 0.78);
+      --textHeaderSize: 1.3rem;
+      --textHeaderWeight: 600;
+      --textSubHeader: rgba(0, 0, 0, 0.68);
+      --textHeaderSize: 1.1rem;
+      --textHeaderSubTitleSize: 1rem;
+      --textRegular: rgba(0, 0, 0, 0.55);
+      --textRegularSize: 1rem;
+    }
+
     html,
     body {
       width: 100%;
@@ -30,46 +45,28 @@
       direction: rtl;
     }
 
-    .page {
-      width: 100%;
-      height: 100%;
-    }
-
-    .centerElement {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
-
     .splashPage {
-      background: red;
-      color: white;
+      background: var(--bckgPrimary);
+      color: var(--textHeader);
+      display: flex;
+      justify-items: center;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    #splashName {
+    .splasheMainTitle {
+      text-align: center;
       font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    #splashSubName {
-      font-size: 1.6rem;
-      margin-bottom: 2rem;
+      font-weight: 700;
     }
   </style>
 </head>
 
 <body>
-  <div class='page splashPage'>
-    <div class='centerElement'>
-      <div id='splashName'>
-        Delib
-      </div>
-      <div id='splashSubName'>
-        מחליטים ביחד
-      </div>
-
+  <div class='page splashPage' href='/delib'>
+    <div class='splasheMainTitle'>
+      שומרון רבתי
     </div>
   </div>
 

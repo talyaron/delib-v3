@@ -13,7 +13,7 @@ module.exports = {
                 href='/delib'
                 oncreate={m.route.link}
             >
-                <div>
+                <div class='splasheMainTitle'>
                     שומרון רבתי
                 </div>
             </div>

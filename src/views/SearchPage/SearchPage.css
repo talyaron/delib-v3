@@ -1,0 +1,33 @@
+.searchPage {
+    background: white;
+    color: var(--textHeader);
+}
+
+.searchMainTitle {
+    background: var(--bckgPrimary);
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.commercial {
+    width: 100%;
+    max-height: 30vh;
+}
+
+.searchBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.searchBox>input {
+    margin: 20px;
+    width: 100%;
+    max-width: 550px;
+    font-size: 2rem;
+    font-family: 'Varela Round', sans-serif;
+    padding: 3px;
+    border-radius: 10px;
+    border: 1px solid gray;
+}

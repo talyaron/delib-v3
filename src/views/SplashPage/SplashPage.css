@@ -1,4 +1,15 @@
 .splashPage {
-    background: var(--bckgPrimart);
-    color: var(--textHeader)
+    background: var(--bckgPrimary);
+    color: var(--textHeader);
+    display: flex;
+    justify-items: center;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.splasheMainTitle {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
 }
