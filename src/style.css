@@ -1,8 +1,8 @@
 :root {
-    --mainBackground: #f14a4a;
-    --subBackground: #ee7171;
-    --mainColor: white;
-    --accent: blue;
+    --bckgPrimaryDark: #c67100;
+    --bckgPrimary: #ffa000;
+    --bckgPrimaytLight: #ffd149;
+    --accent: #448aff;
     --textHeader: rgba(0, 0, 0, 0.78);
     --textHeaderSize: 1.3rem;
     --textHeaderWeight: 600;

@@ -1,7 +1,7 @@
 import store from '../../data/store';
 import m from 'mithril';
 import DB from '../firebase/config';
-import { listenToFeeds } from '../firebase/get/get';
+import { listenToFeeds } from '../firebase/get';
 
 function AnonymousLogin() {
     firebase.auth().signInAnonymously().catch(function (error) {
