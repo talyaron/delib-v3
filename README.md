@@ -1,6 +1,6 @@
-#delib-v3 - an environment for deliberation#
+# delib-v3 - an environment for deliberation#
 
-##Installtion
+## Installtion
 
 to install delib you must have an account in firebase.
 The install firebase-tools:
