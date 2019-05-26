@@ -17,7 +17,7 @@ then set delib to use your firebase database using firebase use <your fire-base-
 add the config file in your project, according to your firebase-database
 
 to run
-`<addr>` npm run dev
+''' npm run dev'''
 and 
 firebase serve
 open browser on localhost:5000, and refresh to see changes
