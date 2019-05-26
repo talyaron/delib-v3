@@ -1,4 +1,4 @@
-delib-v3
+
 # delib-v3
 
 # Setting up
@@ -17,7 +17,9 @@ In cli goto to your local delib dir, and write:
 In cli goto to delib/function, and write:
 ```npm i```
 
+
 ## Define new project in firebase
+
 Inside firebase setting -> chose config -> copy. 
 
 create new config file - configKey.js in src/functions/firebase and paste there the config from firebase. 
