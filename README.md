@@ -1,5 +1,7 @@
-delib-v3 - an environment for deliberation
-Install
+#delib-v3 - an environment for deliberation#
+
+##Installtion
+
 to install delib you must have an account in firebase.
 The install firebase-tools:
 npm i -g firebase-tools
