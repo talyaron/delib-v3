@@ -33,6 +33,9 @@ const firebaseConfig = {
   appId: "<app Id>"
 };
   
+In firebase enable sign in with google 
+In firebase define authontication email 
+  
 ## Create Database in Firebase 
 firebase database->create dabase firestore->start in test mode->enable
 
@@ -41,5 +44,4 @@ in cmd2: ```npm run dev ```
 
 in cmd1: ```firebase login```
 
-In firebase enable sign in with google 
-In firebase define authontication email 
+
