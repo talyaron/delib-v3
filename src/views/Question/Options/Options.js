@@ -60,7 +60,6 @@ module.exports = {
     }
 }
 
-function addQuestion(vnode, type) {
-   
+function addQuestion(vnode, type) {   
     vnode.attrs.parentVnode.state.showModal = { subQuestionId: vnode.attrs.subQuestionId, which: type, isShow: true, title: 'הוסף אפשרות' };
 }
