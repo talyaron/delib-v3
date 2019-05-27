@@ -13,13 +13,13 @@ module.exports = {
         }
     },
     oncreate: vnode => {
-        if (store.showFeed == false) {
-            document.getElementById('feedBox').style = 'display:none';
-            setTimeout(() => {
-                document.getElementById('feedBox').style = 'display:block';
-            }, 2000)
+        // if (store.showFeed == false) {
+        //     document.getElementById('feedBox').style = 'display:none';
+        //     setTimeout(() => {
+        //         document.getElementById('feedBox').style = 'display:block';
+        //     }, 2000)
 
-        }
+        // }
     },
     onbeforeupdate: vnode => {
 
@@ -30,11 +30,11 @@ module.exports = {
     view: (vnode) => {
 
         return (
-
-
+            <div>
+            {store.showFeed?
             <div
                 id='feedBox'
-                class={store.showFeed ? 'feedBox showFeedBox' : 'feedBox hideFeedBox'}
+                class='feedBox'
                 onclick={() => { store.showFeed = !store.showFeed }}
             >
                 <div class='feedWrapper'>
@@ -47,6 +47,10 @@ module.exports = {
                     }
                 </div>
 
+            </div>
+            :
+            <div />
+                }
             </div>
 
         )
