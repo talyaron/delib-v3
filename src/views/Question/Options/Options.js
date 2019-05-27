@@ -31,7 +31,7 @@ module.exports = {
                     {
 
                         vnode.state.options.map((option, index) => {
-                            console.log(option)
+                         
                             return <Option
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
@@ -61,6 +61,6 @@ module.exports = {
 }
 
 function addQuestion(vnode, type) {
-    console.log(type)
+   
     vnode.attrs.parentVnode.state.showModal = { subQuestionId: vnode.attrs.subQuestionId, which: type, isShow: true, title: 'הוסף אפשרות' };
 }
