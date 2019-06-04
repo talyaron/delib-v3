@@ -2,6 +2,8 @@
 Clone delib to your local repository. 
 
 ## Setting up firebase project
+Firebase console: https://console.firebase.google.com/?pli=1
+
 Firebase console: new project - name it with delib prefix
 
 Firebase console: enable sign in with google 
@@ -21,11 +23,12 @@ In cli goto to your local delib dir, and write: ```npm i```
 
 In cli goto to /functions, and write: ```npm i``` 
 
-define new project in firebase. 
+
 
 
 
 ## Config
+In firebase-console define new project in firebase. 
 Inside firebase console setting -> chose config -> copy.
 
 Create new config file - configKey.js in src/functions/firebase and paste there the config from firebase console. 
