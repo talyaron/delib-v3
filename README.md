@@ -2,11 +2,11 @@
 Clone delib to your local repository. 
 
 ## Setting up firebase project
-firebase new project - name it with delib prefix
+Firebase console: new project - name it with delib prefix
 
-firebase enable sign in with google 
+Firebase console: enable sign in with google 
 
-firebase define authontication email 
+Firebase console: authontication email 
 
 Start database: firebase database->create dabase firestore->start in test mode->enable
 
@@ -19,7 +19,7 @@ install node.js from https://nodejs.org/en/ (to check your node.js version in co
 
 In cli goto to your local delib dir, and write: ```npm i```
 
-In cli goto to function, and write: ```npm i``` 
+In cli goto to /functions, and write: ```npm i``` 
 
 define new project in firebase. 
 
