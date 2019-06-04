@@ -1,10 +1,21 @@
 # Delib-v3
+Clone delib to your local repository. 
 
-Download delib to your local dir. 
+## Setting up firebase project
+firebase new project - name it with delib prefix
 
-firebase new project - name it with delib prefix 
+firebase enable sign in with google 
 
+firebase define authontication email 
+
+Start database: firebase database->create dabase firestore->start in test mode->enable
+
+
+## Setting up node.js
 install node.js from https://nodejs.org/en/ (to check your node.js version in command line ```node -v```). 
+
+
+## Install node models
 
 In cli goto to your local delib dir, and write: ```npm i```
 
@@ -14,10 +25,13 @@ define new project in firebase.
 
 Inside firebase setting -> chose config -> copy. 
 
+## Config
 create new config file - configKey.js in src/functions/firebase and paste there the config from firebase. 
 
 for example: 
 ```
+// src/functions/firebase/configKey.js
+
 const firebaseConfig = {
   apiKey: "Your API Key",
   authDomain: "you firebase admin.firebaseapp.com",
@@ -32,9 +46,11 @@ module.exports = configKey;
 
 ```
 
-in cmd2: npm run dev 
-in cmd1: firebase login 
+## Run
+Open two comand line terminal (cmd)
 
-firebase enable sign in with google 
-firebase define authontication email 
-firebase database->create dabase firestore->start in test mode->enable
+in cmd-1: ```npm run dev ```
+
+in cmd-2: ```firebase serve```
+
+To view changes, press f5 in the brawser
