@@ -23,10 +23,12 @@ In cli goto to function, and write: ```npm i```
 
 define new project in firebase. 
 
-Inside firebase setting -> chose config -> copy. 
+
 
 ## Config
-create new config file - configKey.js in src/functions/firebase and paste there the config from firebase. 
+Inside firebase console setting -> chose config -> copy.
+
+Create new config file - configKey.js in src/functions/firebase and paste there the config from firebase console. 
 
 for example: 
 ```
