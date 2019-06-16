@@ -45,7 +45,7 @@ module.exports = {
             <div >
                 <Header title='הקבוצות שלי' topic='דליב' upLevelUrl={false} />
 
-                <div class='wrapper groupsWrapper' id='groupsWrapper'>
+                <div class='groupsWrapper' id='groupsWrapper'>
                     {
                         store.userGroups.map((group, key) => {
 
@@ -58,7 +58,7 @@ module.exports = {
                         })
                     }
                 </div>
-                <div class='fav' onclick={() => { console.log(store.user.uid); createGroup(store.user.uid, 'some title', 'some description') }} >
+                <div class='fav' onclick={() => { createGroup(store.user.uid, 'some title', 'some description') }} >
                     <div>+</div>
                 </div>
                 <Feed />
