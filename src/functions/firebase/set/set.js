@@ -37,13 +37,14 @@ function createQuestion(groupId, creatorId, title, description) {
 
 }
 
-function updateQuestion(groupId, questionId, title, description) {
+function updateQuestion(groupId, questionId, title, description, authorizationObj) {
 
     DB.collection('groups').doc(groupId)
         .collection('questions').doc(questionId)
         .update({
             title,
-            description
+            description,
+            authorization:authorizationObj
         }).then(something => {
             console.log('writen succesufuly')
         }).catch(function (error) {
@@ -292,5 +293,6 @@ function updateOption(vnode) {
             description: vnode.state.description
         })
 }
+
 
 module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, updateSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }

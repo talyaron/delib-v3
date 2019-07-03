@@ -118,6 +118,10 @@ function getQuestionDetails(groupId, questionId, vnode) {
             vnode.state.title = questionDB.data().title;
             vnode.state.description = questionDB.data().description;
             vnode.state.creatorId = questionDB.data().creatorId;
+            if(questionDB.data().authorization){
+                vnode.state.authorized = questionDB.data().authorization;
+            }
+            
 
             m.redraw();
         })

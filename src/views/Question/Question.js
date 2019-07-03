@@ -55,7 +55,12 @@ module.exports = {
             },
             unsbscribe: {
                 subQuestions: {}
-            }
+            },
+            authorized: {
+                anonymous: false,
+                public: false,
+                registered: false
+              }
         }
 
         //check to see if user logged in
@@ -66,26 +71,9 @@ module.exports = {
             vnode.state.callDB = true;
         }
 
-
+        //propare undubscribe function for question details to be used  onremove
         vnode.state.unsubscribeQuestionDetails = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-
-        //  show message only one time
-        if (store.messagesShow.hasOwnProperty(vnode.attrs.id)) {
-
-            store.messagesShow[vnode.attrs.id] = false
-        } else {
-
-            store.messagesShow[vnode.attrs.id] = true
-        }
-
-        //scroll detection
-
-        window.onscroll = function (e) {
-
-            if (this.oldScroll < this.scrollY) { vnode.state.scrollY = true; m.redraw() }
-            this.oldScroll = this.scrollY;
-
-        }
+        
 
     },
     oncreate: vnode => {
@@ -94,13 +82,10 @@ module.exports = {
         if (vnode.state.callDB) {
             //subscribe to subItems
             vnode.state.unsbscribe.subQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode, true);
-            // vnode.state.unsubscribeOptions = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.options.type, vnode.state.orderBy, vnode);
-            // vnode.state.unsubscribeQuestion = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.subQuestions.type, vnode.state.orderBy, vnode);
-            // vnode.state.unsubscribeGoals = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.goals.type, vnode.state.orderBy, vnode);
-            // vnode.state.unsubscribeValues = getOptions(vnode.attrs.groupId, vnode.attrs.id, settings.subItems.values.type, vnode.state.orderBy, vnode);
+            
         }
     },
-    onbeforeupdate: vnode => {
+    onbeforeupdate: vnode => {       
 
         vnode.state.title = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה');
         vnode.state.description = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.description`, '');
