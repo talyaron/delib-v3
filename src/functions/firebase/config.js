@@ -1,4 +1,4 @@
-import config from './configKey';
+import config from '../../../configKey';
 
 firebase.initializeApp(config);
 const DB = firebase.firestore();
