@@ -13,43 +13,51 @@ module.exports = {
         }
     },
     oncreate: vnode => {
+
+
         if (store.showFeed == false) {
-            document.getElementById('feedBox').style = 'display:none';
-            setTimeout(() => {
-                document.getElementById('feedBox').style = 'display:block';
-            }, 2000)
+            const feedBox = document.getElementById('feedBox')
+            
+            if (feedBox) {
+                feedBox.style = 'display:none';
+                setTimeout(() => {
+                    if (!store.user.isAnonymous) {
+                        feedBox.style = 'display:block'
+                    };
+                }, 2000)
+            }
 
         }
     },
     onbeforeupdate: vnode => {
-
+        console.dir(store.user)
         orderFeed(vnode);
 
     },
 
     view: (vnode) => {
+        if (!store.user.isAnonymous) {
+            return (
+                <div
+                    id='feedBox'
+                    class={store.showFeed ? 'feedBox showFeedBox' : 'feedBox hideFeedBox'}
+                    onclick={() => { store.showFeed = !store.showFeed }}
+                >
+                    <div class='feedWrapper'>
+                        {
+                            vnode.state.orderdFeed.map((content, index) => {
+                                return <FeedContent
+                                    data={content}
+                                />
+                            })
+                        }
+                    </div>
 
-        return (
-
-
-            <div
-                id='feedBox'
-                class={store.showFeed ? 'feedBox showFeedBox' : 'feedBox hideFeedBox'}
-                onclick={() => { store.showFeed = !store.showFeed }}
-            >
-                <div class='feedWrapper'>
-                    {
-                        vnode.state.orderdFeed.map((content, index) => {
-                            return <FeedContent
-                                data={content}
-                            />
-                        })
-                    }
                 </div>
 
-            </div>
+            )
+        }
 
-        )
     }
 }
 

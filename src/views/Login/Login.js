@@ -1,8 +1,11 @@
 import m from 'mithril';
 import './Login.css';
 
+//model
+import store from '../../data/store';
+
 //functions
-import googleLogin from '../../functions/firebase/googleLogin';
+import { googleLogin, anonymousLogin } from '../../functions/firebase/googleLogin';
 
 module.exports = {
 
@@ -24,8 +27,16 @@ module.exports = {
                         <div>התחברות עם גוגל</div>
                         <img src='img/icons8-google.svg'></img>
                     </div>
+                    <p> -- או -- </p>
+                    <div class='anonymousLogin'>
+                        <input type='text' class='inputLogin' onkeyup={e => store.userTempName = e.target.value} placeholder='רשמו כינוי' />
+                        <div class="buttons loginButton" onclick={() => { anonymousLogin() }}>
+                            <div>התחברות עם משתמש זמני</div>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+            </div >
         )
     }
 }

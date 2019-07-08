@@ -1,7 +1,10 @@
 import store from '../../data/store';
 import m from 'mithril';
 import DB from '../firebase/config';
+
+//functions
 import { listenToFeeds } from '../firebase/get/get';
+import { getRandomName } from '../general';
 
 function AnonymousLogin() {
     firebase.auth().signInAnonymously().catch(function (error) {
@@ -24,7 +27,8 @@ function onAuth() {
                 let userSimpleObj = {
                     uid: store.user.uid,
                     name: store.user.displayName,
-                    email: store.user.email
+                    email: store.user.email,
+                    isAnonymous: false
                 }
 
                 listenToFeeds();
@@ -38,12 +42,27 @@ function onAuth() {
                 let lastPage = sessionStorage.getItem('lastPage') || '/groups'
                 m.route.set(lastPage);
             } else {
-
+                //if user anonymous
 
                 console.log('user is anonymous')
+                console.log(store.user)
                 // let lastPage = sessionStorage.getItem('lastPage') || '/login'
-                let lastPage = '/login'
-                m.route.set(lastPage)
+                store.user.userName = store.userTempName || getRandomName();
+
+                let userSimpleObj = {
+                    uid: store.user.uid,
+                    name: store.user.userName,                   
+                    isAnonymous:true
+                }
+                DB.collection("users").doc(user.uid).set(userSimpleObj).then(function () {
+
+                }).catch(function (error) {
+                    console.error("Error writing User: ", error);
+                });
+
+                let lastPage = sessionStorage.getItem('lastPage') || '/groups'
+                console.log(lastPage)
+                m.route.set(lastPage);
             }
         } else {
 

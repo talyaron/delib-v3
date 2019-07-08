@@ -1,5 +1,6 @@
 var store = {
     user: {},
+    userTempName:'',
     userGroups: [],
     current: {
         org: {

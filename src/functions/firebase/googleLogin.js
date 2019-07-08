@@ -4,7 +4,7 @@ import store from '../../data/store';
 import DB from '../firebase/config';
 
 function googleLogin() {
-    console.log('...')
+
     var provider = new firebase.auth.GoogleAuthProvider();
 
 
@@ -15,7 +15,7 @@ function googleLogin() {
         // store.user = result.user;
         console.log(`user is logged in with google`)
 
-        
+
 
         m.route.set('/groups')
     }).catch(function (error) {
@@ -32,4 +32,24 @@ function googleLogin() {
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 }
 
-module.exports = googleLogin;
+function anonymousLogin() {
+    firebase.auth().signInAnonymously().catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+    });
+}
+
+function logout() {
+    firebase.auth().signOut()
+        .then(function () {
+            // Sign-out successful.
+        })
+        .catch(function (error) {
+            // An error happened
+        });
+}
+
+
+module.exports = { googleLogin, anonymousLogin, logout };

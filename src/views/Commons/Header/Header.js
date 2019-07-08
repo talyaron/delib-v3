@@ -24,7 +24,6 @@ module.exports = {
         let reference = new Reference(vnode.state.refArray, 'array', 'collection');
         vnode.state.refString = reference.fromArrayToSring();
 
-
     },
     onbeforeupdate: vnode => {
 
