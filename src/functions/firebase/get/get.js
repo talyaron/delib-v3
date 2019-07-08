@@ -66,7 +66,10 @@ function getUserGroups(onOff, userId) {
 
 function getQuestions(onOff, groupId, vnode) {
     if (onOff === 'on') {
-        vnode.state.unsubscribe = DB.collection('groups').doc(groupId).collection('questions').onSnapshot(questionsDb => {
+        vnode.state.unsubscribe = DB.collection('groups').doc(groupId)
+        .collection('questions')
+        .orderBy("time","desc")
+        .onSnapshot(questionsDb => {
             questionsDb.forEach(questionDB => {
                 if (questionDB.data().id) {
                     // set(store.questions, `[${groupId}][${questionDB.data().id}]`, questionDB.data())
@@ -115,6 +118,10 @@ function getQuestionDetails(groupId, questionId, vnode) {
             vnode.state.title = questionDB.data().title;
             vnode.state.description = questionDB.data().description;
             vnode.state.creatorId = questionDB.data().creatorId;
+            if(questionDB.data().authorization){
+                vnode.state.authorized = questionDB.data().authorization;
+            }
+            
 
             m.redraw();
         })

@@ -1,9 +1,9 @@
 import m from 'mithril';
 import './Group.css';
-
+import store from '../../../data/store';
 
 module.exports = {
-
+  
     view: (vnode) => {
 
         return (

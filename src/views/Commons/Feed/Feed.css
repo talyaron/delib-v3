@@ -9,11 +9,6 @@
     background: rgba(0, 0, 0, 0.377);
 }
 
-.hideFeedBox {
-    animation-name: hideFeedBox;
-    animation-duration: 0.3s;
-    animation-fill-mode: forwards;
-}
 
 @keyframes hideFeedBox {
     from {
@@ -28,11 +23,11 @@
     }
 }
 
-.showFeedBox {
+/* .showFeedBox {
     animation-name: showFeedBox;
     animation-duration: 0.3s;
     animation-fill-mode: forwards;
-}
+} */
 
 @keyframes showFeedBox {
     from {

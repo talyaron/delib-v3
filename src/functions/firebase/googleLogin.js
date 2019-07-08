@@ -13,11 +13,10 @@ function googleLogin() {
         var token = result.credential.accessToken;
         // The signed-in user info.
         // store.user = result.user;
-        console.log(`user is logged in with google`)
-
-
-
-        m.route.set('/groups')
+        console.log(`user is logged in with google`);
+        
+        let lastPage = sessionStorage.getItem('lastPage') || '/groups'
+        m.route.set(lastPage)
     }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;

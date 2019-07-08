@@ -49,6 +49,7 @@ header {
     position: relative;
     margin: auto;
     max-width: 550px;
+    padding: 10px;
 }
 
 .wrapper {
@@ -262,4 +263,14 @@ header {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.checkBoxes [type="checkbox"]{
+    transform: scale(1.5);
+    margin-left: 10px;
+}
+
+.checkBoxes label{
+    font-size: 1.5rem;
+    margin-left: 20px;
 }

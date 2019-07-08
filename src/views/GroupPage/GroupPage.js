@@ -4,7 +4,7 @@ import { deep_value, setWrapperHeight } from '../../functions/general';
 import store from '../../data/store';
 
 import './GroupPage.css';
-import Group from '../Groups/Group/Group';
+import Group from './Group/Group';
 import Header from '../Commons/Header/Header';
 import Feed from '../Commons/Feed/Feed';
 
@@ -62,15 +62,14 @@ module.exports = {
                     upLevelUrl='/groups'
                     topic='קבוצה'
                     title={vnode.state.groupName} />
-                <div class='wrapper groupsWrapper' id='groupWrapper'>
+                <div class='questionsWrapper' id='groupWrapper'>
                     {
                         vnode.state.questions.map((question, key) => {
+                         
                             return (
                                 <Group
                                     route={'/question/' + vnode.attrs.id + '/'}
-                                    title={question.title}
-                                    description={question.description}
-                                    id={question.id}
+                                    question={question}
                                     key={key}
                                 />
                             )

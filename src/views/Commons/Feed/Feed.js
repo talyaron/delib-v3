@@ -27,7 +27,7 @@ module.exports = {
                 }, 2000)
             }
 
-        }
+        // }
     },
     onbeforeupdate: vnode => {
         console.dir(store.user)
