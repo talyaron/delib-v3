@@ -9,6 +9,9 @@
     background: rgba(0, 0, 0, 0.377);
 }
 
+.hideFeedBox{
+    display: none;
+}
 
 @keyframes hideFeedBox {
     from {

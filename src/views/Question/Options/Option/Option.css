@@ -6,15 +6,16 @@
     top: 0px;
     left: 0px;
     animation-name: show;
-    animation-duration: 3s;
+    animation-duration: 0.3s;
+    
 }
 
 @keyframes show {
     from {
-        background: green
+        opacity: 0;
     }
     to {
-        background: white;
+        opacity: 1;
     }
 }
 

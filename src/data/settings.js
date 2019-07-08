@@ -7,7 +7,7 @@ var settings = {
             colors: {
                 color: 'white',
                 background: 'green',
-                backgroundItem: 'lightgreen'
+                backgroundItem: 'white'
             }
         },
         subQuestions: {

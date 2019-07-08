@@ -22,7 +22,7 @@ module.exports = {
     view: (vnode) => {
 
         return (
-            <div class='wrapper groupsWrapper' id='optionsWrapper' >
+            <div class='wrapper' id='optionsWrapper' >
                 <div class='questionSection'>
                     <div
                         class='questionSectionTitle questions'

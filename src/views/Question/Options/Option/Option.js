@@ -114,7 +114,7 @@ module.exports = {
     view: (vnode) => {
 
         return (
-            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key} style={`background:${vnode.attrs.background}`}>
+            <div class='card optionCard' id={vnode.attrs.optionId} key={vnode.attrs.key}>
                 <div class='optionMain'>
                     <div class={vnode.state.up ? 'optionVote optionSelcetUp' : 'optionVote'} onclick={() => { setSelection('up', vnode) }}>
                         <img
