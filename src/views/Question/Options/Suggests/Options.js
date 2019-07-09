@@ -3,9 +3,9 @@ import './Options.css';
 
 import Option from './Option/Option';
 
-import { getOptions } from '../../../functions/firebase/get/get';
+import { getOptions } from '../../../../functions/firebase/get/get';
 
-import store from '../../../data/store';
+
 //functions
 
 
@@ -31,7 +31,7 @@ module.exports = {
                     {
 
                         vnode.state.options.map((option, index) => {
-                         
+
                             return <Option
                                 groupId={vnode.attrs.groupId}
                                 questionId={vnode.attrs.questionId}
@@ -60,6 +60,6 @@ module.exports = {
     }
 }
 
-function addQuestion(vnode, type) {   
+function addQuestion(vnode, type) {
     vnode.attrs.parentVnode.state.showModal = { subQuestionId: vnode.attrs.subQuestionId, which: type, isShow: true, title: 'הוסף אפשרות' };
 }

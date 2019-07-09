@@ -1,23 +1,22 @@
 import m from 'mithril';
 
-
+//components
 import './Question.css';
 import Header from '../Commons/Header/Header';
 import Feed from '../Commons/Feed/Feed';
-import Options from './Options/Options';
-import Message from '../Commons/Message/Message';
+import Options from './Options/Suggests/Options';
 import Spinner from '../Commons/Spinner/Spinner';
-import SubItems from './SubSections/SubItems';
 import Description from './SubSections/Description';
-import Goals from './SubSections/Goals';
-import Evaluation from './SubSections/Evaluation';
 import Modal from '../Commons/Modal/Modal';
 
+
+//model
 import store from '../../data/store';
 import settings from '../../data/settings';
 
+
+//functions
 import { getQuestionDetails, getOptions, getSubItems, getSubQuestions } from '../../functions/firebase/get/get';
-import { createOption } from '../../functions/firebase/set/set';
 import { deep_value, setWrapperHeight, setWrapperFromFooter } from '../../functions/general';
 
 
@@ -60,7 +59,7 @@ module.exports = {
                 anonymous: false,
                 public: false,
                 registered: false
-              }
+            }
         }
 
         //check to see if user logged in
@@ -73,7 +72,7 @@ module.exports = {
 
         //propare undubscribe function for question details to be used  onremove
         vnode.state.unsubscribeQuestionDetails = getQuestionDetails(vnode.attrs.groupId, vnode.attrs.id, vnode);
-        
+
 
     },
     oncreate: vnode => {
@@ -82,10 +81,10 @@ module.exports = {
         if (vnode.state.callDB) {
             //subscribe to subItems
             vnode.state.unsbscribe.subQuestions = getSubQuestions(vnode.attrs.groupId, vnode.attrs.id, vnode, true);
-            
+
         }
     },
-    onbeforeupdate: vnode => {       
+    onbeforeupdate: vnode => {
 
         vnode.state.title = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.title`, 'כותרת השאלה');
         vnode.state.description = deep_value(store.questions, `${vnode.attrs.groupId}.${vnode.attrs.id}.description`, '');
