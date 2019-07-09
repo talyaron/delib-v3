@@ -44,7 +44,7 @@ function updateQuestion(groupId, questionId, title, description, authorizationOb
         .update({
             title,
             description,
-            authorization:authorizationObj
+            authorization: authorizationObj
         }).then(something => {
             console.log('writen succesufuly')
         }).catch(function (error) {
@@ -74,6 +74,13 @@ function updateSubQuestion(groupId, questionId, subQuestionId, title) {
         .collection('questions').doc(questionId)
         .collection('subQuestions').doc(subQuestionId)
         .update({ title })
+}
+
+function updateSubQuestionProcess(groupId, questionId, subQuestionId, processType) {
+    DB.collection('groups').doc(groupId)
+        .collection('questions').doc(questionId)
+        .collection('subQuestions').doc(subQuestionId)
+        .update({ processType })
 }
 
 function updateSubQuestionsOrder(groupId, questionId, newOrderArray) {
@@ -295,4 +302,4 @@ function updateOption(vnode) {
 }
 
 
-module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, updateSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer }
+module.exports = { updateOption, addToFeed, createGroup, createQuestion, updateQuestion, createSubQuestion, updateSubQuestion, setSubQuestionsOrder, createOption, createSubItem, updateSubItem, setLikeToSubItem, setLike, setMessage, setSubAnswer, updateSubQuestionProcess }

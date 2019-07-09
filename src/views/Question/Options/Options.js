@@ -28,13 +28,8 @@ module.exports = {
                     <div
                         class='questionSectionTitle questions'
                         style={`color:${vnode.attrs.info.colors.color}; background:${vnode.attrs.info.colors.background}`}
-                    >{vnode.attrs.title}</div>
-                    <Suggests
-                        groupId={vnode.attrs.groupId}
-                        questionId={vnode.attrs.questionId}
-                        subQuestionId={vnode.attrs.subQuestionId}
-                        options={vnode.state.options}
-                    />
+                    >{vnode.attrs.title}</div>                    
+                    {switchProcess('suggestions', vnode)}
                     <div class='questionSectionFooter'>
                         <div
                             class='buttons questionSectionAddButton'
@@ -50,4 +45,21 @@ module.exports = {
 
 function addQuestion(vnode, type) {
     vnode.attrs.parentVnode.state.showModal = { subQuestionId: vnode.attrs.subQuestionId, which: type, isShow: true, title: 'הוסף אפשרות' };
+}
+
+function switchProcess(type, vnode) {
+    switch (type) {
+        case 'suggestions':
+            return <Suggests
+                groupId={vnode.attrs.groupId}
+                questionId={vnode.attrs.questionId}
+                subQuestionId={vnode.attrs.subQuestionId}
+                options={vnode.state.options}
+            />
+        case 'votes':
+            return null;
+        default:
+            return null
+    }
+
 }

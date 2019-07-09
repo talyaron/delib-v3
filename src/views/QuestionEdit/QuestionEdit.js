@@ -103,7 +103,7 @@ module.exports = {
           description={vnode.state.description}
           upLevelUrl={`/question/${vnode.attrs.groupId}/${
             vnode.attrs.questionId
-          }`}
+            }`}
         />
         <div class="wrapperAll" id="questionEditWrapperAll">
           <h2>מידע כללי</h2>
@@ -120,33 +120,33 @@ module.exports = {
                 <div> {vnode.state.title}</div>
               </div>
             ) : (
-              <div>
-                <input
-                  type="text"
-                  value={vnode.state.title}
-                  class="questionIntroTitle"
-                  onkeyup={e => {
-                    updateField("title", e.target.value, vnode);
-                  }}
-                />
-                <div
-                  class="buttons questionIntroButton"
-                  onclick={e => {
-                    e.stopPropagation();
-                    vnode.state.editabels.title = false;
-                    updateQuestion(
-                      vnode.attrs.groupId,
-                      vnode.attrs.questionId,
-                      vnode.state.title,
-                      vnode.state.description,
-                      vnode.state.authorized
-                    );
-                  }}
-                >
-                  שמירה
+                <div>
+                  <input
+                    type="text"
+                    value={vnode.state.title}
+                    class="questionIntroTitle"
+                    onkeyup={e => {
+                      updateField("title", e.target.value, vnode);
+                    }}
+                  />
+                  <div
+                    class="buttons questionIntroButton"
+                    onclick={e => {
+                      e.stopPropagation();
+                      vnode.state.editabels.title = false;
+                      updateQuestion(
+                        vnode.attrs.groupId,
+                        vnode.attrs.questionId,
+                        vnode.state.title,
+                        vnode.state.description,
+                        vnode.state.authorized
+                      );
+                    }}
+                  >
+                    שמירה
                 </div>
-              </div>
-            )}
+                </div>
+              )}
             {vnode.state.editabels.description ? (
               <div>
                 <textarea
@@ -173,17 +173,17 @@ module.exports = {
                 </div>
               </div>
             ) : (
-              <div
-                class="questionIntroDescription"
-                onclick={e => {
-                  e.stopPropagation();
-                  vnode.state.editabels.description = true;
-                }}
-              >
-                <div class="subTitleEdit">הסבר: </div>
-                <div> {vnode.state.description}</div>
-              </div>
-            )}
+                <div
+                  class="questionIntroDescription"
+                  onclick={e => {
+                    e.stopPropagation();
+                    vnode.state.editabels.description = true;
+                  }}
+                >
+                  <div class="subTitleEdit">הסבר: </div>
+                  <div> {vnode.state.description}</div>
+                </div>
+              )}
           </div>
           <div class="questionAuthorization checkBoxes">
             <h2>מי רשאי להשתתף</h2>
@@ -235,6 +235,7 @@ module.exports = {
                   subQuestionId={subQuestion.id}
                   number={index}
                   title={subQuestion.title}
+                  processType={subQuestion.processType || 'suggestions'}
                   id={subQuestion.id}
                 />
               );
@@ -253,8 +254,8 @@ module.exports = {
               />
             </div>
           ) : (
-            <div />
-          )}
+              <div />
+            )}
           {!vnode.state.addSubQuestin ? (
             <div
               class="buttons addSubQuestin"
@@ -265,42 +266,42 @@ module.exports = {
               הוספת תת-שאלה או מטרה
             </div>
           ) : (
-            <div class="buttonsWrapper">
-              <div
-                class
-                class="buttons addSubQuestin"
-                onclick={e => {
-                  e.stopPropagation();
-                  vnode.state.addSubQuestin = false;
-                  createSubQuestion(
-                    vnode.attrs.groupId,
-                    vnode.attrs.questionId,
-                    vnode.state.newSubQuestion,
-                    vnode.state.subQuestions.length
-                  );
+              <div class="buttonsWrapper">
+                <div
+                  class
+                  class="buttons addSubQuestin"
+                  onclick={e => {
+                    e.stopPropagation();
+                    vnode.state.addSubQuestin = false;
+                    createSubQuestion(
+                      vnode.attrs.groupId,
+                      vnode.attrs.questionId,
+                      vnode.state.newSubQuestion,
+                      vnode.state.subQuestions.length
+                    );
 
-                  getSubQuestions(
-                    vnode.attrs.groupId,
-                    vnode.attrs.questionId,
-                    vnode
-                  );
-                  vnode.state.newSubQuestion = "";
-                }}
-              >
-                הוספה
+                    getSubQuestions(
+                      vnode.attrs.groupId,
+                      vnode.attrs.questionId,
+                      vnode
+                    );
+                    vnode.state.newSubQuestion = "";
+                  }}
+                >
+                  הוספה
               </div>
-              <div
-                class="buttons addSubQuestin cancel"
-                onclick={e => {
-                  e.stopPropagation();
-                  vnode.state.addSubQuestin = false;
-                  vnode.state.newSubQuestion = "";
-                }}
-              >
-                ביטול
+                <div
+                  class="buttons addSubQuestin cancel"
+                  onclick={e => {
+                    e.stopPropagation();
+                    vnode.state.addSubQuestin = false;
+                    vnode.state.newSubQuestion = "";
+                  }}
+                >
+                  ביטול
               </div>
-            </div>
-          )}
+              </div>
+            )}
         </div>
       </div>
     );

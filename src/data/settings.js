@@ -81,7 +81,15 @@ var settings = {
                 editor: true
             }
         }
-    }
+    },
+    processes: {
+        suggestions: 'suggestions',
+        votes: 'votes'
+    },
+    processesArr: [
+        'suggestions',
+        'votes'
+    ]
 }
 
 export default settings; 
