@@ -136,6 +136,7 @@ module.exports = {
                     </div>
                     {
                         vnode.state.subQuestions.map((subQuestion, index) => {
+
                             return (
                                 <Options
                                     groupId={vnode.attrs.groupId}
@@ -146,6 +147,7 @@ module.exports = {
                                     subItems={vnode.state.subItems.options}
                                     parentVnode={vnode}
                                     info={settings.subItems.options}
+                                    processType={subQuestion.processType}
                                 />
                             )
                         })

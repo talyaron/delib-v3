@@ -53,8 +53,7 @@ module.exports = {
                         }}>
                             <option disabled selected={!vnode.attrs.processType ? 'true' : 'false'} value>please select process</option>
                             {
-                                settings.processesArr.map((process, index) => {
-                                    
+                                settings.processesArr.map((process, index) => {                                    
                                     return <option value={process} selected={vnode.attrs.processType === process ? true : false} key={index} id={vnode.attrs.id + 'select'}>{process}</option>
                                 })
                             }
