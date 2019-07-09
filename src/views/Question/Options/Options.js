@@ -1,9 +1,10 @@
 import m from 'mithril';
 import './Options.css';
 
-import Option from './Option/Option';
+//componetns
+import Suggests from './Suggests/Suggets'
 
-import { getOptions } from '../../../../functions/firebase/get/get';
+import { getOptions } from '../../../functions/firebase/get/get';
 
 
 //functions
@@ -28,25 +29,12 @@ module.exports = {
                         class='questionSectionTitle questions'
                         style={`color:${vnode.attrs.info.colors.color}; background:${vnode.attrs.info.colors.background}`}
                     >{vnode.attrs.title}</div>
-                    {
-
-                        vnode.state.options.map((option, index) => {
-
-                            return <Option
-                                groupId={vnode.attrs.groupId}
-                                questionId={vnode.attrs.questionId}
-                                subQuestionId={vnode.attrs.subQuestionId}
-                                optionId={option.id}
-                                creatorId={option.creatorId}
-                                title={option.title} description={option.description}
-                                totalVoters={option.totalVoters}
-                                consensusPrecentage={option.consensusPrecentage}
-                                background={vnode.attrs.info.colors.backgroundItem}
-                                messagesCounter={option.numberOfMessages}
-                                key={index}
-                            />
-                        })
-                    }
+                    <Suggests
+                        groupId={vnode.attrs.groupId}
+                        questionId={vnode.attrs.questionId}
+                        subQuestionId={vnode.attrs.subQuestionId}
+                        options={vnode.state.options}
+                    />
                     <div class='questionSectionFooter'>
                         <div
                             class='buttons questionSectionAddButton'
