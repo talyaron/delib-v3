@@ -13,11 +13,15 @@ import settings from "../../../data/settings";
 module.exports = {
   oninit: vnode => {
     vnode.state = {
-      options: []
+      options: [],
+      unsubscribeOptions:()=>{}
     };
 
     let va = vnode.attrs;
-    getOptions(va.groupId, va.questionId, va.subQuestionId, va.orderBy, vnode);
+    vnode.state.unsubscribeOptions =  getOptions(va.groupId, va.questionId, va.subQuestionId, va.orderBy, vnode, vnode.attrs.processType);
+  },
+  onremove:vnode=>{
+    vnode.state.unsubscribeOptions();
   },
   view: vnode => {
     return (

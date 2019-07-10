@@ -16,7 +16,7 @@ module.exports = {
       <div class="voteWrapper">
         {vnode.state.options.map((option, index) => {
            let optionHeight = `${100*option.votes/getMaximumVotes(vnode)}%`;
-           console.log(option.name, optionHeight)
+          
           return (
             <div class="voteOption" key={index} style={`height:${optionHeight}`}>
               <div class='voteColumn' >{option.votes}</div>
