@@ -175,6 +175,7 @@ function getOptions(
       .collection("options");
 
   if (processType === settings.processes.suggestions) {
+    console.log(subQuestionId, 'is using process suggestions')
     let orderBy = "time";
     switch (order) {
       case "new":
@@ -192,7 +193,8 @@ function getOptions(
       .limit(20)
       .onSnapshot(callback);
   } else if (processType === settings.processes.votes) {
-    unsubscribe = optionRef.where("isVote", "==", "true").onSnapshot(callback);
+      console.log(subQuestionId, 'is using process votes')
+    unsubscribe = optionRef.where("isVote", "==", true).onSnapshot(callback);
   } else {
     console.error("no such process");
   }
@@ -226,6 +228,7 @@ function getOptions(
       optionsArray.push(optionObj);
     });
 
+    console.dir(optionsArray)
     vnode.state.options = optionsArray;
     m.redraw();
   }

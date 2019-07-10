@@ -14,13 +14,20 @@ module.exports = {
   oninit: vnode => {
     vnode.state = {
       options: [],
-      unsubscribeOptions:()=>{}
+      unsubscribeOptions: () => {}
     };
 
     let va = vnode.attrs;
-    vnode.state.unsubscribeOptions =  getOptions(va.groupId, va.questionId, va.subQuestionId, va.orderBy, vnode, vnode.attrs.processType);
+    vnode.state.unsubscribeOptions = getOptions(
+      va.groupId,
+      va.questionId,
+      va.subQuestionId,
+      va.orderBy,
+      vnode,
+      vnode.attrs.processType
+    );
   },
-  onremove:vnode=>{
+  onremove: vnode => {
     vnode.state.unsubscribeOptions();
   },
   view: vnode => {
@@ -74,7 +81,15 @@ function switchProcess(type, vnode) {
         />
       );
     case settings.processes.votes:
-      return <Votes creatorId={vnode.attrs.creatorId} />;
+      return (
+        <Votes
+          creatorId={vnode.attrs.creatorId}
+          groupId={vnode.attrs.groupId}
+          questionId={vnode.attrs.questionId}
+          subQuestionId={vnode.attrs.subQuestionId}
+          options={vnode.state.options}
+        />
+      );
     default:
       return null;
   }

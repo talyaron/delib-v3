@@ -2,25 +2,24 @@ import m from "mithril";
 import "./Votes.css";
 
 module.exports = {
-  oninit: vnode => {
-    vnode.state = {
-      options: [
-        { votes: 0, name: "pro" },
-        { votes: 0, name: "abst" },
-        { votes: 1, name: "con" }
-      ]
-    };
-  },
+  oninit: vnode => {},
+
   view: vnode => {
+    console.dir(vnode.attrs.options);
     return (
       <div class="voteWrapper">
-        {vnode.state.options.map((option, index) => {
-           let optionHeight = `${100*option.votes/getMaximumVotes(vnode)}%`;
-          
+        {vnode.attrs.options.map((option, index) => {
+          let votes = option.votes || 0;
+          let optionHeight = `${(100 * votes) / getMaximumVotes(vnode)}%`;
+
           return (
-            <div class="voteOption" key={index} style={`height:${optionHeight}`}>
-              <div class='voteColumn' >{option.votes}</div>
-              <div class='voteButton'>{option.name}</div>
+            <div
+              class="voteOption"
+              key={index}
+              style={`height:${optionHeight}`}
+            >
+              <div class="voteColumn">{votes}</div>
+              <div class="voteButton">{option.title}</div>
             </div>
           );
         })}
@@ -29,16 +28,14 @@ module.exports = {
   }
 };
 
-function getMaximumVotes(vnode){
-    //get maximum votes
-    let votesArray = [];
-    vnode.state.options.forEach(element => {
-        if(typeof element.votes === 'number'){
-        votesArray.push(element.votes);
-        } else {
-            console.error(element.votes, 'is not a number');
-        }
-    });    
-    
-     return Math.max(...votesArray);
+function getMaximumVotes(vnode) {
+  //get maximum votes
+  let votesArray = [];
+  vnode.attrs.options.forEach(element => {
+    if (typeof element.votes === "number") {
+      votesArray.push(element.votes);
+    }
+  });
+
+  return Math.max(...votesArray);
 }
