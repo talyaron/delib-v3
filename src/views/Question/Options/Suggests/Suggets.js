@@ -14,6 +14,7 @@ module.exports = {
                     subQuestionId={vnode.attrs.subQuestionId}
                     optionId={option.id}
                     creatorId={option.creatorId}
+                    groupCreatorId = {vnode.attrs.creatorId}
                     title={option.title} description={option.description}
                     totalVoters={option.totalVoters}
                     consensusPrecentage={option.consensusPrecentage}                    

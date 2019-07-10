@@ -148,6 +148,7 @@ module.exports = {
                                     parentVnode={vnode}
                                     info={settings.subItems.options}
                                     processType={subQuestion.processType}
+                                    creatorId={vnode.state.creatorId}
                                 />
                             )
                         })

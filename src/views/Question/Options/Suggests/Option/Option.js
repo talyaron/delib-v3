@@ -3,7 +3,7 @@ import m from 'mithril';
 import './Option.css';
 import store from '../../../../../data/store';
 
-import { setLike, updateOption } from '../../../../../functions/firebase/set/set';
+import { setLike, updateOption, updateIsVoteOption } from '../../../../../functions/firebase/set/set';
 import { getOptionVote } from '../../../../../functions/firebase/get/get';
 
 
@@ -23,7 +23,8 @@ module.exports = {
                 offsetTop: 0,
                 offsetLeft: 0
             },
-            isEdit: false
+            isEdit: false,
+            isVote:false
         }
 
         vnode.state.title = vnode.attrs.title;
@@ -181,6 +182,21 @@ module.exports = {
                                         class='buttons editOptionBtn'
                                         onclick={() => { updateOption(vnode) }}
                                     >אישור</div>
+                                }
+                            </div>
+                            :
+                            <div />
+                        }
+                    </div>
+                    <div class='optionChat'
+                        onclick={() => { updateIsVoteOption(vnode.attrs.groupId, vnode.attrs.questionId,vnode.attrs.subQuestionId,vnode.attrs.optionId, vnode.state.isVote); vnode.state.isVote = !vnode.state.isVote }}
+                    >
+                        {(vnode.attrs.groupCreatorId == store.user.uid) ?
+                            <div>
+                                {(!vnode.state.isVote) ?
+                                    <img src='img/icons8-poll-24-notSelected.png' />
+                                    :
+                                    <img src='img/icons8-poll-24-selected.png' />
                                 }
                             </div>
                             :
