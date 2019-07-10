@@ -5,9 +5,9 @@ module.exports = {
   oninit: vnode => {
     vnode.state = {
       options: [
-        { votes: 34, name: "pro" },
+        { votes: 0, name: "pro" },
         { votes: 0, name: "abst" },
-        { votes: 31, name: "con" }
+        { votes: 1, name: "con" }
       ]
     };
   },
@@ -19,8 +19,8 @@ module.exports = {
            console.log(option.name, optionHeight)
           return (
             <div class="voteOption" key={index} style={`height:${optionHeight}`}>
-              <div class='voteColumn' ></div>
-              <div class='voteButton'>voteBtn</div>
+              <div class='voteColumn' >{option.votes}</div>
+              <div class='voteButton'>{option.name}</div>
             </div>
           );
         })}

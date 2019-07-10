@@ -7,6 +7,8 @@
     left: 0px;
     animation-name: show;
     animation-duration: 0.3s;
+    background: #ececec;
+    border: 2px solid #dedede;
     
 }
 

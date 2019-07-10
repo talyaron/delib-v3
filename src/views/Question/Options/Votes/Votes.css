@@ -15,6 +15,9 @@
   min-height: 40px;
   box-shadow: 1px 1px 2px;
   border-radius: 5px 5px 0px 0px;
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .voteColumn {
@@ -30,6 +33,9 @@
     rgba(219, 219, 219, 1) 52%,
     rgba(107, 107, 107, 1) 100%
   );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .voteButton {
   height: 40px;
@@ -42,4 +48,7 @@
     rgba(255, 120, 120, 1) 52%,
     rgba(204, 0, 0, 1) 100%
   );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
