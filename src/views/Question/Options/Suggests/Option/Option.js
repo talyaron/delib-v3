@@ -191,7 +191,7 @@ module.exports = {
                     <div class='optionChat'
                         onclick={() => { updateIsVoteOption(vnode.attrs.groupId, vnode.attrs.questionId,vnode.attrs.subQuestionId,vnode.attrs.optionId, vnode.state.isVote); vnode.state.isVote = !vnode.state.isVote }}
                     >
-                        {(vnode.attrs.groupCreatorId == store.user.uid) ?
+                        {(vnode.attrs.groupCreatorId == store.user.uid || vnode.attrs.creatorId == store.user.uid) ?
                             <div>
                                 {(!vnode.state.isVote) ?
                                     <img src='img/icons8-poll-24-notSelected.png' />
