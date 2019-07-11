@@ -7,7 +7,7 @@ db.settings(settings);
 
 
 
-exports.totalVotes = functions.firestore
+exports.totalLikes = functions.firestore
     .document('groups/{groupId}/questions/{questionId}/subQuestions/{subQuestionId}/options/{optionId}/likes/{userId}')
     .onUpdate((change, context) => {
         var newLike = change.after.data().like;
@@ -28,18 +28,18 @@ exports.totalVotes = functions.firestore
         return db.runTransaction(transaction => {
             return transaction.get(optionLikesRef).then(optionDoc => {
                 // Compute new number of ratings
-                var totalVotes = 0;
-                if (optionDoc.data().totalVotes !== undefined) {
-                    totalVotes = optionDoc.data().totalVotes + like;
+                var totalLikes = 0;
+                if (optionDoc.data().totalLikes !== undefined) {
+                    totalLikes = optionDoc.data().totalLikes + like;
                 } else {
-                    totalVotes = newLike;
+                    totalLikes = newLike;
                 }
 
                 //calaculate consensus precentage:
                 var consensusPrecentage = 1;
                 if (optionDoc.data().totalVoters !== undefined) {
                     let totalVoters = optionDoc.data().totalVoters;
-                    consensusPrecentage = totalVotes / totalVoters;
+                    consensusPrecentage = totalLikes / totalVoters;
                 }
 
                 // Compute new average rating
@@ -48,7 +48,7 @@ exports.totalVotes = functions.firestore
 
                 // Update restaurant info
                 return transaction.update(optionLikesRef, {
-                    totalVotes,
+                    totalLikes,
                     consensusPrecentage
                 });
             })
@@ -69,9 +69,9 @@ exports.totalVoters = functions.firestore
         return db.runTransaction(transaction => {
             return transaction.get(optionLikesRef).then(optionDoc => {
                 // Compute new number of ratings
-                var totalVotes = newLike;
-                if (optionDoc.data().totalVotes !== undefined) {
-                    totalVotes = optionDoc.data().totalVotes + newLike;
+                var totalLikes = newLike;
+                if (optionDoc.data().totalLikes !== undefined) {
+                    totalLikes = optionDoc.data().totalLikes + newLike;
                 }
                 var totalVoters = 1;
                 if (optionDoc.data().totalVoters !== undefined) {
@@ -79,12 +79,12 @@ exports.totalVoters = functions.firestore
                 }
 
                 //calaculate consensus precentage: 
-                var consensusPrecentage = totalVotes / totalVoters;
+                var consensusPrecentage = totalLikes / totalVoters;
 
                 // Update restaurant info
                 return transaction.update(optionLikesRef, {
                     totalVoters,
-                    totalVotes,
+                    totalLikes,
                     consensusPrecentage
                 });
             })
@@ -111,21 +111,22 @@ exports.totalLikesForSubQuestion = functions.firestore
         return db.runTransaction(transaction => {
             return transaction.get(subQuestionLikesRef).then(subQuestionDoc => {
                 // Compute new number of ratings
-                var totalVotes = 0;
-                if (subQuestionDoc.data().totalVotes !== undefined) {
-                    totalVotes = subQuestionDoc.data().totalVotes + like;
+                var totalLikes = 0;
+                if (subQuestionDoc.data().totalLikes !== undefined) {
+                    totalLikes = subQuestionDoc.data().totalLikes + like;
                 } else {
-                    totalVotes = like;
+                    totalLikes = like;
                 }
 
                 // Update restaurant info
                 return transaction.update(subQuestionLikesRef, {
-                    totalVotes
+                    totalLikes
 
                 });
             })
         })
     })
+
 
 // exports.totalLikesForQuestionsGoals = functions.firestore
 //     .document('groups/{groupId}/questions/{questionId}/goals/{subGoalId}/likes/{userId}')
@@ -146,16 +147,16 @@ exports.totalLikesForSubQuestion = functions.firestore
 //         return db.runTransaction(transaction => {
 //             return transaction.get(subGoalLikesRef).then(subGoalDoc => {
 //                 // Compute new number of ratings
-//                 var totalVotes = 0;
-//                 if (subGoalDoc.data().totalVotes !== undefined) {
-//                     totalVotes = subGoalDoc.data().totalVotes + like;
+//                 var totalLikes = 0;
+//                 if (subGoalDoc.data().totalLikes !== undefined) {
+//                     totalLikes = subGoalDoc.data().totalLikes + like;
 //                 } else {
-//                     totalVotes = like;
+//                     totalLikes = like;
 //                 }
 
 //                 // Update restaurant info
 //                 return transaction.update(subGoalLikesRef, {
-//                     totalVotes
+//                     totalLikes
 
 //                 });
 //             })
@@ -182,16 +183,16 @@ exports.totalLikesForSubQuestion = functions.firestore
 //         return db.runTransaction(transaction => {
 //             return transaction.get(subValueLikesRef).then(subGoalDoc => {
 //                 // Compute new number of ratings
-//                 var totalVotes = 0;
-//                 if (subGoalDoc.data().totalVotes !== undefined) {
-//                     totalVotes = subGoalDoc.data().totalVotes + like;
+//                 var totalLikes = 0;
+//                 if (subGoalDoc.data().totalLikes !== undefined) {
+//                     totalLikes = subGoalDoc.data().totalLikes + like;
 //                 } else {
-//                     totalVotes = like;
+//                     totalLikes = like;
 //                 }
 
 //                 // Update restaurant info
 //                 return transaction.update(subValueLikesRef, {
-//                     totalVotes
+//                     totalLikes
 
 //                 });
 //             })
@@ -235,3 +236,26 @@ exports.countNumbeOfMessages =
             }
 
         });
+
+
+        export const countVotes = 
+    functions.firestore.document('collection/{documentUid}')
+    .onWrite((change, context) => {
+
+    if (!change.before.exists) {
+        // New document Created : add one to count
+
+        db.doc(docRef).update({numberOfDocs: FieldValue.increment(1)});
+
+    } else if (change.before.exists && change.after.exists) {
+        // Updating existing document : Do nothing
+
+    } else if (!change.after.exists) {
+        // Deleting document : subtract one from count
+
+        db.doc(docRef).update({numberOfDocs: FieldValue.increment(-1)});
+
+    }
+
+return;
+});

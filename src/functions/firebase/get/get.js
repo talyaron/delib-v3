@@ -175,7 +175,7 @@ function getOptions(
       .collection("options");
 
   if (processType === settings.processes.suggestions) {
-    console.log(subQuestionId, 'is using process suggestions')
+    console.log(subQuestionId, "is using process suggestions");
     let orderBy = "time";
     switch (order) {
       case "new":
@@ -193,7 +193,7 @@ function getOptions(
       .limit(20)
       .onSnapshot(callback);
   } else if (processType === settings.processes.votes) {
-      console.log(subQuestionId, 'is using process votes')
+   
     unsubscribe = optionRef.where("isVote", "==", true).onSnapshot(callback);
   } else {
     console.error("no such process");
@@ -228,10 +228,43 @@ function getOptions(
       optionsArray.push(optionObj);
     });
 
-    console.dir(optionsArray)
+  
     vnode.state.options = optionsArray;
     m.redraw();
   }
+}
+
+function getVotes(groupId, questionId, subQuestionId, vnode) {
+
+  let optionRef = DB.collection("groups")
+    .doc(groupId)
+    .collection("questions")
+    .doc(questionId)
+    .collection("subQuestions")
+    .doc(subQuestionId)
+    .collection("votes")
+    .doc("votes");
+
+  return optionRef.onSnapshot(votesDB => {
+    if (votesDB.exists) {
+      const votes = votesDB.data();
+      let votesObj = {}
+
+      for (let i in votes){
+       
+        if(votesObj.hasOwnProperty(votes[i])){
+        votesObj[votes[i]]++
+        } else {
+          votesObj[votes[i]] = 1;
+        }
+      }
+      
+      vnode.state.optionsVotes = votesObj;
+      m.redraw();
+    } else {
+      console.error("no votes");
+    }
+  });
 }
 
 function getOptionDetails(groupId, questionId, subQuestionId, optionId, vnode) {
@@ -524,6 +557,7 @@ module.exports = {
   getSubQuestions,
   getOptions,
   getOptionVote,
+  getVotes,
   getSubItems,
   getSubItemLikes,
   getSubItemUserLike,

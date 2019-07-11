@@ -241,6 +241,33 @@ function setLike(
     });
 }
 
+function setVote(
+    groupId,
+    questionId,
+    subQuestionId,
+    optionId,
+    creatorId,
+    vote
+  ) {
+      let x = {};
+      x[creatorId] = optionId;
+
+      
+    DB.collection("groups")
+      .doc(groupId)
+      .collection("questions")
+      .doc(questionId)
+      .collection("subQuestions")
+      .doc(subQuestionId)
+      .collection('votes')
+      .doc('votes')
+      .update(x).then(()=>{
+        console.log('votes updated')
+      })
+      .catch(err=>{console.dir(err)});      
+   
+  }
+
 function setMessage(
   groupId,
   questionId,
@@ -469,6 +496,7 @@ module.exports = {
   updateSubItem,
   setLikeToSubItem,
   setLike,
+  setVote,
   setMessage,
   setSubAnswer,
   updateSubQuestionProcess,
