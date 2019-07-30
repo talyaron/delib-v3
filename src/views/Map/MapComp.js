@@ -4,6 +4,7 @@ import { DataSet, Network } from "vis-network";
 
 //model
 import store from "../../data/store";
+import { ENETRESET } from "constants";
 
 module.exports = {
   oninit: vnode => {
@@ -11,7 +12,9 @@ module.exports = {
       nodes: {},
       edges: {},
       data: {},
-      network:{}
+      network: {},
+      keyboard:'',
+      selectedNode:false
     };
 
     // create an array with nodes
@@ -32,15 +35,61 @@ module.exports = {
     ]);
 
     vnode.state.data = {
-        nodes:vnode.state.nodes,
-        edges:vnode.state.edges
+      nodes: vnode.state.nodes,
+      edges: vnode.state.edges
     };
   },
-  oncreate:vnode=>{
-      const heightOfScreen = window.innerHeight+'px'
-    vnode.state.network = new Network(vnode.dom, vnode.state.data, {height:heightOfScreen})
-    console.dir(vnode.dom)
-   
+  oncreate: vnode => {
+    const heightOfScreen = window.innerHeight + "px";
+    
+    //create network
+    vnode.state.network = new Network(vnode.dom, vnode.state.data, {
+      height: heightOfScreen
+    });
+
+    //listen to keyboard
+    document.addEventListener("keyup", keyEv => {
+        let newLabel = "";
+        const regexp = /[,.!@#$%^&*() a-z0-9]/gi;
+        if (keyEv.key === "Enter") {
+        } else if (regexp.test(keyEv.key)) {
+            vnode.state.keyboard += keyEv.key;
+          
+          console.log(vnode.state.keyboard);
+          if(vnode.state.selectedNode !== false){
+            vnode.state.nodes.update({id:vnode.state.selectedNode, label:vnode.state.keyboard})
+          }
+          
+        
+        }
+      });
+
+    console.dir(vnode.state.network);
+    vnode.state.network.on("click", ev => {});
+
+    vnode.state.network.on("doubleClick", ev => {
+      const isNewNode = ev.edges.length == 0 && ev.nodes.length == 0; 
+
+      if (isNewNode) {
+        const updatedIds = vnode.state.nodes.add([
+          {
+            label: "new",
+            x: ev.pointer.canvas.x,
+            y: ev.pointer.canvas.y
+          }
+        ]);
+      }
+    });
+
+    vnode.state.network.on('selectNode', ev=>{
+        vnode.state.selectedNode = ev.nodes[0];
+    })
+
+    
+    vnode.state.network.on('deselectNode', ev=>{
+        vnode.state.selectedNode = false;
+        vnode.state.keyboard = '';
+    })
   },
   view: vnode => {
     return <div id="network" />;
