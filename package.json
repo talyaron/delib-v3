@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "mithril": "^1.1.6",
-    "sortablejs": "^1.8.4"
+    "sortablejs": "^1.8.4",
+    "vis-network": "^5.1.0"
   }
 }

@@ -18,6 +18,7 @@ import GroupPage from './views/GroupPage/GroupPage';
 import Question from './views/Question/Question';
 import QuestionEdit from './views/QuestionEdit/QuestionEdit';
 import ChatPage from './views/ChatPage/ChatPage';
+import MapPage from './views/Map/MapPage';
 
 m.route(root, "/splash", {
     "/splash": Login,
@@ -26,7 +27,8 @@ m.route(root, "/splash", {
     "/group/:id": GroupPage,
     '/question/:groupId/:id': Question,
     "/questionEdit/:groupId/:questionId": QuestionEdit,
-    '/optionchat/:groupId/:questionId/:subQuestionId/:optionId': ChatPage
+    '/optionchat/:groupId/:questionId/:subQuestionId/:optionId': ChatPage,
+    "/map/:groupId/:questionId/:subQuestionId":MapPage
 
 })
 
