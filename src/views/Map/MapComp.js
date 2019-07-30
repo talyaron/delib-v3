@@ -50,8 +50,15 @@ module.exports = {
     //listen to keyboard
     document.addEventListener("keyup", keyEv => {
         let newLabel = "";
-        const regexp = /[,.!@#$%^&*() a-z0-9]/gi;
-        if (keyEv.key === "Enter") {
+        const regexp = /[,.!@#$%^&*() a-z0-9\u0590-\u05fe]/gi;
+        console.log(keyEv.key)
+        if (keyEv.key === "Enter" || keyEv.key === "Tab"|| keyEv.key === "Shift") {
+        } else if (keyEv.key === "Backspace"){
+            console.log('back')
+            vnode.state.keyboard = vnode.state.keyboard.substring(0, vnode.state.keyboard.length - 1);
+            if(vnode.state.selectedNode !== false){
+                vnode.state.nodes.update({id:vnode.state.selectedNode, label:vnode.state.keyboard})
+              }
         } else if (regexp.test(keyEv.key)) {
             vnode.state.keyboard += keyEv.key;
           
