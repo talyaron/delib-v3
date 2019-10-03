@@ -13,6 +13,7 @@ var store = {
     orgs: [],
     teams: [],
     lastPage: "",
+    loginType:'',
     questions: {}, //list of questions in groupPage
     groups: {}, //groups name
     options: [],//options in a given question
@@ -24,7 +25,9 @@ var store = {
     feed: {}, //the feed
     showFeed: false,
     numberOfNewMessages: 0,
-    subscribed: {} //subscribed entityes
+    subscribed: {}, //subscribed entityes
+    subQuestions: {},
+    editEntity: false
 }
 
 module.exports = store; 
